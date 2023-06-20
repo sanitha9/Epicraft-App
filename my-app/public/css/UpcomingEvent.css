@@ -1,0 +1,60 @@
+.filter{
+    background-color: white; 
+    width:20rem;
+    height:35rem;
+      margin-top:4rem;
+      border: 1px solid;
+      padding:20px;
+      border-radius: 30px;
+      box-shadow: 5px 5px 35px #888888;
+      margin-left:5rem;
+
+
+
+}
+
+.filter h4{
+
+    margin-left: 100px;
+}
+.catgories{
+    margin-left:40px;
+
+
+}
+.Exhibitions{
+
+    background-color: white; 
+    width:70rem;
+    height:100rem;
+    margin-top:-35rem;
+      border: 1px solid;
+      padding:20px;
+      border-radius: 30px;
+      box-shadow: 5px 5px 35px #888888;
+      margin-left:28rem;
+      padding-right:150px;
+
+
+
+}
+.ecard1{
+    margin-top:-200px;
+    margin-left: 2rem;
+}
+.ecard2{
+    margin-top:-60rem;
+    margin-left: 4rem;
+}
+.ecard3{
+    margin-top:-45rem;
+}
+.ecard4{
+    margin-top:10.9rem;
+}
+.ecard5{
+    margin-top:-36rem;
+}
+.ecard6{
+    margin-top:-36rem;
+}

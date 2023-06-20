@@ -1,0 +1,6 @@
+.custom-dropdown-menu {
+    & .dropdown-item:hover {
+      background-color:grey; /* Change this to the desired highlight color */
+    }
+  }
+  
