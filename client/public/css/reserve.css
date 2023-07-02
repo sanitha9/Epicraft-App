@@ -1,0 +1,163 @@
+.reservesection {
+	position: relative;
+	height: 100vh;
+}
+
+.reservesection .section-center {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+#reservebooking {
+	font-family: 'Cabin', sans-serif;
+	background-color: #f7f9fa;
+}
+
+.reservebooking-form {
+	position: relative;
+	max-width: 642px;
+	width: 100%;
+	margin: auto;
+	background: #fff;
+	-webkit-box-shadow: 0px 5px 10px -5px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 5px 10px -5px rgba(0, 0, 0, 0.3);
+}
+
+.reservebooking-form>.reservebooking-bg {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	width: 250px;
+	background-image: url('../img/exb1.jpg');
+	background-size: cover;
+	background-position: center;
+}
+
+.reservebooking-form>form {
+	margin-left: 250px;
+	padding: 30px;
+	border: 1px solid #f9fafc;
+	border-left: 0px;
+}
+
+.reservebooking-form .reserveform-header {
+	margin-bottom: 30px;
+}
+
+.reservebooking-form .reserveform-header h2 {
+	margin: 0;
+	margin-bottom: 0px;
+	font-weight: 700;
+	color: #122244;
+	font-size: 35px;
+	text-transform: capitalize;
+}
+
+.reservebooking-form .reserveform-group {
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.reservebooking-form .reserveform-control {
+	background-color: #f7f9fa;
+	height: 40px;
+	padding: 0px 10px;
+	border-radius: 0px;
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+	color: #122244;
+	border: 0px;
+	font-size: 16px;
+	font-weight: 700;
+	-webkit-box-shadow: inset 0 1px 4px rgba(181, 193, 204, 0.3);
+	box-shadow: inset 0 1px 4px rgba(181, 193, 204, 0.3);
+}
+
+.reservebooking-form .reserveform-control::-webkit-input-placeholder {
+	color: #dde3e8;
+}
+
+.reservebooking-form .reserveform-control:-ms-input-placeholder {
+	color: #dde3e8;
+}
+
+.reservebooking-form .reserveform-control::placeholder {
+	color: #dde3e8;
+}
+
+.reservebooking-form .reserveform-control:focus {
+	-webkit-box-shadow: inset 0 1px 4px rgba(181, 193, 204, 0.3);
+	box-shadow: inset 0 1px 4px rgba(181, 193, 204, 0.3);
+}
+
+.reservebooking-form input[type="date"].form-control:invalid {
+	color: #dde3e8;
+}
+
+.reservebooking-form select.reserveform-control {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.reservebooking-form select.reserveform-control+.select-arrow {
+	position: absolute;
+	right: 0px;
+	bottom: 4px;
+	width: 32px;
+	line-height: 32px;
+	height: 32px;
+	text-align: center;
+	pointer-events: none;
+}
+
+.reservebooking-form select.reserveform-control+.select-arrow:after {
+	content: '\279C';
+	display: block;
+	-webkit-transform: rotate(90deg);
+	transform: rotate(90deg);
+	color: #dddee9;
+	font-size: 14px;
+}
+
+.reservebooking-form .reserveform-label {
+	color: #030404;
+	font-weight: 700;
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+	text-transform: uppercase;
+	line-height: 24px;
+	height: 24px;
+	font-size: 14px;
+	z-index: 1;
+}
+
+.reservebooking-form .reserveform-btn {
+	margin-top: 10px;
+}
+
+.reservebooking-form .reservesubmit-btn {
+    color: #fff;
+    background-color: #6499ff;
+    font-weight: 700;
+    padding: 13px 35px;
+    font-size: 16px;
+    border: none;
+    width: 100%;
+    align-items: center;
+  margin-left: 100px;
+}
+
+@media only screen and (max-width: 480px) {
+	.reservebooking-form>.reservebooking-bg {
+		display: none;
+	}
+	.reservebooking-form>form {
+		margin-left: 0px;
+	}
+}
