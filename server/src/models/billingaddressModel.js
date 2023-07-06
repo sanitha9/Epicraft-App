@@ -3,7 +3,7 @@ const schema = mongoose.Schema
 
 const billingSchema = new schema({
     login_id:{type:mongoose.Types.ObjectId,ref:"login_tb"},
-    name:{type:String},
+    artname:{type:String},
     email:{type:String},
     address:{type:String},
     city:{type:String},

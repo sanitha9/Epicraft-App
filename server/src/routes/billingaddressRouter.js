@@ -1,20 +1,24 @@
 const express = require('express');
-const artItemsModel = require('../models/artItemsModel');
-const artItemsRouter = express.Router()
-artItemsRouter.post('/artitems',async(req,res)=>{
+const billingaddressModel = require('../models/billingaddressModel');
+const billingaddressRouter = express.Router()
+billingaddressRouter.post('/billingaddress',async(req,res)=>{
     try{
 
         const data = {
-            name: req.body.artName,
-            email: req.body.description,
-            address:req.body.price,
-            city:req.body.category,
-            state:req.body.image,
-            zipcode
-            
+            artname: req.body.artname,
+            email:req.body.email,
+            address:req.body.address,
+            city:req.body.city,
+            state:req.body.state,
+            zipcode:req.body.zipcode,
+            nameoncard:req.body.nameoncard,
+            creditcardnumb:req.body.creditcardnumb,
+            Expmonth:req.bodyExpmonth,
+            ExpYear:req.body.ExpYear,
+            cvv:req.body. cvv
 
           }
-          const savedData = await artItemsModel(data).save();
+          const savedData = await billingaddressModel(data).save();
       
           if (savedData) {
             return res.status(200).json({
@@ -33,6 +37,5 @@ artItemsRouter.post('/artitems',async(req,res)=>{
           })
         }
       })
-      module.exports=artItemsRouter
-
+      module.exports=billingaddressRouter
     

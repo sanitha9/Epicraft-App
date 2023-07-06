@@ -1,18 +1,17 @@
 const express = require('express');
-const artItemsModel = require('../models/artItemsModel');
-const artItemsRouter = express.Router()
-artItemsRouter.post('/artitems',async(req,res)=>{
+const chatModel = require('../models/chatModel');
+const chatRouter = express.Router()
+chatRouter.post('/chat',async(req,res)=>{
     try{
+
         const data = {
-        login_id: req.body.login_id,
-        artname:req.body.artname,
-        description:req.body.description,
-        image:req.body.image,
-        price:req.body.price,
-        category_id:req.body.category_id
-        
-        };
-          const savedData = await artItemsModel(data).save();
+            message:req.body.message,
+            sender:req.body.sender,
+            receiver:req.body.receiver,
+            date:req.body.date,
+            time:req.body.time
+          }
+          const savedData = await chatModel(data).save();
       
           if (savedData) {
             return res.status(200).json({
@@ -31,6 +30,6 @@ artItemsRouter.post('/artitems',async(req,res)=>{
           })
         }
       })
-      module.exports=artItemsRouter
+      module.exports=chatRouter
 
     

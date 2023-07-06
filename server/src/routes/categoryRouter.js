@@ -5,7 +5,7 @@ categoryRouter.post('/category',async(req,res)=>{
     try{
 
         const data = {
-            categoryName:req.body.category
+          categoryname:req.body.categoryname
             
           }
           const savedData = await categoryModel(data).save();
@@ -27,6 +27,33 @@ categoryRouter.post('/category',async(req,res)=>{
           })
         }
       })
+
+      
+      categoryRouter.get('/view-category', async (req, res) => {
+        try {
+          const categoryname = await categoryModel.find();
+          if (categoryname.length > 0) {
+            return res.status(200).json({
+              success: true,
+              error: false,
+              data: categoryname
+            });
+          } else {
+            return res.status(400).json({
+              success: false,
+              error: true,
+              message: 'No data found',
+            });
+          }
+        } catch (error) {
+          return res.status(400).json({
+            success: false,
+            error: true,
+            message: 'Something went wrong',
+            details: error,
+          });
+        }
+      });
       module.exports=categoryRouter
 
     

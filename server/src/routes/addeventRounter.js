@@ -1,18 +1,18 @@
 const express = require('express');
-const artItemsModel = require('../models/artItemsModel');
-const artItemsRouter = express.Router()
-artItemsRouter.post('/artitems',async(req,res)=>{
+const addeventModel = require('../models/addeventModel');
+const addeventRouter = express.Router()
+addeventRouter.post('/addevent',async(req,res)=>{
     try{
+
         const data = {
-        login_id: req.body.login_id,
-        artname:req.body.artname,
-        description:req.body.description,
-        image:req.body.image,
-        price:req.body.price,
-        category_id:req.body.category_id
-        
-        };
-          const savedData = await artItemsModel(data).save();
+            eventName:req.body.eventName,
+            date:req.body.date,
+            priceSeat:req.body.priceSeat,
+            comments:req.body.comments,
+            image:req.body.image,
+            poster:req.body.poster
+          }
+          const savedData = await addeventModel(data).save();
       
           if (savedData) {
             return res.status(200).json({
@@ -31,6 +31,6 @@ artItemsRouter.post('/artitems',async(req,res)=>{
           })
         }
       })
-      module.exports=artItemsRouter
+      module.exports=addeventRouter
 
     

@@ -1,18 +1,19 @@
 const express = require('express');
-const artItemsModel = require('../models/artItemsModel');
-const artItemsRouter = express.Router()
-artItemsRouter.post('/artitems',async(req,res)=>{
+const notificationModel = require('../models/notificationModel ');
+const groupRouter = express.Router()
+groupRouter.post('/group',async(req,res)=>{
     try{
+
         const data = {
-        login_id: req.body.login_id,
-        artname:req.body.artname,
-        description:req.body.description,
-        image:req.body.image,
-        price:req.body.price,
-        category_id:req.body.category_id
-        
-        };
-          const savedData = await artItemsModel(data).save();
+           
+            groupName:req.body.groupName,
+            coverphoto:req.body.coverphoto,
+            description:req.body.description,
+            date:req.body.date,
+            members:req.body.members
+   
+          }
+          const savedData = await groupModel(data).save();
       
           if (savedData) {
             return res.status(200).json({
@@ -31,6 +32,6 @@ artItemsRouter.post('/artitems',async(req,res)=>{
           })
         }
       })
-      module.exports=artItemsRouter
+      module.exports=groupRouter
 
     

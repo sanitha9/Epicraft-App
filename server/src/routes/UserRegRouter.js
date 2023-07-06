@@ -2,11 +2,91 @@ const express = require('express')
 const userRegisterModel = require('../models/userRegisterModel')
 const loginModel = require('../models/loginModel')
 const artistRegisterModel = require('../models/artistRegisterModel')
-const UserRegistrationRouter = express.Router()
-
-UserRegistrationRouter.get('/view-user',async(req,res)=>{
+const UserRegRouter = express.Router()
+UserRegRouter.get('/approve/:id', async (req, res) => {
     try {
-        const users = await userRegisterModel.find()
+      const id = req.params.id;
+  
+      const approve = await loginModel.updateOne({ _id: id }, { $set: { status: 1 } });
+  
+      if (approve && approve.modifiedCount === 1) {
+        return res.status(200).json({
+          success: true,
+          message: 'User approved',
+        });
+      } else if (approve && approve.modifiedCount === 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'User not found or already approved',
+        });
+      } else {
+        throw new Error('Error updating user');
+      }
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: 'Something went wrong',
+        details: error.message,
+      });
+    }
+  });
+  UserRegRouter.get('/reject/:id', async (req, res) => {
+    try {
+      const id = req.params.id;
+  
+      const reject = await loginModel.deleteOne({ _id: id });
+  
+      if (reject && reject.deletedCount === 1) {
+        return res.status(200).json({
+          success: true,
+          message: 'User rejected',
+        });
+      } else if (reject && reject.deletedCount === 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'User not found or already rejected',
+        });
+      } else {
+        throw new Error('Error deleting user');
+      }
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: 'Something went wrong',
+        details: error.message,
+      });
+    }
+  });
+  
+UserRegRouter.get('/view-user',async(req,res)=>{
+    try {
+        const users = await userRegisterModel.aggregate([
+            {
+                
+                    
+                      '$lookup': {
+                        'from': 'login_tbs', 
+                        'localField': 'login_id', 
+                        'foreignField': '_id', 
+                        'as': 'login'
+                      }
+                    },
+                    {"$unwind":"$login"
+                },
+                {
+                    "$group":{
+                        '_id':"$_id",
+                        'name':{"$first":"$name"},
+                        'email':{"$first":"$email"},
+                        'mobile':{"$first":"$mobile"},
+                        'status':{"$first":"$login.status"},
+                        'login_id':{"$first":"$login._id"},
+                    }
+                }
+          ])
+                  
+            
+        
         if(users[0]!=undefined){
             return res.status(200).json({
                 success:true,
@@ -29,9 +109,36 @@ UserRegistrationRouter.get('/view-user',async(req,res)=>{
         })
     }
     })
-    UserRegistrationRouter.get('/view-artist',async(req,res)=>{
+    UserRegRouter.get('/view-artist',async(req,res)=>{
         try {
-            const artist = await artistRegisterModel.find()
+            const artist = await artistRegisterModel.aggregate([
+                {
+                  '$lookup': {
+                    'from': 'login_tbs', 
+                    'localField': 'login_id', 
+                    'foreignField': '_id', 
+                    'as': 'login'
+                  }
+                        },
+                      
+                    {"$unwind":"$login"
+                },
+                {
+                    "$group":{
+                        '_id':"$_id",
+                        'name':{"$first":"$name"},
+                        'email':{"$first":"$email"},
+                        'mobile':{"$first":"$mobile"},
+                        'category':{"$first":"$category"},
+                        'status':{"$first":"$login.status"},
+                        'login_id':{"$first":"$login._id"},
+                    }
+                }
+          ])
+                    
+
+
+
             if(artist[0]!=undefined){
                 return res.status(200).json({
                     success:true,
@@ -54,7 +161,7 @@ UserRegistrationRouter.get('/view-user',async(req,res)=>{
             })
         }
         })
-UserRegistrationRouter.post('/userReg',async(req,res)=>{
+        UserRegRouter.post('/userReg',async(req,res)=>{
    try{
         const oldUser = await loginModel.findOne({username:req.body.username})
         if(oldUser){
@@ -107,7 +214,7 @@ UserRegistrationRouter.post('/userReg',async(req,res)=>{
     }
 })
 
-UserRegistrationRouter.post('/artistReg',async(req,res)=>{
+UserRegRouter.post('/artistReg',async(req,res)=>{
     try{
         const oldUser = await loginModel.findOne({username:req.body.username})
         if(oldUser){
@@ -162,4 +269,4 @@ UserRegistrationRouter.post('/artistReg',async(req,res)=>{
 })
     
 
-module.exports=UserRegistrationRouter
+module.exports=UserRegRouter

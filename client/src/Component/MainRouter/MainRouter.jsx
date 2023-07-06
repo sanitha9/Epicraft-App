@@ -62,6 +62,7 @@ import AddCategory from '../Admin/AddCategory'
 import Search from '../UserFunctions/Search'
 import OrderTrackView from '../UserFunctions/OrderTrackView'
 import Myorders from '../UserFunctions/Myorders'
+import OrderManage from '../Admin/OrderManage'
 
 
 
@@ -125,6 +126,7 @@ const MainRouter = () => {
              <Route path="chatuserwithartistinuser" element={<Search/>}/>
              <Route path="ordertrackview" element={<OrderTrackView/>}/>
              <Route path="myorder" element={<Myorders/>}/>
+             <Route path="ordermanage" element={<OrderManage/>}/>
         </Routes>
     </div>
   )

@@ -1,6 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const UserNav = () => {
+  const navigate = useNavigate()
+  const logout = () => {
+    localStorage.removeItem('user_id')
+    localStorage.removeItem('login_id')
+    localStorage.removeItem('role')
+    navigate('/login')
+  }
+  useEffect(() => {
+    const use_id = localStorage.getItem('user_id')
+    if (!use_id) {
+      navigate('/login')
+    }
+  }, [])
   return (
     <div><nav className="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
     <a
@@ -120,7 +134,7 @@ const UserNav = () => {
             <a href="UserChangePwd" className="dropdown-item">
             Change Password
             </a>
-            <a href="userhome" className="dropdown-item">
+            <a onClick={logout} className="dropdown-item">
             Logout
             </a>
             {/* <a href="testimonial.html" class="dropdown-item">Testimonial</a>

@@ -1,18 +1,47 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
+  const navigate= useNavigate()
+  const[input,setInput]=useState({});
 
 
 
-  const[input,setInput]=useState({})
-
-const inputChange = (event) =>{
-  const{name,value}=event.target
-  setInput({...input,[name]:value})
+ 
+console.log("value==>",input);
+const setRegister = (event) =>{
+  const name=event.target.name;
+  const value=event.target.value;
+  setInput({...input,[name]:value});
+  console.log(input);
 
 }
-const submit=(e)=>{
-  e.preventDefault()
+
+
+const registersubmit = (event) => {
+  event.preventDefault();
   console.log(input);
+  axios.post('http://localhost:5000/login/login', input).then((data) => {
+    console.log(data);
+    if (data.data.role =='1') {
+      localStorage.setItem('user_id', data.data.user_id)
+      localStorage.setItem('login_id', data.data.login_id)
+      localStorage.setItem('role', data.data.role)
+      // localStorage.setItem('name', data.data.name);
+      navigate('/userhome');
+    } else if(data.data.role =='2') {
+      localStorage.setItem('artist_id', data.data.artist_id)
+      localStorage.setItem('login_id', data.data.login_id)
+      localStorage.setItem('role', data.data.role)
+      // localStorage.setItem('role', data.data.name);
+      navigate('/artHome');
+    } 
+
+    
+}).catch((error)=>{
+console.log(error);
+})
 }
   return (
     <>
@@ -24,14 +53,14 @@ const submit=(e)=>{
         <form className='login'>
           <h3>Login Here</h3>
           <label htmlFor="username">Username</label>
-          <input type="text" placeholder="Email or Phone" name='name' onChange={inputChange} />
+          <input type="text" placeholder="Email or Phone" name='username' onChange={setRegister} />
           <label htmlFor="password">Password</label>
-          <input type="password" placeholder="Password" name='password' onChange={inputChange} />
+          <input type="password" placeholder="Password" name='password' onChange={setRegister} />
           <a href="#" >Forgot Password?</a>
           
           
 
-          <button className='loginbutton' onClick={submit}>Log In</button>
+          <button className='loginbutton' onClick={registersubmit}>Log In</button>
          
           <div className="social2">
             {/* <div className="go2">

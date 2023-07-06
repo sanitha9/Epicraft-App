@@ -1,6 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const ArtNav = () => {
+  const navigate = useNavigate()
+  const logout = () => {
+    localStorage.removeItem('artist_id')
+    localStorage.removeItem('login_id')
+    localStorage.removeItem('role')
+    navigate('/')
+  }
+  useEffect(() => {
+    const artid = localStorage.getItem('artist_id')
+    if (!artid) {
+      navigate('/')
+    }
+  }, [])
   return (
     <>
   
@@ -69,7 +83,7 @@ const ArtNav = () => {
       <a href="chatartistwithuser" className="nav-item nav-link">
         Chat
       </a>
-      <a href="artHome" className="nav-item nav-link">
+      <a onClick={logout} className="nav-item nav-link">
         LogOut
       </a>
     </div>
