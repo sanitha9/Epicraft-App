@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 function AddressPaymentCheckoutForm() {
-  const[input,setInput]=useState({})
+  const navigate = useNavigate()
+  const [category, setCategory] = useState([]);
+  const[inputs, setinputs]=useState([]);
+  console.log("value==>",inputs);
+  const setRegister=(event)=>{
+    const name=event.target.name;
+    const value=event.target.value;
+    setinputs({...inputs,[name]:value});
+    console.log(inputs);
+  }
+  const registersubmit =(event)=>{
+    event.preventDefault();
+    axios.post('http://localhost:5000/pay/billingaddress',inputs).then((response)=>{
+      navigate('/orderconform')
+    })
+   
 
-const inputChange = (event) =>{
-  const{name,value}=event.target
-  setInput({...input,[name]:value})
-
-}
-const submit=(e)=>{
-  e.preventDefault()
-  console.log(input);
-}
+  }
   return (
     <div className="Addressrow">
     <div className="Addresscol-75">
@@ -27,9 +36,9 @@ const submit=(e)=>{
               <input
                 type="text"
                 id="fname"
-                name="firstname"
+                name="name"
                 placeholder="John M. Doe"
-              />
+                onChange={setRegister}/>
               <label htmlFor="email">
                 <i className="fa fa-envelope" /> Email
               </label>
@@ -37,7 +46,7 @@ const submit=(e)=>{
                 type="text"
                 id="email"
                 name="email"
-                placeholder="john@example.com"
+                placeholder="john@example.com" onChange={setRegister}
               />
               <label htmlFor="adr">
                 <i className="fa fa-address-card-o" /> Address
@@ -46,20 +55,20 @@ const submit=(e)=>{
                 type="text"
                 id="adr"
                 name="address"
-                placeholder="542 W. 15th Street"
+                placeholder="542 W. 15th Street"onChange={setRegister}
               />
               <label htmlFor="city">
                 <i className="fa fa-institution" /> City
               </label>
-              <input type="text" id="city" name="city" placeholder="New York" />
+              <input type="text" id="city" name="city" placeholder="New York"onChange={setRegister} />
               <div className="Addressrow">
                 <div className="Addresscol-50">
                   <label htmlFor="state">State</label>
-                  <input type="text" id="state" name="state" placeholder="NY" />
+                  <input type="text" id="state" name="state" placeholder="NY" onChange={setRegister}/>
                 </div>
                 <div className="Addresscol-50">
                   <label htmlFor="zip">Zip</label>
-                  <input type="text" id="zip" name="zip" placeholder={10001} />
+                  <input type="text" id="zip" name="zipcode" placeholder={10001} onChange={setRegister} />
                 </div>
               </div>
             </div>
@@ -76,22 +85,22 @@ const submit=(e)=>{
               <input
                 type="text"
                 id="cname"
-                name="cardname"
-                placeholder="John More Doe"
+                name="nameoncard"
+                placeholder="John More Doe" onChange={setRegister}
               />
               <label htmlFor="ccnum">Credit card number</label>
               <input
                 type="text"
                 id="ccnum"
-                name="cardnumber"
-                placeholder="1111-2222-3333-4444"
+                name="creditcardnumb"
+                placeholder="1111-2222-3333-4444" onChange={setRegister}
               />
               <label htmlFor="expmonth">Exp Month</label>
               <input
                 type="text"
                 id="expmonth"
-                name="expmonth"
-                placeholder="September"
+                name="Expmonth"
+                placeholder="September" onChange={setRegister}
               />
               <div className="Addressrow">
                 <div className="Addresscol-50">
@@ -99,20 +108,20 @@ const submit=(e)=>{
                   <input
                     type="text"
                     id="expyear"
-                    name="expyear"
-                    placeholder={2018}
+                    name="ExpYear"
+                    placeholder={2018} onChange={setRegister}
                   />
                 </div>
                 <div className="Addresscol-50">
                   <label htmlFor="cvv">CVV</label>
-                  <input type="text" id="cvv" name="cvv" placeholder={352} />
+                  <input type="text" id="cvv" name="cvv" placeholder={352} onChange={setRegister} />
                 </div>
               </div>
             </div>
           </div>
          
        
-          <a href="orderconform" class="Addressbtn" style={{textAlign:'center'}}>Continue to checkout</a>
+          <a href="orderconform" class="Addressbtn" style={{textAlign:'center'}} onClick={registersubmit}>Continue to checkout</a>
 
 
 

@@ -10,6 +10,7 @@ body{margin-top:20px;
     .py-4 {
         padding-top: 1.5rem!important;
         padding-bottom: 1.5rem!important;
+        background-color: #f38787;
     }
     .align-items-center {
         align-items: center!important;
@@ -23,7 +24,7 @@ body{margin-top:20px;
         flex-direction: column;
         min-width: 0;
         word-wrap: break-word;
-        background-color: #fff;
+        background-color: #f38787;
         background-clip: border-box;
         border: 1px solid rgba(30,46,80,.09);
         border-radius: 0.25rem;
@@ -43,7 +44,7 @@ body{margin-top:20px;
         border-radius: 50%;
     }
     .bg-pastel-primary {
-        background-color: #e9f3ff!important;
+        background-color: #0d61c8!important;
     }
     
     .mt-6 {
@@ -64,7 +65,7 @@ body{margin-top:20px;
         font-size: .85rem!important;
     }
     .bg-pastel-primary {
-        background-color: #e9f3ff!important;
+        background-color: #257de9!important;
     }
     
     .icon-circle-lg {
@@ -81,7 +82,7 @@ body{margin-top:20px;
         border-radius: 50%;
     }
     .bg-pastel-primary {
-        background-color: #e9f3ff!important;
+        background-color: #2e7bda!important;
     }
     
     .icon-circle[class*=text-] [fill]:not([fill=none]), .icon-circle[class*=text-] svg:not([fill=none]), .svg-icon[class*=text-] [fill]:not([fill=none]), .svg-icon[class*=text-] svg:not([fill=none]) {
@@ -93,7 +94,7 @@ body{margin-top:20px;
     }
     
     .shadow-sm {
-        box-shadow: 0 .125rem .25rem rgba(35,38,45,.09)!important;
+        box-shadow: 0 .125rem .25rem rgba(26, 39, 68, 0.09)!important;
     }
     
     .input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3), .input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu) {

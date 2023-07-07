@@ -61,8 +61,8 @@ const CreateGroup = () => {
             <div>
               <label htmlFor="options">Privacy:</label>
               <select id="options" name="privacy" onChange={setRegister}>
-                <option value="">public</option>
-                <option value="option1">private</option>
+                <option value="public">public</option>
+                <option value="private">private</option>
               </select>
             </div>
 

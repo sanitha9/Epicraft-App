@@ -6,11 +6,12 @@ const reserveSchema = new schema({
     checkin:{type:String},
     checkout:{type:String},
     adults:{type:Number},
-    children:{type:String},
+    children:{type:Number},
     email:{type:String},
     phone:{type:String},
+    amount:{type:String},
     
 })
 
-const reserveModel = mongoose.model('reserve_tb',reserveSchema)
+const reserveModel = mongoose.model('reserveexhibition_tb',reserveSchema)
 module.exports = reserveModel

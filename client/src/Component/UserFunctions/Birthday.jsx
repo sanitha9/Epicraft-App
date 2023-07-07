@@ -1,9 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 import { alignPropType } from 'react-bootstrap/esm/types';
 const Birthday = () => {
+  const navigate = useNavigate()
+  const [category, setCategory] = useState([]);
+  const[inputs, setinputs]=useState([]);
+  console.log("value==>",inputs);
+  const setRegister=(event)=>{
+    const name=event.target.name;
+    const value=event.target.value;
+    setinputs({...inputs,[name]:value});
+    console.log(inputs);
+  }
+  const registersubmit =(event)=>{
+    event.preventDefault();
+    axios.post('http://localhost:5000/customize/request',inputs).then((response)=>{
+      navigate('/artHome')
+    })
+   
+
+  }
+  useEffect(() => {
+    axios.get('http://localhost:5000/customize/view-customized')
+      .then((response) => {
+        setCategory(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, []);
     return (
       <>
 <div
@@ -30,31 +59,31 @@ const Birthday = () => {
   <Form>
     <Form.Group>
       <Form.Label>Wishes send to:</Form.Label>
-      <Form.Control type="text" placeholder="B'day boy/girl" />
+      <Form.Control type="text" placeholder="B'day boy/girl" name="sender" onChange={setRegister} />
     </Form.Group>
     <Form.Group>
       <Form.Label>Wishes send by:</Form.Label>
-      <Form.Control type="text" placeholder="Your Name" />
+      <Form.Control type="text" placeholder="Your Name" name="receiver" onChange={setRegister} />
     </Form.Group>
     <Form.Group>
       <Form.Label>Subject</Form.Label>
-      <Form.Control type="text" placeholder="B'day boy/girl" />
+      <Form.Control type="text" placeholder="B'day boy/girl" name="subject" onChange={setRegister} />
     </Form.Group>
     <Form.Group>
       <Form.Label>Enter your email address:</Form.Label>
-      <Form.Control type="email" placeholder="Enter your email address" />
+      <Form.Control type="email" placeholder="Enter your email address"name="email" onChange={setRegister} />
     </Form.Group>
     <Form.Group>
       <Form.Label>Enter special Date</Form.Label>
-      <Form.Control type="date" placeholder="Enter wedding date" />
+      <Form.Control type="date" placeholder="Enter wedding date" name="date" onChange={setRegister} />
     </Form.Group>
     <Form.Group>
       <Form.Label>Phone</Form.Label>
-      <Form.Control type="text" placeholder="Contact No" />
+      <Form.Control type="text" placeholder="Contact No" name="phone" onChange={setRegister}  />
     </Form.Group>
     <Form.Group>
   <Form.Label>Choose Artist:</Form.Label>
-  <Form.Select>
+  <Form.Select name="artist" onChange={setRegister} >
     <option value="">Select an artist</option>
     <option value="artist1">Artist 1</option>
     <option value="artist2">Artist 2</option>
@@ -65,11 +94,11 @@ const Birthday = () => {
 
     <Form.Group>
       <Form.Label>Comments your idea here:</Form.Label>
-      <Form.Control as="textarea" placeholder="Enter your ideas here.." />
+      <Form.Control as="textarea" placeholder="Enter your ideas here.."name="idea" onChange={setRegister}  />
     </Form.Group>
     <Form.Group>
       <Form.Label>Upload your design/photo here:</Form.Label>
-      <Form.Control type="file" placeholder="Enter your ideas here.." />
+      <Form.Control type="file" placeholder="Enter your ideas here.."name="sender" onChange={setRegister}  />
     </Form.Group>
    
   <Button variant="primary" type="submit" href="reservepay">

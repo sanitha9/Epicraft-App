@@ -5,7 +5,7 @@ billingaddressRouter.post('/billingaddress',async(req,res)=>{
     try{
 
         const data = {
-            artname: req.body.artname,
+            name: req.body.name,
             email:req.body.email,
             address:req.body.address,
             city:req.body.city,

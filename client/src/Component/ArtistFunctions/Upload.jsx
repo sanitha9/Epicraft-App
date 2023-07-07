@@ -22,7 +22,7 @@ const Upload = () => {
 
   }
   useEffect(() => {
-    axios.get('http://localhost:5000/category/view-category')
+    axios.get('http://localhost:5000/category/view-customized')
       .then((response) => {
         setCategory(response.data.data);
       })

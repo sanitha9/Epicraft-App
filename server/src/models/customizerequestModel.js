@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
-const billingSchema = new schema({
+const customizedSchema = new schema({
     login_id:{type:mongoose.Types.ObjectId,ref:"login_tb"},
      name:{type:String},
     email:{type:String},
@@ -16,5 +16,5 @@ const billingSchema = new schema({
     cvv:{typr:Number}
 })
 
-const billingaddressModel = mongoose.model('billingaddress_tb', billingSchema)
-module.exports = billingaddressModel
+const customizerequestModel = mongoose.model('customizerequests_tb',customizedSchema)
+module.exports = customizerequestModel

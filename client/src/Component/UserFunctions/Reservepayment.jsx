@@ -1,6 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const ReservePayment = () => {
+
+ const navigate = useNavigate()
+  const [category, setCategory] = useState([]);
+  const[inputs, setinputs]=useState([]);
+  console.log("value==>",inputs);
+  const setRegister=(event)=>{
+    const name=event.target.name;
+    const value=event.target.value;
+    setinputs({...inputs,[name]:value});
+    console.log(inputs);
+  }
+  const registersubmit =(event)=>{
+    event.preventDefault();
+    axios.post('http://localhost:5000/reserve/reservepayment',inputs).then((response)=>{
+      navigate('/userhome')
+    })
+   
+
+  }
+
+
+
   return (
     <div className="container"style={{width:"642px"}} >
       <div className="box">
@@ -17,22 +44,22 @@ const ReservePayment = () => {
           <input
             type="text"
             id="cname"
-            name="cardname"
-            placeholder="John More Doe"
+            name="nameoncard"
+            placeholder="John More Doe" onChange={setRegister}
           />
           <label htmlFor="ccnum">Credit card number</label>
           <input
             type="text"
             id="ccnum"
-            name="cardnumber"
-            placeholder="1111-2222-3333-4444"
+            name="creditcardnumber"
+            placeholder="1111-2222-3333-4444" onChange={setRegister}
           />
           <label htmlFor="expmonth">Exp Month</label>
           <input
             type="text"
             id="expmonth"
-            name="expmonth"
-            placeholder="September"
+            name="ExpMonth"
+            placeholder="September" onChange={setRegister}
           />
           <div className="Addressrow">
             <div className="Addresscol-50">
@@ -40,13 +67,13 @@ const ReservePayment = () => {
               <input
                 type="text"
                 id="expyear"
-                name="expyear"
-                placeholder={2018}
+                name="ExpYear"
+                placeholder={2018} onChange={setRegister}
               />
             </div>
             <div className="Addresscol-50">
               <label htmlFor="cvv">CVV</label>
-              <input type="text" id="cvv" name="cvv" placeholder={352} />
+              <input type="text" id="cvv" name="cvv" placeholder={352} onChange={setRegister} />
             </div>
           </div>
         </div>
@@ -55,7 +82,7 @@ const ReservePayment = () => {
           <input
             type="submit"
             value="Continue to checkout"
-            className="Addressbtn"
+            className="Addressbtn" onClick={registersubmit}
           />
         </div>
       </div>

@@ -6,6 +6,11 @@ const bodyParser = require('body-parser')
 const artItemsRouter = require('./src/routes/artItemsRouter')
 const categoryRouter = require('./src/routes/categoryRouter')
 const groupRouter = require('./src/routes/groupRouter')
+const billingaddressRouter = require('./src/routes/billingaddressRouter')
+const reserveRouter = require('./src/routes/reserveRouter')
+const addeventRouter = require('./src/routes/addeventRounter')
+// const customizerequestRouter = require('./src/models/customizerequestRouter')
+
 const app = express()
 app.use(bodyParser())
 app.use(express.urlencoded({ extended: true }))
@@ -28,6 +33,10 @@ app.use('/register',UserRegRouter)
 app.use('/register',artItemsRouter)
 app.use('/category',categoryRouter)
 app.use('/group',groupRouter)
+app.use('/pay',billingaddressRouter)
+app.use('/reserve',reserveRouter)
+app.use('/exhibition',addeventRouter)
+// app.use('/customize',customizerequestRouter)
 const mongoDBurl = 'mongodb+srv://sanisandhya7:sanisandhya7@cluster0.ewqotzq.mongodb.net/epicraft?retryWrites=true&w=majority'
 mongoose.connect(mongoDBurl).then(() => {
     app.listen(5000, () => {

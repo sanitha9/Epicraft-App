@@ -30,7 +30,7 @@ const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 const approve = (id) => {
   console.log(id);
   axios
-    .get(`http://localhost:5000/register/approve/${id}`)
+    .get(`http://localhost:5000/group/approve/${id}`)
     .then((response) => {
       console.log(response.data);
       window.location.reload();
@@ -42,7 +42,7 @@ const approve = (id) => {
 
 const reject = (id) => {
   axios
-    .get(`http://localhost:5000/register/reject/${id}`)
+    .get(`http://localhost:5000/group/reject/${id}`)
     .then((response) => {
       console.log(response.data);
       window.location.reload();
@@ -70,42 +70,43 @@ return (
           </thead>
           <tbody>
           {currentUsers.length > 0 ? (
-                currentUsers.map((user, index) => (
-                  <tr key={user._id}>
-                    <th scope="row">{(currentPage - 1) * usersPerPage + index + 1}</th>
-                    <td>{user.groupname}</td>
-                    <td>{user.privacy}</td>
-                    <td>{user.description}</td>
-                    
-              <td className="text-center">
-                {user.status === '0'?(
-                  <>
-                <button className="btn btn-success btn-sm mr-1" style={{ marginRight: '5px' }} onClick={()=>{
-                  approve(user.login_id);
-                }}>
-                  <span className="glyphicon glyphicon-ok" /> Approve
-                </button>
-                <button className="btn btn-danger btn-sm" style={{ marginRight: '5px' }} onClick={()=>{
-                  reject(user.login_id);
-                }}>
-                  <span className="glyphicon glyphicon-remove" /> Delete
-                </button>
-                </>
-                ):(
-                  <>
-                  <button className="btn btn-success ">Approved</button>
-                </>
-                )}
-              </td>
-            </tr>
-                ))
-                ):(
-               
-              <tr>
-                <td colSpan="5" >No group found</td>
+                  currentUsers.map((user, index) => (
+                    <tr key={user._id}>
+                      <th scope="row">{(currentPage - 1) * usersPerPage + index + 1}</th>
+                      <td>{user.groupname}{user._id}</td>
+                      <td>{user.privacy}</td>
+                      <td>{user.description}</td>
+                <td className="text-center">
+                  {user.status === '0'?(
+                    <>
+                  <button className="btn btn-success btn-sm mr-1" style={{ marginRight: '5px' }} onClick={()=>{
+                    approve(user._id);
+                  }}>
+                    <span className="glyphicon glyphicon-ok" /> Approve
+                  </button>
+                  <button className="btn btn-danger btn-sm" style={{ marginLeft: '180px',marginTop: '-55px' }} onClick={()=>{
+                    reject(user._id);
+                  }}>
+                    <span className="glyphicon glyphicon-remove" /> Delete
+                  </button>
+                  </>
+                  ):(
+                    <>
+                    <button className="btn btn-success ">Approved</button>
+                  </>
+                  )}
+                </td>
               </tr>
-               )} 
-          </tbody>
+                  ))
+                  ):(
+                 
+                <tr>
+                  <td colSpan="5" >No groupsfound</td>
+                </tr>
+                 )} 
+</tbody>
+
+
         </table>
         <div className="row justify-content-center">
         <nav aria-label="Page navigation">

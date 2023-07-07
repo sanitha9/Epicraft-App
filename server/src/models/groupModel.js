@@ -7,7 +7,7 @@ const groupSchema = new schema({
     coverphoto:{type:String},
     privacy:{type:String},
     description:{type:String},
-    // members:{type:Number}
+    status:{type:String}
    
  
 })

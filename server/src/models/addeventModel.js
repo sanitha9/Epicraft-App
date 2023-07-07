@@ -6,9 +6,10 @@ const addeventSchema = new schema({
     eventName:{type:String},
     date:{type:Date},
     priceSeat:{type:Number},
-    comments:{type:String},
+    description:{type:String},
     image:{type:String},
-    poster:{type:String}
+    location:{type:String},
+    category_id:{type:mongoose.Types.ObjectId,ref:"category_tb"},
  
 })
 

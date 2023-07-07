@@ -9,7 +9,8 @@ groupRouter.post('/group',async(req,res)=>{
           groupname:req.body.groupname,
           coverphoto:req.body.coverphoto,
           privacy:req.body.privacy,
-          description:req.body.description
+          description:req.body.description,
+          status:'0'
             // date:req.body.date,
             // members:req.body.members
    
@@ -33,7 +34,7 @@ groupRouter.post('/group',async(req,res)=>{
           })
         }
       })
-      groupRouter.get('/view-groups',async(req,res)=>{
+ groupRouter.get('/view-groups',async(req,res)=>{
         try {
             const group = await groupModel.find()
             if(group[0]!=undefined){
@@ -58,6 +59,60 @@ groupRouter.post('/group',async(req,res)=>{
             })
         }
         })
+        groupRouter.get('/approve/:id', async (req, res) => {
+          try {
+            const id = req.params.id;
+        
+            const approve = await groupModel.updateOne({ _id: id }, { $set: { status: 1 } });
+        
+            if (approve && approve.modifiedCount === 1) {
+              return res.status(200).json({
+                success: true,
+                message: 'group approved',
+              });
+            } else if (approve && approve.modifiedCount === 0) {
+              return res.status(400).json({
+                success: false,
+                message: 'group not found or already approved',
+              });
+            } else {
+              throw new Error('Error updating user');
+            }
+          } catch (error) {
+            return res.status(400).json({
+              success: false,
+              message: 'Something went wrong',
+              details: error.message,
+            });
+          }
+        });
+        groupRouter.get('/reject/:id', async (req, res) => {
+          try {
+            const id = req.params.id;
+        
+            const reject = await groupModel.deleteOne({ _id: id });
+        
+            if (reject && reject.deletedCount === 1) {
+              return res.status(200).json({
+                success: true,
+                message: 'group rejected',
+              });
+            } else if (reject && reject.deletedCount === 0) {
+              return res.status(400).json({
+                success: false,
+                message: 'group not found or already rejected',
+              });
+            } else {
+              throw new Error('Error deleting group');
+            }
+          } catch (error) {
+            return res.status(400).json({
+              success: false,
+              message: 'Something went wrong',
+              details: error.message,
+            });
+          }
+        });
       module.exports=groupRouter
 
     

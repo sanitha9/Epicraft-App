@@ -1,16 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import{ToastContainer,toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 const ArtistReg = () => {
- 
+  const [category, setCategory] = useState([]);
   const navigate = useNavigate()
   const[input,setInput]=useState({});
 
   console.log(("value==>",input));
 
-
+  useEffect(() => {
+    axios.get('http://localhost:5000/category/view-category')
+      .then((response) => {
+        setCategory(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, []);
 
 const setRegister=(event)=>{
   const name=event.target.name;
@@ -93,9 +101,10 @@ const registersubmit=(event)=>{
         <div className="custom-form-wrapper">
           <label htmlFor="custom-category">Category</label>
           <select name='category' onChange={setRegister}  className="custom-form-control">
-            <option value="Drawings">Drawings</option>
-            <option value="Paintings">Paintings</option>
-            <option value="other">Other</option>
+          <option value="">Select  category</option>
+                {category.map((data)=>(
+                  <option value={data._id}>{data.categoryname}</option>
+                ))}
           </select>
         </div>
         <div className="custom-form-wrapper">
