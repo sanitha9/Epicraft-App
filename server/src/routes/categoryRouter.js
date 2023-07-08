@@ -54,6 +54,37 @@ categoryRouter.post('/category',async(req,res)=>{
           });
         }
       });
+
+
+
+      categoryRouter.delete('/delete-category/:id', async (req, res) => {
+        try {
+          const eventid = req.params.id;
+          const deletedevent = await categoryModel.findByIdAndDelete(eventid);
+          if (deletedevent) {
+            return res.status(200).json({
+              success: true,
+              error: false,
+              message: 'category deleted successfully',
+              data: deletedevent,
+            });
+          } else {
+            return res.status(404).json({
+              success: false,
+              error: true,
+              message: ' category not found',
+            });
+          }
+        } catch (error) {
+          return res.status(500).json({
+            success: false,
+            error: true,
+            message: 'Something went wrong',
+            details: error,
+          });
+        }
+      });
+
       module.exports=categoryRouter
 
     

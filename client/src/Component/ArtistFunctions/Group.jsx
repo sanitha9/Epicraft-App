@@ -7,9 +7,12 @@ const CreateGroup = () => {
 
 
   const navigate = useNavigate()
-  const [category, setCategory] = useState([]);
+  // const [category, setCategory] = useState([]);
+  const [file, setFile] = useState('');
   const[inputs, setinputs]=useState([]);
   console.log("value==>",inputs);
+
+  
   const setRegister=(event)=>{
     const name=event.target.name;
     const value=event.target.value;
@@ -18,6 +21,19 @@ const CreateGroup = () => {
   }
   const registersubmit =(event)=>{
     event.preventDefault();
+    if (file) {
+      const data = new FormData();
+      const filename = file.name
+      data.append('file', file);
+      data.append('name', filename);
+      axios.post('http://localhost:5000/group/upload', data)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
     axios.post('http://localhost:5000/group/group',inputs).then((response)=>{
       navigate('/admin')
     })
@@ -56,8 +72,18 @@ const CreateGroup = () => {
             <input type="text" id="groupname" name="groupname" onChange={setRegister}/>
 
             <label htmlFor="coverphoto">Upload a cover photo:</label>
-            <input type="file" id="coverphoto" name="coverphoto" onChange={setRegister} />
-
+            
+            <input
+                type="file"
+                
+                name="coverphoto"
+                style={{ marginBottom: '10px', width: '100%' }}
+                onChange={(e) => {
+                  setFile(e.target.files[0]);
+                  console.log(e.target.files[0].name);
+                  setinputs({ ...inputs, coverphoto: e.target.files[0].name });
+                }}
+              />
             <div>
               <label htmlFor="options">Privacy:</label>
               <select id="options" name="privacy" onChange={setRegister}>

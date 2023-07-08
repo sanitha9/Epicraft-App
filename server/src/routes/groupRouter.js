@@ -1,6 +1,24 @@
 const express = require('express');
 const groupModel = require('../models/groupModel');
 const groupRouter = express.Router()
+const multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, "../client/public/upload")
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname)
+  }
+})
+
+var upload = multer({ storage: storage })
+
+groupRouter.post('/upload', upload.single("file"), (req, res) => {
+  return res.json("file uploaded")
+})
+
+
 groupRouter.post('/group',async(req,res)=>{
     try{
 
@@ -34,6 +52,14 @@ groupRouter.post('/group',async(req,res)=>{
           })
         }
       })
+
+     
+
+
+  
+
+
+
  groupRouter.get('/view-groups',async(req,res)=>{
         try {
             const group = await groupModel.find()

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AddCategory = () => {
-  const [jobCategories, setJobCategories] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [category, setCategory] = useState([]);
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({ categoryname: '' });
@@ -13,26 +14,64 @@ const AddCategory = () => {
     setInputs((prevState) => ({ ...prevState, [name]: value }));
   };
 
+
+  // ...
+  
   const registerSubmit = (event) => {
     event.preventDefault();
-    axios.post('http://localhost:5000/category/category', inputs).then((response) => {
-      navigate('/admin');
-    });
+    axios
+      .post('http://localhost:5000/category/category', inputs)
+      .then((response) => {
+        toast.success('Category added successfully!', {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+        // Fetch the updated category data
+        fetchCategoryData();
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error('Failed to add category.', {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      });
   };
-
-  useEffect(() => {
+  
+  const fetchCategoryData = () => {
     axios
       .get('http://localhost:5000/category/view-category')
       .then((response) => {
         setCategory(response.data.data);
       })
       .catch((error) => {
-        console.log('Error:', error);
+        console.error('Error:', error);
       });
+  };
+  
+  // ...
+  
+  useEffect(() => {
+    fetchCategoryData();
   }, []);
+  const removeEvent = (id) => {
+    axios
+      .delete(`http://localhost:5000/category/delete-category/${id}`)
+      .then(() => {
+        setCategory((prevEvents) => prevEvents.filter((event) => event._id !== id));
+        toast.success('category deleted successfully!', {
+          position: toast.POSITION.BOTTOM_CENTER, // Set the toast position to bottom center
+        });
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+        toast.error('Error deleting category!', {
+          position: toast.POSITION.BOTTOM_CENTER, // Set the toast position to bottom center
+        });
+      });
+  };
 
   return (
     <div className="container">
+      <ToastContainer />
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="box" style={{ color: 'blue', padding: '20px' }}>
@@ -80,7 +119,9 @@ const AddCategory = () => {
                           <td>{index + 1}</td>
                           <td>{category.categoryname}</td>
                           <td align="center">
-                            <button className="btn btn-danger">
+                            <button className="btn btn-danger" onClick={()=>{
+                    removeEvent(category._id);
+                  }}>
                               <em className="fa fa-times" />
                             </button>
                           </td>

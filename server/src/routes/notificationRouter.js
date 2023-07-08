@@ -1,19 +1,19 @@
 const express = require('express');
 const notificationModel = require('../models/notificationModel ');
-const groupRouter = express.Router()
-groupRouter.post('/group',async(req,res)=>{
+const notificationRouter = express.Router()
+notificationRouter.post('/notification-view',async(req,res)=>{
     try{
 
         const data = {
-           
-            groupName:req.body.groupName,
-            coverphoto:req.body.coverphoto,
+            login_id:req.body.login_id,
+            contents:req.body.contents,
+            
             description:req.body.description,
             date:req.body.date,
-            members:req.body.members
+            time:req.body.time
    
           }
-          const savedData = await groupModel(data).save();
+          const savedData = await notificationModel(data).save();
       
           if (savedData) {
             return res.status(200).json({
@@ -32,6 +32,6 @@ groupRouter.post('/group',async(req,res)=>{
           })
         }
       })
-      module.exports=groupRouter
+      module.exports=notificationRouter
 
     

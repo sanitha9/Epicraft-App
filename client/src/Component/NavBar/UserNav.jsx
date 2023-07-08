@@ -4,17 +4,21 @@ import { useNavigate } from 'react-router-dom';
 const UserNav = () => {
   const navigate = useNavigate()
   const logout = () => {
-    localStorage.removeItem('user_id')
+    localStorage.getItem('user_id')
     localStorage.removeItem('login_id')
     localStorage.removeItem('role')
     navigate('/login')
   }
-  useEffect(() => {
-    const use_id = localStorage.getItem('user_id')
+  const use_id = localStorage.getItem('user_id')
     if (!use_id) {
       navigate('/login')
     }
-  }, [])
+
+
+  const userid = localStorage.removeItem('user_id')
+  if (!userid) {
+    navigate('/login')
+  }
   return (
     <div><nav className="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
     <a

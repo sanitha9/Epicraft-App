@@ -5,6 +5,7 @@ chatRouter.post('/chat',async(req,res)=>{
     try{
 
         const data = {
+          
             message:req.body.message,
             sender:req.body.sender,
             receiver:req.body.receiver,

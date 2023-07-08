@@ -3,9 +3,11 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AdminNav from '../NavBar/AdminNav';
+import { Link } from 'react-router-dom';
+import EditEventdetails from './EditEventdetails';
 
 const UpcomingEventAdminView = () => {
-  const [jobCategories, setEvent] = useState([]);
+  // const [jobCategories, setEvent] = useState([]);
   const [category, setCategory] = useState([]);
   //  const[inputs, setinputs]=useState([]);
   const [users, setUsers] = useState([]);
@@ -68,7 +70,7 @@ console.log(users);
         {users.map((user) => (
           <div className="col-md-8 mb-5" key={user._id}>
             <div className="card">
-              <img src="img/bg1.jpg" alt="Exhibition" className="card-image-large" />
+              <img src={`/upload/${user.image}`} alt="Exhibition" className="card-image-large" />
               <div className="card-content">
                 <h3 className="card-category">ExhibitionName:{user.eventName}</h3>
                 <p className="card-date">Date: {user.date}</p>
@@ -77,7 +79,7 @@ console.log(users);
                 <p className="card-rate">Category:{user.categoryname}</p>
                 <p className="card-description">Description:{user.description}</p>
                 <div className="card-actions">
-                  <button className="edit-button">Edit</button>
+                  <Link to={`/EditEventdetails/${user._id}`}className="edit-button">Edit</Link>
                   <span className="button-space"></span>
                   
                   <button className="delete-button"

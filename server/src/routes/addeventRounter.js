@@ -1,7 +1,27 @@
 const express = require('express');
+const multer = require('multer');
+
 const addeventModel = require('../models/addeventModel');
 const addeventRouter = express.Router()
-addeventRouter.post('/addevent',async(req,res)=>{
+
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, "../client/public/upload")
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname)
+  }
+})
+
+var upload = multer({ storage: storage })
+
+addeventRouter.post('/upload', upload.single("file"), (req, res) => {
+  return res.json("file uploaded")
+})
+
+
+    addeventRouter.post('/addevent',async(req,res)=>{
     try{
 
         const data = {
@@ -12,6 +32,9 @@ addeventRouter.post('/addevent',async(req,res)=>{
             description:req.body.description,
             image:req.body.image,
             location:req.body.location
+          
+          
+          
           }
           const savedData = await addeventModel(data).save();
       
@@ -114,7 +137,40 @@ addeventRouter.post('/addevent',async(req,res)=>{
           });
         }
       });
-
+      addeventRouter.post('/edit-event/:id', async (req, res) => {
+        try {
+          const id=req.params.id
+      console.log('id',id);
+          const data ={   
+            eventName:req.body.eventName,
+            category_id:req.body.category_id,
+            date:req.body.date,
+            priceSeat:req.body.priceSeat,
+            description:req.body.description,
+            location:req.body.location        
+            
+          };
+      
+          const approve = await addeventModel.updateOne({ _id: id }, { $set: data });
+      
+          if (approve) {
+            return res.status(200).json({
+              success: true,
+              error: false,
+              message: "Request Added",
+              details: approve
+            });
+          }
+      } catch (error) {
+      console.log(error);
+          return res.status(400).json({
+            success: false,
+            error: true,
+            message: "Something went wrong",
+            details: error
+          });
+        }
+      });
 
       module.exports=addeventRouter
 

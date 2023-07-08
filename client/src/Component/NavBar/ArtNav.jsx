@@ -9,12 +9,15 @@ const ArtNav = () => {
     localStorage.removeItem('role')
     navigate('/')
   }
-  useEffect(() => {
-    const artid = localStorage.getItem('artist_id')
-    if (!artid) {
-      navigate('/')
-    }
-  }, [])
+  const artid = localStorage.getItem('artist_id')
+  if (!artid) {
+    navigate('/login')
+  }
+
+ 
+
+
+
   return (
     <>
   

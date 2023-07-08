@@ -63,6 +63,7 @@ import Search from '../UserFunctions/Search'
 import OrderTrackView from '../UserFunctions/OrderTrackView'
 import Myorders from '../UserFunctions/Myorders'
 import OrderManage from '../Admin/OrderManage'
+import EditEventdetails from '../Admin/EditEventdetails'
 
 
 
@@ -83,7 +84,7 @@ const MainRouter = () => {
             <Route path="artistReg" element={<ArtistReg/>} />
             <Route path="userReg" element={<UserReg/>}/>
             <Route path="artHome" element={<ArtistHome/>}/>
-            <Route path="userhome" element={<UserHomePage/>}/>
+            <Route path="/userhome" element={<UserHomePage/>}/>
             <Route path="admin" element={<AdminFirstPage/>}/>
             <Route path="upcomingevents" element={<UpcomingEventsPage/>}/>
             <Route path="customize" element={<CustomizedReqPage/>}/>
@@ -127,6 +128,7 @@ const MainRouter = () => {
              <Route path="ordertrackview" element={<OrderTrackView/>}/>
              <Route path="myorder" element={<Myorders/>}/>
              <Route path="ordermanage" element={<OrderManage/>}/>
+             <Route path="EditEventdetails/:id" element={<EditEventdetails/>}/>
         </Routes>
     </div>
   )
