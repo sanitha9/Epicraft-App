@@ -7,7 +7,8 @@ const chatSchema = new schema({
     sender:{type:String},
     receiver:{type:String},
     date:{type:Date},
-    time:{type:String}
+    time:{type:String},
+    reply:{type:String}
     })
 
 const chatModel = mongoose.model('group_tb', chatSchema)

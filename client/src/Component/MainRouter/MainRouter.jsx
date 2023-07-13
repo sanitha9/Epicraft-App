@@ -64,6 +64,8 @@ import OrderTrackView from '../UserFunctions/OrderTrackView'
 import Myorders from '../UserFunctions/Myorders'
 import OrderManage from '../Admin/OrderManage'
 import EditEventdetails from '../Admin/EditEventdetails'
+import GroupAccept from '../ArtistFunctions/GroupAccept'
+import ArtistRequestEvent from '../Admin/ArtistRequestEvent'
 
 
 
@@ -103,8 +105,9 @@ const MainRouter = () => {
             <Route path="managegroup" element={<GroupManage/>}/>
             <Route path="review" element={<ReviewMang/>}/>
             <Route path="adnot" element={<AdminNoti/>}/>
+            <Route path="groupAdd" element={<GroupAccept/>}/>
+
             <Route path="groupcration" element={<GroupCration/>}/>
-            
             <Route path="artCustomizeRequestView" element={<CustomizeRequestViewPage/>}/>
             <Route path="createevent" element={<CreateEventPage/>}/>
             <Route path="product" element={<Product/>}/>
@@ -129,6 +132,7 @@ const MainRouter = () => {
              <Route path="myorder" element={<Myorders/>}/>
              <Route path="ordermanage" element={<OrderManage/>}/>
              <Route path="EditEventdetails/:id" element={<EditEventdetails/>}/>
+             <Route path="artistcreateevent" element={<ArtistRequestEvent/>}/>
         </Routes>
     </div>
   )

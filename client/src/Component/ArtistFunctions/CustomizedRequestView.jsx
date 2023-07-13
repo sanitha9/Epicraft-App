@@ -1,6 +1,23 @@
-import React from 'react'
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 const CustomizedRequestView = () => {
+  const [customize, setCustomize] = useState([]);
+  useEffect(() => {
+    axios.get('http://localhost:5000/customize/view-customized')
+      .then((response) => {
+        setCustomize(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, []);
+
+
+
+
+
   return (
    <>
    <label style={{fontSize:"30px",marginLeft:"400px"}}>You have requested to customize the product</label>

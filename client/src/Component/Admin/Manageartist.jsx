@@ -84,7 +84,7 @@ const Manageartist = () => {
                   }}>
                     <span className="glyphicon glyphicon-ok" /> Approve
                   </button>
-                  <button className="btn btn-danger btn-sm" style={{ marginRight: '5px' }} onClick={()=>{
+                  <button className="btn btn-danger btn-sm" style={{ marginRight: '-65px',marginTop:'-2px' }} onClick={()=>{
                     reject(user.login_id);
                   }}>
                     <span className="glyphicon glyphicon-remove" /> Delete

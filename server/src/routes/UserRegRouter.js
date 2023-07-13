@@ -109,6 +109,32 @@ UserRegRouter.get('/view-user',async(req,res)=>{
         })
     }
     })
+    UserRegRouter.get('/view-single-user/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const medicine = await userRegisterModel.findOne({_id:id });
+        if (medicine) {
+          return res.status(200).json({
+            success: true,
+            error: false,
+            data:medicine,
+          });
+        } else {
+          return res.status(400).json({
+            success: false,
+            error: true,
+            message: 'No data found',
+          });
+        }
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          error: true,
+          message: 'Something went wrong',
+          details: error,
+        });
+      }
+    });
     UserRegRouter.get('/view-artist',async(req,res)=>{
         try {
             const artist = await artistRegisterModel.aggregate([

@@ -3,9 +3,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Upload = () => {
+  const [file, setFile] = useState('');
   const navigate = useNavigate()
   const [category, setCategory] = useState([]);
   const[inputs, setinputs]=useState([]);
+  console.log("value==>",file.name);
+  console.log("value==>",file);
   console.log("value==>",inputs);
   const setRegister=(event)=>{
     const name=event.target.name;
@@ -15,14 +18,29 @@ const Upload = () => {
   }
   const registersubmit =(event)=>{
     event.preventDefault();
-    axios.post('http://localhost:5000/register/artitems',inputs).then((response)=>{
+    if (file) {
+      const data = new FormData();
+      const filename = file.name
+      data.append('file', file);
+      data.append('name', filename);
+      axios.post('http://localhost:5000/artitems/upload', data)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+
+    axios.post('http://localhost:5000/artitems/artitems',inputs).then((response)=>{
       navigate('/artHome')
     })
    
 
   }
   useEffect(() => {
-    axios.get('http://localhost:5000/category/view-customized')
+    axios.get('http://localhost:5000/category/view-category')
       .then((response) => {
         setCategory(response.data.data);
       })
@@ -54,13 +72,26 @@ const Upload = () => {
             <select className="form-select"  name="category" onChange={setRegister}>
             <option value="">Select  category</option>
                 {category.map((data)=>(
-                  <option value={data._id}>{data.categoryName}</option>
+                  <option value={data._id}>{data.categoryname}</option>
                 ))}
             </select>
           </div>
           <div className="form-group">
        
-            <input type="file" className="form-control-file" id="image" name="image"onChange={setRegister} />
+            {/* <input type="file" className="form-control-file" id="image" name="image"onChange={setRegister} /> */}
+
+
+            <input
+                type="file"
+                className="form-control-file"
+                name="image"
+                style={{ marginBottom: '10px', width: '100%' }}
+                onChange={(e) => {
+                  setFile(e.target.files[0]);
+                  console.log(e.target.files[0].name);
+                  setinputs({ ...inputs, image: e.target.files[0].name });
+                }}
+              />
           </div>
         <button type="submit" className="btn btn-primary"onClick={registersubmit}>Submit</button>
          {/* <a href="artHome">arthome </a> */}

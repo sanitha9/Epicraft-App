@@ -80,9 +80,26 @@ const ArtNav = () => {
           </a> */}
         </div>
       </div>
-      <a href="group" className="nav-item nav-link">
+      <div className="nav-item dropdown">
+        <a
+          href="#"
+          className="nav-link dropdown-toggle"
+          data-bs-toggle="dropdown"
+        >
+          Discover
+        </a>
+        <div className="dropdown-menu fade-up m-0">
+          <a href="Group" className="dropdown-item">
+            Create Group
+          </a>
+           <a href="groupAdd" className="dropdown-item">
+            managegroup
+          </a> 
+        </div>
+      </div>
+      {/* <a href="group" className="nav-item nav-link">
         Group
-      </a>
+      </a> */}
       <a href="chatartistwithuser" className="nav-item nav-link">
         Chat
       </a>

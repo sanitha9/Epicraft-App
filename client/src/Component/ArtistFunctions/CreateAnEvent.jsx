@@ -1,6 +1,3 @@
-
-
-
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
@@ -13,7 +10,7 @@ const CreateAnEvent = () => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           width: '100%',
-          height: '800px',
+          height: '1300px',
           position: 'relative',
         }}
       >
@@ -32,19 +29,34 @@ const CreateAnEvent = () => {
         >
           <h2 style={{marginLeft:"80px"}}>Upload Event Details</h2>
           <form>
-            <label htmlFor="name">EventName:</label>
+            {/* Input fields */}
+            <label htmlFor="name">Event Name:</label>
             <input type="text" id="name" name="name" />
 
             <label htmlFor="date">Date:</label>
             <input type="date" id="date" name="date" />
-            <label htmlFor="name">Price/seat</label>
-            <input type="text" id="name" name="name" />
+
+            <label htmlFor="price">Price/Seat:</label>
+            <input type="text" id="price" name="price" />
+
+            <label htmlFor="location">Location:</label>
+            <input type="text" id="location" name="location" />
+
+            <label htmlFor="category">Category:</label>
+            <select id="category" name="category">
+              <option value="">Select a category</option>
+              <option value="category1">Category 1</option>
+              <option value="category2">Category 2</option>
+              <option value="category3">Category 3</option>
+            </select>
+
             <label htmlFor="message">Comments:</label>
             <textarea id="message" name="message" rows="4" cols={60}></textarea>
-            <label htmlFor="file">Upload your poster here:</label>
-            <input type="file" id="file" name="file"  />
 
-            <button type="submit" style={{marginLeft:"40%"}}>Submit</button>
+            <label htmlFor="file">Upload your poster here:</label>
+            <input type="file" id="file" name="file" />
+
+            <button type="submit" style={{ marginLeft: "40%" }}>Submit</button>
           </form>
         </div>
       </div>
@@ -53,51 +65,3 @@ const CreateAnEvent = () => {
 };
 
 export default CreateAnEvent;
-
-// import React from 'react'
-// import { Button } from 'react-bootstrap'
-
-// const CreateAnEvent = () => {
-//   return (
-//    <>
-  
-//    <div style={{ 
-//       backgroundImage: `url(img/artevent.jpg)`,
-//       backgroundSize: 'cover',
-//           backgroundPosition: 'center',
-//           width: '100%',
-//           height: '800px', 
-//     }}>
-//     <div style={{display: 'flex',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     height: '100vh',
-//     background: '#f1f1f1',
-//     marginTop:"1rem"
-//   }}>
-//       <div style={{width: '600px',
-//     padding: '20px',
-//     background: '#fff',
-//     boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.2)',
-//     borderRadius: '4px'}}>
-//         <h2>Upload Event Details</h2>
-//         <form>
-//           <label htmlFor="name">Name:</label>
-//           <input type="text" id="name" name="name" />
-
-//           <label htmlFor="email">Email:</label>
-//           <input type="email" id="email" name="email" />
-
-//           <label htmlFor="message">Message:</label>
-//           <textarea id="message" name="message" rows="4"></textarea>
-
-//           <button type="submit">Submit</button>
-//         </form>
-//       </div>
-//     </div>
-//  </div>
-//    </>
-//   )
-// }
-
-// export default CreateAnEvent

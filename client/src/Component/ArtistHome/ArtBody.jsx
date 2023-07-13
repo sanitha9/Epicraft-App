@@ -1,17 +1,57 @@
-import React from 'react'
+
 import { Dropdown } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
-
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useParams } from 'react-router-dom';
 const ArtBody = () => {
-const artPictures = [
-    { id: 1, title: 'Artwork 1', imageUrl: 'https://img.freepik.com/free-photo/paint-brush-with-liquid-paint_144627-33549.jpg?size=626&ext=jpg&ga=GA1.1.1209395042.1683703087&semt=ais' },
-    { id: 2, title: 'Artwork 2', imageUrl: 'https://img.freepik.com/free-vector/fruit-background-with-watercolor-orange_23-2148210582.jpg?w=740&t=st=1686806313~exp=1686806913~hmac=2fb65ce4eb16c38fedf47ead44884e0a9c901205625740f3457676bc8447f96a' },
-    { id: 3, title: 'Artwork 3', imageUrl: 'https://img.freepik.com/free-vector/sticker-with-many-oranges-box_1308-61763.jpg?w=996&t=st=1686806349~exp=1686806949~hmac=99bf3427d362939c072461b25e3cec90c0b83b4362e998d8aa114959ec46e863' },
-    // Add more art pictures as needed
-  ];
+  
+  const [category, setCategory] = useState([]);
+// const artPictures = [
+//     { id: 1, title: 'Artwork 1', imageUrl: 'https://img.freepik.com/free-photo/paint-brush-with-liquid-paint_144627-33549.jpg?size=626&ext=jpg&ga=GA1.1.1209395042.1683703087&semt=ais' },
+//     { id: 2, title: 'Artwork 2', imageUrl: 'https://img.freepik.com/free-vector/fruit-background-with-watercolor-orange_23-2148210582.jpg?w=740&t=st=1686806313~exp=1686806913~hmac=2fb65ce4eb16c38fedf47ead44884e0a9c901205625740f3457676bc8447f96a' },
+//     { id: 3, title: 'Artwork 3', imageUrl: 'https://img.freepik.com/free-vector/sticker-with-many-oranges-box_1308-61763.jpg?w=996&t=st=1686806349~exp=1686806949~hmac=99bf3427d362939c072461b25e3cec90c0b83b4362e998d8aa114959ec46e863' },
+//     // Add more art pictures as needed
+//   ];
 
+const removeEvent = (id) => {
+  console.log(id);
+  axios
+    .delete(`http://localhost:5000/artitems/delete-artitems/${id}`)
+    .then(() => {
+      setCategory((prevEvents) => prevEvents.filter((event) => event._id !== id));
+      toast.success('category deleted successfully!', {
+        position: toast.POSITION.BOTTOM_CENTER, // Set the toast position to bottom center
+      });
+    })
+    .catch((error) => {
+      console.log('Error:', error);
+      toast.error('Error deleting category!', {
+        position: toast.POSITION.BOTTOM_CENTER, // Set the toast position to bottom center
+      });
+    });
+};
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/artitems/view-artitems')
+      .then((response) => {
+        setCategory(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, []);
   return (
+
+
+
+
+
  <>
+ <ToastContainer/>
     <div
       className="container-fluid page-header mb-5 p-0"
       style={{ backgroundImage: "url(img/mr1.jpg)" }}
@@ -83,8 +123,10 @@ const artPictures = [
 </div>
   </div>
   <div className="container">
-      <div className="row">
-        {artPictures.map((art) => (
+  
+      <div className="row" >
+  {category.map((art) => (
+       
           <div key={art.id} className="col-md-4 mb-4">
             <div className="card">
             <Dropdown>
@@ -95,17 +137,19 @@ const artPictures = [
         <Dropdown.Item href="upload">
          <i className="fas fa-cog pe-2"></i>Edit
         </Dropdown.Item>
-        <Dropdown.Item href="#">
+        <Dropdown.Item onClick={()=>{
+                    removeEvent(art._id);
+                  }}>
           <i className="fas fa-trash pe-2"></i>Delete
         </Dropdown.Item>
         
       </Dropdown.Menu>
     </Dropdown>
-              <img src={art.imageUrl} className="card-img-top" alt={art.title} />
+              <img  src={`/upload/${art.image}`} className="card-img-top" alt={art.artname} />
               <div className="card-body">
                 
-                <h5 className="card-title">{art.title}</h5>
-                <p className="card-text">Description of the artwork.</p>
+                <h5 className="card-title">{art.artname}</h5>
+                <p className="card-text">{art.description}</p>
              
               
               </div>

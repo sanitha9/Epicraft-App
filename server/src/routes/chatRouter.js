@@ -10,7 +10,8 @@ chatRouter.post('/chat',async(req,res)=>{
             sender:req.body.sender,
             receiver:req.body.receiver,
             date:req.body.date,
-            time:req.body.time
+            time:req.body.time,
+            reply:req.body.null
           }
           const savedData = await chatModel(data).save();
       

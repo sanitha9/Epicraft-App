@@ -6,9 +6,13 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 import { alignPropType } from 'react-bootstrap/esm/types';
 const Birthday = () => {
+  const login_id = localStorage.getItem('login_id')
+  const [file, setFile] = useState('');
   const navigate = useNavigate()
-  const [category, setCategory] = useState([]);
+  const [artist, setArtist] = useState([]);
   const[inputs, setinputs]=useState([]);
+  console.log("value==>",file.name);
+  console.log("value==>",file);
   console.log("value==>",inputs);
   const setRegister=(event)=>{
     const name=event.target.name;
@@ -17,22 +21,45 @@ const Birthday = () => {
     console.log(inputs);
   }
   const registersubmit =(event)=>{
+    
     event.preventDefault();
+
+
+    if (file) {
+      const data = new FormData();
+      const filename = file.name
+      data.append('file', file);
+      data.append('name', filename);
+      axios.post('http://localhost:5000/customize/upload', data)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+
+
     axios.post('http://localhost:5000/customize/request',inputs).then((response)=>{
       navigate('/artHome')
     })
    
 
   }
+
+
+
   useEffect(() => {
-    axios.get('http://localhost:5000/customize/view-customized')
+    axios.get('http://localhost:5000/register/view-artist')
       .then((response) => {
-        setCategory(response.data.data);
+        setArtist(response.data.data);
       })
       .catch((error) => {
         console.log('Error:', error);
       });
   }, []);
+  
     return (
       <>
 <div
@@ -59,11 +86,11 @@ const Birthday = () => {
   <Form>
     <Form.Group>
       <Form.Label>Wishes send to:</Form.Label>
-      <Form.Control type="text" placeholder="B'day boy/girl" name="sender" onChange={setRegister} />
+      <Form.Control type="text" placeholder="B'day boy/girl" name="sendto" onChange={setRegister} />
     </Form.Group>
     <Form.Group>
       <Form.Label>Wishes send by:</Form.Label>
-      <Form.Control type="text" placeholder="Your Name" name="receiver" onChange={setRegister} />
+      <Form.Control type="text" placeholder="Your Name" name="sendby" onChange={setRegister} />
     </Form.Group>
     <Form.Group>
       <Form.Label>Subject</Form.Label>
@@ -84,10 +111,10 @@ const Birthday = () => {
     <Form.Group>
   <Form.Label>Choose Artist:</Form.Label>
   <Form.Select name="artist" onChange={setRegister} >
-    <option value="">Select an artist</option>
-    <option value="artist1">Artist 1</option>
-    <option value="artist2">Artist 2</option>
-    <option value="artist3">Artist 3</option>
+  <option value="">Select Artist</option>
+                {artist.map((data)=>(
+                  <option value={data._id}>{data.name}</option>
+                ))}
     {/* Add more options as needed */}
   </Form.Select>
 </Form.Group>
@@ -98,10 +125,23 @@ const Birthday = () => {
     </Form.Group>
     <Form.Group>
       <Form.Label>Upload your design/photo here:</Form.Label>
-      <Form.Control type="file" placeholder="Enter your ideas here.."name="sender" onChange={setRegister}  />
+
+      <input
+                type="file"
+                className="form-control-file"
+                name="design"
+                style={{ marginBottom: '10px', width: '100%' }}
+                onChange={(e) => {
+                  setFile(e.target.files[0]);
+                  console.log(e.target.files[0].name);
+                  setinputs({ ...inputs, design: e.target.files[0].name });
+                }}
+              />
+
+      {/* <Form.Control type="file" placeholder="Enter your ideas here.."name="design" onChange={setRegister}  /> */}
     </Form.Group>
    
-  <Button variant="primary" type="submit" href="reservepay">
+  <Button variant="primary" type="submit" href="reservepay"onClick={registersubmit}>
     Submit
   </Button>
 

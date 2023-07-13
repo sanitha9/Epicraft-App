@@ -1,7 +1,8 @@
 const express = require('express');
 const groupModel = require('../models/groupModel');
-const groupRouter = express.Router()
 const multer = require('multer');
+const groupRouter = express.Router()
+
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {

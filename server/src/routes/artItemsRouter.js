@@ -1,6 +1,25 @@
 const express = require('express');
 const artItemsModel = require('../models/artItemsModel');
 const artItemsRouter = express.Router()
+const multer = require('multer');
+
+
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, "../client/public/upload")
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname)
+  }
+})
+
+var upload = multer({ storage: storage })
+
+artItemsRouter.post('/upload', upload.single("file"), (req, res) => {
+  return res.json("file uploaded")
+})
+
 artItemsRouter.post('/artitems',async(req,res)=>{
     try{
         const data = {
@@ -9,7 +28,7 @@ artItemsRouter.post('/artitems',async(req,res)=>{
         description:req.body.description,
         image:req.body.image,
         price:req.body.price,
-        category_id:req.body.category_id
+        category_id:req.body.category
         
         };
           const savedData = await artItemsModel(data).save();
@@ -31,6 +50,66 @@ artItemsRouter.post('/artitems',async(req,res)=>{
           })
         }
       })
+
+
+      artItemsRouter.get('/view-artitems',async(req,res)=>{
+        try {
+            const art = await artItemsModel.find()
+            if(art[0]!=undefined){
+                return res.status(200).json({
+                    success:true,
+                    error:false,
+                    data:art
+                })
+            }else{
+                return res.status(400).json({
+                    success:false,
+                    error:true,
+                    message:"No data found"
+                })
+            }
+        } catch (error) {
+            return res.status(400).json({
+                success:false,
+                error:true,
+                message:"Something went wrong",
+                details:error
+            })
+        }
+        })
+        artItemsRouter.delete('/delete-artitems/:id', async (req, res) => {
+          try {
+            const id = req.params.id;
+          
+            const deletedartItems = await artItemsModel.deleteOne({_id:id});
+            if (deletedartItems) {
+              return res.status(200).json({
+                success: true,
+                error: false,
+                message: 'artitems  deleted successfully',
+                data: deletedartItems,
+              });
+            } else {
+              return res.status(404).json({
+                success: false,
+                error: true,
+                message: 'artitems not found',
+              });
+            }
+          } catch (error) {
+            return res.status(500).json({
+              success: false,
+              error: true,
+              message: 'Something went wrong',
+              details: error,
+            });
+          }
+        });
+
+
+
+
+
       module.exports=artItemsRouter
 
     

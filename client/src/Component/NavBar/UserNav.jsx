@@ -11,14 +11,14 @@ const UserNav = () => {
   }
   const use_id = localStorage.getItem('user_id')
     if (!use_id) {
-      navigate('/login')
+      navigate('/join')
     }
 
 
-  const userid = localStorage.removeItem('user_id')
-  if (!userid) {
-    navigate('/login')
-  }
+  // const userid = localStorage.removeItem('user_id')
+  // if (!userid) {
+  //   navigate('/login')
+  // }
   return (
     <div><nav className="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
     <a
