@@ -210,7 +210,7 @@ const AdminFirstPage = () => {
 
       <div className="col-md-3 mb-4">
       <a
-    href="review"
+    href="viewreviewadmin"
     className="card align-items-center text-decoration-none border-0 hover-lift-light py-4"
   >
     <span className="icon-circle icon-circle-lg bg-pastel-primary text-primary">

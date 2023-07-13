@@ -66,6 +66,11 @@ import OrderManage from '../Admin/OrderManage'
 import EditEventdetails from '../Admin/EditEventdetails'
 import GroupAccept from '../ArtistFunctions/GroupAccept'
 import ArtistRequestEvent from '../Admin/ArtistRequestEvent'
+import ProductViewDes from '../UserFunctions/ProductViewDes'
+import ReviewView from '../ArtistFunctions/ReviewView'
+import ReplyComment from '../UserFunctions/ReplyComment'
+import ViewReviewAdmin from '../Admin/ViewReviewAdmin'
+
 
 
 
@@ -133,6 +138,11 @@ const MainRouter = () => {
              <Route path="ordermanage" element={<OrderManage/>}/>
              <Route path="EditEventdetails/:id" element={<EditEventdetails/>}/>
              <Route path="artistcreateevent" element={<ArtistRequestEvent/>}/>
+             <Route path="ProductViewDes" element={<ProductViewDes/>}/>
+             <Route path="ReviewView" element={<ReviewView/>}/>
+             <Route path="ReplyComment" element={<ReplyComment/>}/>
+             <Route path="viewreviewadmin" element={<ViewReviewAdmin/>}/>
+            
         </Routes>
     </div>
   )

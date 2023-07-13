@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+
 const Product = () => {
   const [searchValue, setSearchValue] = useState('');
   const [artitem, setArtItems] = useState([]);
@@ -83,6 +84,10 @@ const Product = () => {
               <div className="col-md-3" key={user._id}>
                 <div className="card card-cascade card-ecommerce wider shadow mb-5">
                   <div className="view view-cascade overlay text-center">
+                  {/* <a href="ProductViewDes">
+                    <img className="" src={`/upload/${user.image[0]}`} alt="" />
+                  </a> */}
+
                     <img className="" src={`/upload/${user.image}`} alt="" />
                     <a>
                       <div className="mask rgba-white-slight" />
@@ -91,7 +96,7 @@ const Product = () => {
                   <div className="card-body card-body-cascade text-center">
                     <h4 className="card-title">
                       <strong>
-                        <a href="">{user.artname}</a>
+                        <a href="ProductViewDes">{user.artname}</a>
                       </strong>
                     </h4>
                     <p className="card-text">{user.description}</p>

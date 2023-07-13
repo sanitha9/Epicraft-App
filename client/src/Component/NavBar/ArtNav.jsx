@@ -46,6 +46,7 @@ const ArtNav = () => {
       <a href="artHome" className="nav-item nav-link active">
         Home
       </a>
+
       <div className="nav-item dropdown">
         <a
           href="#"
@@ -86,7 +87,7 @@ const ArtNav = () => {
           className="nav-link dropdown-toggle"
           data-bs-toggle="dropdown"
         >
-          Discover
+          Community
         </a>
         <div className="dropdown-menu fade-up m-0">
           <a href="Group" className="dropdown-item">
@@ -97,9 +98,10 @@ const ArtNav = () => {
           </a> 
         </div>
       </div>
-      {/* <a href="group" className="nav-item nav-link">
-        Group
-      </a> */}
+      
+      <a href="ReviewView" className="nav-item nav-link">
+        Reviews
+      </a>
       <a href="chatartistwithuser" className="nav-item nav-link">
         Chat
       </a>
