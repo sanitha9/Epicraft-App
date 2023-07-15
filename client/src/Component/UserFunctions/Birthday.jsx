@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 import { alignPropType } from 'react-bootstrap/esm/types';
+
 const Birthday = () => {
+  const { id } = useParams();
+  const [datas, setCategory] = useState([])
+  console.log("value==>",datas);
   const login_id = localStorage.getItem('login_id')
+  const user_id = localStorage.getItem('user_id')
   const [file, setFile] = useState('');
   const navigate = useNavigate()
   const [artist, setArtist] = useState([]);
-  const[inputs, setinputs]=useState([]);
+  const[inputs, setinputs]=useState({login_id:login_id,user_id:user_id});
   console.log("value==>",file.name);
   console.log("value==>",file);
-  console.log("value==>",inputs);
+
   const setRegister=(event)=>{
     const name=event.target.name;
     const value=event.target.value;
@@ -42,7 +47,7 @@ const Birthday = () => {
 
 
     axios.post('http://localhost:5000/customize/request',inputs).then((response)=>{
-      navigate('/artHome')
+      navigate('/payment')
     })
    
 
@@ -59,7 +64,47 @@ const Birthday = () => {
         console.log('Error:', error);
       });
   }, []);
+
+  // useEffect(() => {
+  // //const complete = (id) => {
+  //   axios
+  //     .get(`http://localhost:5000/customize/complete-work/${id}`)
+  //     .then((response) => {
+  //       setCategory(response.data);
+  //       window.location.reload();
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+ 
+    // const complete = (id) => {
+    //   axios
+    //     .get(`http://localhost:5000/customize/complete-work/${id}`)
+    //     .then((response) => {
+    //       console.log(response.data);
+    //       window.location.reload();
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // };
   
+   
+  
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/customize/view-customized/${user_id}`)
+      .then((response) => {
+        setCategory(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, []);
+
+
     return (
       <>
 <div
@@ -159,9 +204,47 @@ const Birthday = () => {
     -A preview of your design will be emailed to you within 1 working day.<br/>
            -You can either confirm the design or ask for changes on it.<br/>
       -Once design is confirmed, it will be shipped out & delivered within 2-4 working days.<br/></p>
+      <div className="text-center">
+  {/* <Button variant="success" type="submit" 
+   onClick={ ()=>complete(user_id)}
+  >
+    View Status
+  </Button> */}
+</div>
+
       <hr></hr>
-    <p style={{textAlign:"center",fontSize:"2rem"}}>Top customized Gifts..</p>
-    <hr></hr>
+      <h3 style={{ textAlign: "center" }}>Your status of Previous Request</h3>
+
+      <table className="table table-striped table-bordered table-list table-sm" style={{ width: "50%", height: "300px", marginTop: "5px", marginLeft: "500px", borderWidth: "5px", borderStyle: "solid" ,borderColor:"blue"}}>
+  <thead>
+    <tr>
+      <th>wishes send to</th>
+      <th>Request date</th>
+      <th>Special Moments</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    {datas.map((user) => (
+      <tr key={user._id}>
+        <td>{user.sendto}</td>
+        <td>{user.date}</td>
+        <td>{user.subject}</td>
+        <td align="center">
+        {user.status === '2' ?"Completed" : "Working on it"}
+            </td>
+      </tr>
+    ))}
+    {/* Add more rows as needed */}
+  </tbody>
+</table>
+
+
+
+      
+    {/* <p style={{textAlign:"center",fontSize:"2rem"}}>Top customized Gifts..</p>
+    <hr></hr> */}
     {/* <table>
   <div className="design1">
     <div className="card" style={{ width: "18rem" }}>
@@ -192,7 +275,7 @@ const Birthday = () => {
   
 
 </table> */}
-<table style={{marginLeft:"200px",padding:"2rem"}}>
+{/* <table style={{marginLeft:"200px",padding:"2rem"}}>
   <tbody>
     <tr>
       <td style={{ paddingRight: "2rem" }}>
@@ -294,8 +377,8 @@ const Birthday = () => {
 </td>
     </tr>
     {/* Repeat the above structure for the remaining cards */}
-  </tbody>
-</table>
+  {/* </tbody>
+</table> */} 
 
 
 

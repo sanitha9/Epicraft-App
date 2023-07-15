@@ -53,14 +53,7 @@ groupRouter.post('/group',async(req,res)=>{
           })
         }
       })
-
-     
-
-
-  
-
-
-
+3
  groupRouter.get('/view-groups',async(req,res)=>{
         try {
             const group = await groupModel.find()
@@ -86,6 +79,33 @@ groupRouter.post('/group',async(req,res)=>{
             })
         }
         })
+
+
+        groupRouter.get('/view-approvedgroups',async(req,res)=>{
+          try {
+              const group = await groupModel.find({status:1})
+              if(group[0]!=undefined){
+                  return res.status(200).json({
+                      success:true,
+                      error:false,
+                      data:group
+                  })
+              }else{
+                  return res.status(400).json({
+                      success:false,
+                      error:true,
+                      message:"No data found"
+                  })
+              }
+          } catch (error) {
+              return res.status(400).json({
+                  success:false,
+                  error:true,
+                  message:"Something went wrong",
+                  details:error
+              })
+          }
+          })  
         groupRouter.get('/approve/:id', async (req, res) => {
           try {
             const id = req.params.id;

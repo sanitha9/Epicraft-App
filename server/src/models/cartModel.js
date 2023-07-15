@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema
 
 const cartSchema = new schema({
-    product_name: { type: String },
-    product_id: { type: String },
+    login_id:{type:mongoose.Types.ObjectId,ref:"login_tb"},
+    artname: { type: String },
+    product_id: {type:mongoose.Types.ObjectId,ref:"artitems_tb"},
     quantity: { type: String },
     product_image: { type: String },
     price: { type: String },

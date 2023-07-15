@@ -70,6 +70,7 @@ import ProductViewDes from '../UserFunctions/ProductViewDes'
 import ReviewView from '../ArtistFunctions/ReviewView'
 import ReplyComment from '../UserFunctions/ReplyComment'
 import ViewReviewAdmin from '../Admin/ViewReviewAdmin'
+import EditArtItem from '../ArtistFunctions/EditArtItem'
 
 
 
@@ -119,7 +120,7 @@ const MainRouter = () => {
             <Route path="artistnotif" element={<ArtistNotificationPage/>}/>
             <Route path="artUpcoming" element={<UpcomingEvent/>}/>
            
-            <Route path="cart" element={<Cart/>}/>
+            <Route path="cart/:id" element={<Cart/>}/>
             <Route path="payment" element={<Payment/>}/>
             <Route path="addaddress" element={<AddressPaymentCheckoutForm/>}/>
             <Route path="upload" element={<Upload/>}/>
@@ -142,6 +143,7 @@ const MainRouter = () => {
              <Route path="ReviewView" element={<ReviewView/>}/>
              <Route path="ReplyComment" element={<ReplyComment/>}/>
              <Route path="viewreviewadmin" element={<ViewReviewAdmin/>}/>
+             <Route path="editartitems/:id" element={<EditArtItem/>}/>
             
         </Routes>
     </div>

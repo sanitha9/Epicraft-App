@@ -9,12 +9,15 @@ function AddressPaymentCheckoutForm() {
   const[inputs, setinputs]=useState([]);
   console.log("value==>",inputs);
   const setRegister=(event)=>{
+    
     const name=event.target.name;
     const value=event.target.value;
     setinputs({...inputs,[name]:value});
     console.log(inputs);
   }
+  const login_id=localStorage.getItem('login_id')
   const registersubmit =(event)=>{
+    
     event.preventDefault();
     axios.post('http://localhost:5000/pay/billingaddress',inputs).then((response)=>{
       navigate('/orderconform')

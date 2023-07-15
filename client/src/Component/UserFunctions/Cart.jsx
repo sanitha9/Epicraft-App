@@ -1,36 +1,79 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 const Cart = () => {
-  const [products, setProducts] = useState([
-    { id: 1, quantity: 1 },
-    { id: 2, quantity: 1 },
-    { id: 3, quantity: 1 }
-  ]);
+  const id = localStorage.getItem('login_id');
+  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
 
-  const incrementQuantity = (productId) => {
-    setProducts((prevProducts) => {
-      return prevProducts.map((product) => {
-        if (product.id === productId) {
-          return { ...product, quantity: product.quantity + 1 };
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/cart/view-cart/${id}`);
+        const data = await response.json();
+
+        if (data.success) {
+          setProducts(data.data);
         }
-        return product;
-      });
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+
+    fetchCartItems();
+  }, [id]);
+
+  const handleRemove = (productId) => {
+    fetch(`http://localhost:5000/cart/delete-cart/${productId}`, {
+      method: 'DELETE',
     });
+    setProducts((prevItems) => prevItems.filter((item) => item._id !== productId));
   };
 
-  const decrementQuantity = (productId) => {
-    setProducts((prevProducts) => {
-      return prevProducts.map((product) => {
-        if (product.id === productId && product.quantity > 1) {
-          return { ...product, quantity: product.quantity - 1 };
+  const handleDecrement = (itemId) => {
+    setProducts((prevItems) =>
+      prevItems.map((item) => {
+        if (item._id === itemId) {
+          return {
+            ...item,
+            quantity: item.quantity > 1 ? item.quantity - 1 : 1,
+          };
         }
-        return product;
-      });
-    });
+        return item;
+      })
+    );
   };
+
+  const handleIncrement = (itemId) => {
+    setProducts((prevItems) =>
+      prevItems.map((item) => {
+        if (item._id === itemId) {
+          return {
+            ...item,
+            quantity: parseInt(item.quantity, 10) + 1,
+          };
+        }
+        return item;
+      })
+    );
+  };
+  const calculateSubtotal = () => {
+    let subtotal = 0;
+    products.forEach((item) => {
+      subtotal += item.quantity * item.price;
+    });
+    return subtotal;
+  };
+
+  const calculateTotal = () => {
+    const subtotal = calculateSubtotal();
+    const total = subtotal + 5;
+    return total;
+  };
+  
 
   return (
-    <div className='cartbody'>
+    <div className="cartbody">
       <div className="card">
         <div className="row">
           <div className="col-md-8 cart">
@@ -52,18 +95,17 @@ const Cart = () => {
                   <div className="col-2">
                     <img
                       className="img-fluid"
-                      src="https://i.imgur.com/1GrakTl.jpg"
+                      src={`/upload/${product.product_image}`}
                       alt="Product"
                     />
                   </div>
                   <div className="col">
-                    <div className="row text-muted">Shirt</div>
-                    <div className="row">Cotton T-shirt</div>
+                    <div className="row text-muted">{product.artname}</div>
                   </div>
                   <div className="col quantity">
                     <a
                       href="#"
-                      onClick={() => decrementQuantity(product.id)}
+                      onClick={() => handleDecrement(product._id)}
                       className="quantity-btn"
                     >
                       -
@@ -73,21 +115,24 @@ const Cart = () => {
                     </a>
                     <a
                       href="#"
-                      onClick={() => incrementQuantity(product.id)}
+                      onClick={() => handleIncrement(product._id)}
                       className="quantity-btn"
                     >
                       +
                     </a>
                   </div>
                   <div className="col price">
-                    € 44.00 <span className="close">✕</span>
+                    {product.price} <button className="btn btn-primary height-auto btn-sm" onClick={() => handleRemove(product._id)}>
+            X
+          </button>
                   </div>
                 </div>
               </div>
             ))}
             <div className="back-to-shop">
-              <a href="userhome">←</a>
-              <span className="text-muted">Back to shop</span>
+            <Link to={"/userhome"}>
+              {/* <link to=</link> href="userhome">←</a> */}
+              <span className="text-muted">Back to shop</span></Link>
             </div>
           </div>
           <div className="col-md-4 summary">
@@ -97,28 +142,44 @@ const Cart = () => {
               </h5>
             </div>
             <hr />
-            <div className="summary-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px', backgroundColor: '#f9f9f9', border: '1px solid #ccc', borderRadius: '5px', marginBottom: '10px' }}>
-  <div style={{ flex: 1, paddingLeft: 0 }}>
-    <span className="summary-label">ITEMS</span> {products.length}
-  </div>
-  <div className="text-right">
-    <span className="summary-label">PRICE=</span> 132.00
-  </div>
-</div>
+            <div
+              className="summary-row"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '10px',
+                backgroundColor: '#f9f9f9',
+                border: '1px solid #ccc',
+                borderRadius: '5px',
+                marginBottom: '10px',
+              }}
+            >
+              <div style={{ flex: 1, paddingLeft: 0 }}>
+                <span className="summary-label">ITEMS</span> {products.length}
+              </div>
+              <div className="text-right">
+                <span className="summary-label">PRICE=</span>{calculateSubtotal()}
+              </div>
+            </div>
 
-  <p>SHIPPING</p>
-  <select>
-    <option className="text-muted">Standard Delivery - €5.00</option>
-  </select>
+            <p>SHIPPING</p>
+            <select>
+              <option className="text-muted">Standard Delivery - €5.00</option>
+            </select>
 
+            <div
+              className="row"
+              style={{ borderTop: '1px solid rgba(0,0,0,.1)', padding: '2vh 0' }}
+            >
+              <div className="col">TOTAL PRICE</div>
+              <div className="col text-right">€{calculateTotal()}</div>
+            </div>
 
-<div className="row" style={{ borderTop: '1px solid rgba(0,0,0,.1)', padding: '2vh 0' }}>
-  <div className="col">TOTAL PRICE</div>
-  <div className="col text-right">€ 137.00</div>
-</div>
-
-<button className="cartbtn btn-checkout"><a href="addaddress">CHECKOUT</a></button>
-
+            <button className="cartbtn btn-checkout">
+            <Link to={"/addaddress"}>CHECKOUT</Link>
+              
+            </button>
           </div>
         </div>
       </div>

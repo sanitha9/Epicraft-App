@@ -106,6 +106,42 @@ artItemsRouter.post('/artitems',async(req,res)=>{
           }
         });
 
+        artItemsRouter.post('/edit-artitem/:id', async (req, res) => {
+          try {
+            const id=req.params.id
+             console.log('id',id);
+            const data ={   
+              artname:req.body.artname,
+              category_id:req.body.category_id,
+              price:req.body.price,
+              description:req.body.description,
+                   
+              
+            };
+        
+            const approve = await artItemsModel.updateOne({ _id: id }, { $set: data });
+        
+            if (approve) {
+              return res.status(200).json({
+                success: true,
+                error: false,
+                message: "Request Added",
+                details: approve
+              });
+            }
+        } catch (error) {
+        console.log(error);
+            return res.status(400).json({
+              success: false,
+              error: true,
+              message: "Something went wrong",
+              details: error
+            });
+          }
+        });
+  
+
+
 
 
 

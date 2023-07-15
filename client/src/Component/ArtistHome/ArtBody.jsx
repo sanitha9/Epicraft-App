@@ -5,10 +5,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import Pagination from 'react-bootstrap/Pagination';
+
+
+
 const ArtBody = () => {
   
   const [category, setCategory] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+const [itemsPerPage] = useState(5); // Number of items to display per page
+
 // const artPictures = [
 //     { id: 1, title: 'Artwork 1', imageUrl: 'https://img.freepik.com/free-photo/paint-brush-with-liquid-paint_144627-33549.jpg?size=626&ext=jpg&ga=GA1.1.1209395042.1683703087&semt=ais' },
 //     { id: 2, title: 'Artwork 2', imageUrl: 'https://img.freepik.com/free-vector/fruit-background-with-watercolor-orange_23-2148210582.jpg?w=740&t=st=1686806313~exp=1686806913~hmac=2fb65ce4eb16c38fedf47ead44884e0a9c901205625740f3457676bc8447f96a' },
@@ -16,13 +23,13 @@ const ArtBody = () => {
 //     // Add more art pictures as needed
 //   ];
 
-const removeEvent = (id) => {
+const removeArtitem = (id) => {
   console.log(id);
   axios
     .delete(`http://localhost:5000/artitems/delete-artitems/${id}`)
     .then(() => {
       setCategory((prevEvents) => prevEvents.filter((event) => event._id !== id));
-      toast.success('category deleted successfully!', {
+      toast.success('Art work deleted successfully!', {
         position: toast.POSITION.BOTTOM_CENTER, // Set the toast position to bottom center
       });
     })
@@ -44,6 +51,10 @@ const removeEvent = (id) => {
         console.log('Error:', error);
       });
   }, []);
+  const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentItems = category.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
 
 
@@ -94,13 +105,13 @@ const removeEvent = (id) => {
     <div className="Btns" style={{ backgroundColor: "transparent", width: "100rem", height: "5rem" }}>
       <div className='row'>
         <div className='col-lg-12 d-flex justify-content-center gap-5 text-center mt-5'>
-        <a href="upload">
+        <Link to={"/upload"}>
   <Button variant="primary" className="rounded-circle">
       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="35" fill="currentColor" className="bi bi-upload" viewBox="0 0 16 16">
         <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
         <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
       </svg>
-    </Button></a>
+    </Button></Link>
   {/* Instagram */}
   <Button variant="primary" className="rounded-circle" href="artCustomizeRequestView">
   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="35" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -125,7 +136,7 @@ const removeEvent = (id) => {
   <div className="container">
   
       <div className="row" >
-  {category.map((art) => (
+      {currentItems.map((art) => (
        
           <div key={art.id} className="col-md-4 mb-4">
             <div className="card">
@@ -133,12 +144,15 @@ const removeEvent = (id) => {
       <Dropdown.Toggle variant="" id="dropdownMenuicon">
         <i className="fas fa-ellipsis-v fa-lg text-dark"></i>
       </Dropdown.Toggle>
-      <Dropdown.Menu>
-        <Dropdown.Item href="upload">
-         <i className="fas fa-cog pe-2"></i>Edit
-        </Dropdown.Item>
+      <Dropdown.Menu> 
+      <Dropdown.Item>
+  <Link to={`/editartitems/${art._id}`}>
+    <i className="fas fa-cog pe-2"></i>Edit
+  </Link>
+</Dropdown.Item>
+
         <Dropdown.Item onClick={()=>{
-                    removeEvent(art._id);
+                    removeArtitem(art._id);
                   }}>
           <i className="fas fa-trash pe-2"></i>Delete
         </Dropdown.Item>
@@ -147,8 +161,8 @@ const removeEvent = (id) => {
     </Dropdown>
               <img  src={`/upload/${art.image}`} className="card-img-top" alt={art.artname} />
               <div className="card-body">
-                
-                <h5 className="card-title">{art.artname}</h5>
+              <h5 className="card-title">{art.artname}</h5>
+                <h5 className="card-title">RS:{art.price}</h5>
                 <p className="card-text">{art.description}</p>
              
               
@@ -158,7 +172,34 @@ const removeEvent = (id) => {
         ))}
       </div>
     </div>
+
+
+
+    <div className="pagination-container d-flex justify-content-center">
+      <Pagination>
+        <Pagination.Prev
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        />
+        {Array.from({ length: Math.ceil(category.length / itemsPerPage) }).map((_, index) => (
+          <Pagination.Item
+            key={index + 1}
+            active={index + 1 === currentPage}
+            onClick={() => setCurrentPage(index + 1)}
+          >
+            {index + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === Math.ceil(category.length / itemsPerPage)}
+        />
+      </Pagination>
+    </div>
 </div>
+
+
+
 
   </>
 

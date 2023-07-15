@@ -1,7 +1,63 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const CreateAnEvent = () => {
+
+  const [file, setFile] = useState('');
+  const navigate = useNavigate()
+  const [category, setCategory] = useState([]);
+  const[inputs, setinputs]=useState([]);
+  console.log("value==>",file.name);
+  console.log("value==>",file);
+  const setRegister=(event)=>{
+    const name=event.target.name;
+    const value=event.target.value;
+    setinputs({...inputs,[name]:value});
+    console.log(inputs);
+  }
+
+
+
+
+  const registersubmit = (event) => {
+    event.preventDefault();
+    if (file) {
+          const data = new FormData();
+          const filename = file.name
+          data.append('file', file);
+          data.append('name', filename);
+          axios.post('http://localhost:5000/exhibition/upload', data)
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
+    axios.post('http://localhost:5000/exhibition/addevent', inputs)
+      .then((response) => {
+        toast.success('Your added a New Exhibition details successfully!'); // Display success toast
+        // navigate('/admin');
+      })
+      .catch((error) => {
+        toast.error('An error occurred.'); // Display error toast
+        console.error(error);
+      });
+  };
+  useEffect(() => {
+    axios.get('http://localhost:5000/category/view-category')
+      .then((response) => {
+        setCategory(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, []);
+
   return (
     <>
       <div
@@ -31,27 +87,27 @@ const CreateAnEvent = () => {
           <form>
             {/* Input fields */}
             <label htmlFor="name">Event Name:</label>
-            <input type="text" id="name" name="name" />
+            <input type="text" id="name"name="eventName" onChange={setRegister}/>
 
             <label htmlFor="date">Date:</label>
-            <input type="date" id="date" name="date" />
+            <input type="date" id="date" name="date"onChange={setRegister} />
 
             <label htmlFor="price">Price/Seat:</label>
-            <input type="text" id="price" name="price" />
+            <input type="text" id="price" name="priceSeat"onChange={setRegister} />
 
             <label htmlFor="location">Location:</label>
-            <input type="text" id="location" name="location" />
+            <input type="text" id="location" name="location"onChange={setRegister} />
 
             <label htmlFor="category">Category:</label>
-            <select id="category" name="category">
-              <option value="">Select a category</option>
-              <option value="category1">Category 1</option>
-              <option value="category2">Category 2</option>
-              <option value="category3">Category 3</option>
+            <select id="category" name="category_id" onChange={setRegister}>
+            <option value="">Select  category</option>
+                {category.map((data)=>(
+                  <option value={data._id}>{data.categoryname}</option>
+                ))}
             </select>
 
             <label htmlFor="message">Comments:</label>
-            <textarea id="message" name="message" rows="4" cols={60}></textarea>
+            <textarea id="message" name="message" rows="4" cols={60} onChange={setRegister}></textarea>
 
             <label htmlFor="file">Upload your poster here:</label>
             <input type="file" id="file" name="file" />

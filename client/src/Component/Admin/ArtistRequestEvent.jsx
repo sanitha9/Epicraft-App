@@ -2,6 +2,9 @@ import React from 'react';
 import AdminNav from '../NavBar/AdminNav';
 
 const ArtistRequestEvent = () => {
+
+
+  
   const artistEvents = [
     {
       id: 1,

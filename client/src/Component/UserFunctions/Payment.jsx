@@ -187,11 +187,11 @@ const Payment = () => {
                             </label>
                           </div>
                         </div>
-                        <div className="col-12">
+                        {/* <div className="col-12">
                           <button type="submit" className="btn btn-primary w-100">
                             Submit
                           </button>
-                        </div>
+                        </div> */}
                       </div>
                     </form>
                   </div>
@@ -201,7 +201,9 @@ const Payment = () => {
           </div>
         </div>
         <div className="col-12">
+        <div className="col-12 text-center"> {/* Add text-center class */}
           <div className="btn btn-primary payment">Make Payment</div>
+         </div>
         </div>
       </div>
     </div>

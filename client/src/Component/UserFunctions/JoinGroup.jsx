@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserNav from '../NavBar/UserNav';
+import Pagination from 'react-bootstrap/Pagination';
 
 const JoinGroup = () => {
   const [category, setCategory] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/group/view-groups')
+      .get('http://localhost:5000/group/view-approvedgroups')
       .then((response) => {
         setCategory(response.data.data);
       })
@@ -15,6 +18,16 @@ const JoinGroup = () => {
         console.log('Error:', error);
       });
   }, []);
+
+  // Get current items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = category.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <>
@@ -27,7 +40,7 @@ const JoinGroup = () => {
             </div>
           </div>
           <div className="row">
-            {category.map((user) => (
+            {currentItems.map((user) => (
               <div className="col-lg-9" key={user._id}>
                 <ul className="list-group shadow">
                   <li className="list-group-item">
@@ -54,6 +67,27 @@ const JoinGroup = () => {
                 </ul>
               </div>
             ))}
+          </div>
+          <div className="d-flex justify-content-center mt-3">
+            <Pagination>
+              <Pagination.Prev
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
+              {Array.from(Array(Math.ceil(category.length / itemsPerPage)).keys()).map((page) => (
+                <Pagination.Item
+                  key={page + 1}
+                  active={page + 1 === currentPage}
+                  onClick={() => handlePageChange(page + 1)}
+                >
+                  {page + 1}
+                </Pagination.Item>
+              ))}
+              <Pagination.Next
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === Math.ceil(category.length / itemsPerPage)}
+              />
+            </Pagination>
           </div>
         </div>
       </div>
