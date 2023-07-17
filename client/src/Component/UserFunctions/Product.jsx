@@ -76,9 +76,12 @@ const Product = () => {
                   </div>
                   <div className="card-body card-body-cascade text-center">
                     <h4 className="card-title">
-                      <strong>
-                        <a href="ProductViewDes">{item.artname}</a>
-                      </strong>
+                
+                    <strong>
+                <Link to={`/ProductViewDes/${item._id}`}>{item.artname}</Link>
+                   </strong>
+
+
                     </h4>
                     <p className="card-text">{item.description}</p>
                     <p className="price">{item.price}</p>

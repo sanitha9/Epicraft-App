@@ -139,7 +139,7 @@ const MainRouter = () => {
              <Route path="ordermanage" element={<OrderManage/>}/>
              <Route path="EditEventdetails/:id" element={<EditEventdetails/>}/>
              <Route path="artistcreateevent" element={<ArtistRequestEvent/>}/>
-             <Route path="ProductViewDes" element={<ProductViewDes/>}/>
+             <Route path="ProductViewDes/:id" element={<ProductViewDes/>}/>
              <Route path="ReviewView" element={<ReviewView/>}/>
              <Route path="ReplyComment" element={<ReplyComment/>}/>
              <Route path="viewreviewadmin" element={<ViewReviewAdmin/>}/>

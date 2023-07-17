@@ -1,9 +1,9 @@
 const express = require('express');
 const artItemsModel = require('../models/artItemsModel');
+const { default: mongoose } = require('mongoose');
 const artItemsRouter = express.Router()
 const multer = require('multer');
-
-
+const Object = mongoose.Types.ObjectId
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -140,9 +140,93 @@ artItemsRouter.post('/artitems',async(req,res)=>{
           }
         });
   
+//  artItemsRouter.get('/view-artdescription/:id', async (req, res) => {
+          
+            
+//              try {
+//               const id=req.params.id
+//               console.log('id',id);
+//               const description = await artItemsModel.findOne({_id:id});
+//               if (description) {
+//                 return res.status(200).json({
+//                   success: true,
+//                   error: false,
+//                   data:description,
+//                 });
+//               } else {
+//                 return res.status(400).json({
+//                   success: false,
+//                   error: true,
+//                   message: 'No data found',
+//                 });
+//               }
+//             } catch (error) {
+//               return res.status(400).json({
+//                 success: false,
+//                 error: true,
+//                 message: 'Something went wrong',
+//                 details: error,
+//               });
+//             }
+//           });
 
-
-
+          artItemsRouter.get('/view-artdescription/:id', async (req, res) => {
+            try {
+              
+              const id=req.params.id
+              console.log(id);
+                const description = await artItemsModel.aggregate([
+                    
+                  {
+                    '$lookup': {
+                      'from': 'category_tbs', 
+                      'localField': 'category_id', 
+                      'foreignField': '_id', 
+                      'as': 'result'
+                    }
+                  },
+        
+        
+                        { "$unwind": "$result" },
+                      {'$match':{'_id':new Object(id)
+                      }},
+                         {
+                             "$group": {
+                                 '_id': "$_id",
+                                 'artname': { "$first": "$artname" },                        
+                                 'price': { "$first": "$price" },
+                                 'description': { "$first": "$description" },
+                                 'category': { "$first": "$category_id" },
+                                'image': { "$first": "$image" },
+                                 'categoryname': { "$first": "$result.categoryname"}
+                                //'login_id': { "$first": "$login_id" },
+                             }
+                         }
+                      ])
+              
+        
+                if (description[0] !== undefined) {
+                    return res.status(200).json({
+                        success: true,
+                        error: false,
+                        data: description[0]
+                    })
+                } else {
+                    return res.status(400).json({
+                        success: false,
+                        error: true,
+                        message: "No data found"
+                    })
+                }
+            } catch (error) {
+                return res.status(400).json({
+                    success: false,
+                    error: true,
+                    message: "Something went wrong",
+                    details: error
+                })
+            }
+        })
 
 
 

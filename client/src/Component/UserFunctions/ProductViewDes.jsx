@@ -1,14 +1,56 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 const ProductViewDes = props => {
-
+  const login_id = localStorage.getItem('login_id');
+  const { id } = useParams();
+  console.log(id);
+  const navigate = useNavigate()
+  const [description, setDescription] = useState({});
+  const[inputs, setinputs]=useState({
+    login_id:login_id,
+    
+    productid:id,
+});
+  console.log(description);
     const handleClick = () => {
+    
         // This will navigate to the reply comment page
         window.location.href = "/ReplyComment";
       };
+
+      useEffect(() => {
+        
+        axios
+          .get(`http://localhost:5000/artitems/view-artdescription/${id}`)
+          .then((response) => {
+           console.log(response);
+            setDescription(response.data.data);
+          })
+          .catch((error) => {
+            console.log('Error:', error);
+          });
+      }, []);
+
+      const setRegister=(event)=>{
+        const name=event.target.name;
+        const value=event.target.value;
+        setinputs({...inputs,[name]:value});
+        console.log(inputs);
+      }
+      const registersubmit =(event)=>{
+        event.preventDefault();
+     
+        axios.post('http://localhost:5000/comment/comment',inputs).then((response)=>{
+          navigate('/userhome')
+        })
+       
+    
+      }
   return (
-  
+
     
     
     <>
@@ -20,15 +62,14 @@ const ProductViewDes = props => {
                 >
                 
                 <a data-fslightbox="mygalley" className="rounded-4" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp">
-                  <img style={{ maxWidth: '100%', maxHeight: '100vh', margin: 'auto' }} className="rounded-4 fit" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp" alt="Product" />
+                  <img style={{ Width: '100%', height:'100%'}} className="rounded-4 fit" src={`/upload/${description.image}`} alt="Product" />
                 </a>
               </div>
             </aside>
             <main className="col-lg-6">
               <div className="ps-lg-3">
                 <h4 className="title text-dark">
-                  Quality Men's Hoodie for Winter, Men's Fashion <br />
-                  Casual Hoodie
+                {description.artname}
                 </h4>
                 <div className="d-flex flex-row my-3">
                   <div className="text-warning mb-1 me-2">
@@ -46,18 +87,17 @@ const ProductViewDes = props => {
                 </div>
 
                 <div className="mb-3">
-                  <span className="h5">$75.00</span>
-                  <span className="text-muted">/per box</span>
+                  <span className="h5"> {description.price}</span>
+                  <span className="text-muted">/per one</span>
                 </div>
 
                 <p>
-                  Modern look and quality demo item is a streetwear-inspired collection that continues to break away from the conventions of mainstream fashion. Made in Italy, these black and brown clothing low-top shirts for
-                  men.
+                {description.description}
                 </p>
 
                 <div className="row">
-                  <dt className="col-3">Type:</dt>
-                  <dd className="col-9">Regular</dd>
+                  <dt className="col-3">Category:</dt>
+                  <dd className="col-9"> {description.categoryname}</dd>
 
                   <dt className="col-3">Color</dt>
                   <dd className="col-9">Brown</dd>
@@ -181,7 +221,7 @@ const ProductViewDes = props => {
       <div className="container">
         <div className="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
           <h5 className="mb-4">Leave Comment</h5>
-          <p className="mb-2">Rate the Place</p>
+          {/* <p className="mb-2">Rate the Place</p>
           <div className="mb-4">
             <span className="star-rating">
               <a href="#"><i className="icofont-ui-rating icofont-2x"></i></a>
@@ -190,14 +230,14 @@ const ProductViewDes = props => {
               <a href="#"><i className="icofont-ui-rating icofont-2x"></i></a>
               <a href="#"><i className="icofont-ui-rating icofont-2x"></i></a>
             </span>
-          </div>
+          </div> */}
           <form>
             <div className="form-group">
-              <label>Your Comment</label>
-              <textarea className="form-control"></textarea>
+              <label>Your Comments</label>
+              <textarea className="form-control" name='comment'  onChange={setRegister}></textarea>
             </div>
             <div className="form-group">
-              <button className="btn btn-primary btn-sm" type="button" style={{marginTop:"50px"}}> Submit Comment </button>
+              <button className="btn btn-primary btn-sm" type="button" style={{marginTop:"50px"}} onClick={registersubmit}> Submit Comment </button>
             </div>
             <div className="form-group">
               <button className="btn btn-primary btn-sm" type="button" style={{marginTop:"-50px",marginLeft:"900px"}}
@@ -210,6 +250,45 @@ const ProductViewDes = props => {
           </form>
         </div>
       </div>
+
+      <div className="container">
+        <div className="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
+          <h5 className="mb-4">Your Comments</h5>
+        
+          <div className="col-md-8">
+            
+              <div className="card panel-table">
+                <div className="card-header" style={{ textAlign: 'center' }}>
+                  
+                  <div className="row" />
+                </div>
+                <div className="card-body">
+                <table className="table table-striped table-bordered table-list" style={{ width: "100%" }}>
+                    <thead>
+                      <tr>
+                        <th>username</th>
+                        <th>Comments</th>
+                        <th>product</th>
+                        <th>date</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {/* //{category.map((category, index) => ( */}
+                        <tr>
+                          <td>sdgfsHG</td>
+                          <td>hdfhteah</td>
+                          
+                        </tr>
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
     </>
   )
 }
