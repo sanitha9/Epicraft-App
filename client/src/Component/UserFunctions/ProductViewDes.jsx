@@ -9,6 +9,7 @@ const ProductViewDes = props => {
   console.log(id);
   const navigate = useNavigate()
   const [description, setDescription] = useState({});
+  const [category, setcategory] = useState([]);
   const[inputs, setinputs]=useState({
     login_id:login_id,
     
@@ -49,6 +50,18 @@ const ProductViewDes = props => {
        
     
       }
+      useEffect(() => {
+        
+        axios
+          .get(`http://localhost:5000/comment/view-comments/${id}`)
+          .then((response) => {
+           console.log(response);
+           setcategory(response.data.data);
+          })
+          .catch((error) => {
+            console.log('Error:', error);
+          });
+      }, []);
   return (
 
     
@@ -252,42 +265,29 @@ const ProductViewDes = props => {
       </div>
 
       <div className="container">
-        <div className="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
-          <h5 className="mb-4">Your Comments</h5>
-        
-          <div className="col-md-8">
-            
-              <div className="card panel-table">
-                <div className="card-header" style={{ textAlign: 'center' }}>
-                  
-                  <div className="row" />
-                </div>
-                <div className="card-body">
-                <table className="table table-striped table-bordered table-list" style={{ width: "100%" }}>
-                    <thead>
-                      <tr>
-                        <th>username</th>
-                        <th>Comments</th>
-                        <th>product</th>
-                        <th>date</th>
-                        
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {/* //{category.map((category, index) => ( */}
-                        <tr>
-                          <td>sdgfsHG</td>
-                          <td>hdfhteah</td>
-                          
-                        </tr>
-                      
-                    </tbody>
-                  </table>
-                </div>
+  <div className="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
+    <h5 className="mb-4">Review Comments</h5>
+
+    <div className="col-md-8">
+      <div className="card panel-table">
+      
+        <div className="card-body">
+          {category.map((category, index) => (
+            <div className="card mb-3" key={index}>
+              <div className="card-body">
+                <h6 className="card-title">Name: {category.name}</h6>
+                <p className="card-text">Comment: {category.comment}</p>
+                <p className="card-text">Product: {category.artname}</p>
+                <p className="card-text">Date: {category.date}</p>
               </div>
             </div>
-          </div>
+          ))}
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
     
     </>
   )

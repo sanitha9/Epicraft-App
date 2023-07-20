@@ -5,12 +5,14 @@ const CommentsRouter = express.Router()
 const Object = mongoose.Types.ObjectId
 CommentsRouter.post('/comment',async(req,res)=>{
     try{
-
+      const dateString =  new Date();
+      const date = new Date(dateString);
+      const formattedDate = date.toISOString().split('T')[0];
         const data = {
             login_id:req.body.login_id,
             comment:req.body.comment,
             productid:req.body.productid,
-            date:req.body.String,
+            date:formattedDate,
            
           }
           const savedData = await CommentsModel(data).save();
@@ -131,7 +133,8 @@ CommentsRouter.post('/comment',async(req,res)=>{
                         '_id':"$_id",
                         'name':{"$first":"$user.name"},
                         'artname':{"$first":"$item.artname"},
-                        'produc':{"$first":"$item._id"},
+                        'productid':{"$first":"$item._id"},
+                        'date':{"$first":"$date"},
                         'comment':{"$first":"$comment"}
 
                     }

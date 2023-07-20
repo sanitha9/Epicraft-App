@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CreateAnEvent = () => {
+
+
+  const artist_id = localStorage.getItem('artist_id')
+ //const { id } = useParams();
 
   const [file, setFile] = useState('');
   const navigate = useNavigate()
   const [category, setCategory] = useState([]);
-  const[inputs, setinputs]=useState([]);
+  const[inputs, setinputs]=useState({
+    artist_id:artist_id
+  });
   console.log("value==>",file.name);
   console.log("value==>",file);
   const setRegister=(event)=>{
@@ -19,9 +24,6 @@ const CreateAnEvent = () => {
     setinputs({...inputs,[name]:value});
     console.log(inputs);
   }
-
-
-
 
   const registersubmit = (event) => {
     event.preventDefault();
@@ -38,7 +40,7 @@ const CreateAnEvent = () => {
               console.error(error);
             });
         }
-    axios.post('http://localhost:5000/exhibition/addevent', inputs)
+    axios.post('http://localhost:5000/exhibition/artist-addevent', inputs)
       .then((response) => {
         toast.success('Your added a New Exhibition details successfully!'); // Display success toast
         // navigate('/admin');
@@ -110,9 +112,20 @@ const CreateAnEvent = () => {
             <textarea id="message" name="message" rows="4" cols={60} onChange={setRegister}></textarea>
 
             <label htmlFor="file">Upload your poster here:</label>
-            <input type="file" id="file" name="file" />
+            <input
+                type="file"
+                className="form-control-file"
+                name="image"
+                style={{ marginBottom: '10px', width: '100%' }}
+                onChange={(e) => {
+                  setFile(e.target.files[0]);
+                  console.log(e.target.files[0].name);
+                  setinputs({ ...inputs, image: e.target.files[0].name });
+                }}
+              />
+       
 
-            <button type="submit" style={{ marginLeft: "40%" }}>Submit</button>
+            <button type="submit" style={{ marginLeft: "40%" }} onClick={registersubmit} >Submit</button>
           </form>
         </div>
       </div>

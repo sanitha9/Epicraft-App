@@ -49,7 +49,7 @@ const UpcomingEvents = () => {
 
     useEffect(() => {
       axios
-        .get('http://localhost:5000/exhibition/view-event')
+        .get('http://localhost:5000/exhibition/user-view-event')
         .then((response) => {
           const data = response.data;
           if (data.success) {
@@ -236,6 +236,7 @@ const UpcomingEvents = () => {
                               />
                               <div className="card-body">
                                 <h5 className="card-title">
+                                  NAME:{userSlice.eventName}<br />
                                   Date: {userSlice.date}<br />
                                   Price Per Seat: {userSlice.priceSeat}
                                 </h5>

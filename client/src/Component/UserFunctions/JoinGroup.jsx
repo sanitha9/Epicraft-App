@@ -28,6 +28,17 @@ const JoinGroup = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  const user_id = localStorage.getItem('user_id');
+  const join = (id) => {
+    axios
+      .get(`http://localhost:5000/register/joingroup/${user_id}/${id}`)
+      .then((response) => {
+        console.log('response:', response);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  };
 
   return (
     <>
@@ -57,7 +68,7 @@ const JoinGroup = () => {
                             width={100}
                             className="artimg ml-lg-5 order-1 order-lg-2"
                           />
-                          <button className="btn btn-danger btn-lg" style={{ width: 100 }}>
+                          <button className="btn btn-danger btn-lg" style={{ width: 100 }} onClick={()=>{join(user._id)}}>
                             Join
                           </button>
                         </div>

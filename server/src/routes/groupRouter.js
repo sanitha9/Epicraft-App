@@ -24,7 +24,7 @@ groupRouter.post('/group',async(req,res)=>{
     try{
 
         const data = {
-           
+          login_id:req.body.login_id,
           groupname:req.body.groupname,
           coverphoto:req.body.coverphoto,
           privacy:req.body.privacy,

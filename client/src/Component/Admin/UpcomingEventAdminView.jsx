@@ -29,9 +29,37 @@ const UpcomingEventAdminView = () => {
       });
   }, []);
 
+  const approveEvent = (id) => {
+    console.log(id);
+    axios
+      .get(`http://localhost:5000/exhibition/approve-event/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  
   const removeEvent = (id) => {
+    axios
+      .delete(`http://localhost:5000/exhibition/delete-events/${id}`)
+      .then(() => {
+        setUsers((prevEvents) => prevEvents.filter((event) => event._id !== id));
+        toast.success('Event deleted successfully!', {
+          position: toast.POSITION.BOTTOM_CENTER, // Set the toast position to bottom center
+        });
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+        toast.error('Error deleting event!', {
+          position: toast.POSITION.BOTTOM_CENTER, // Set the toast position to bottom center
+        });
+      });
+  };
+
+  const rejectEvent = (id) => {
     axios
       .delete(`http://localhost:5000/exhibition/delete-events/${id}`)
       .then(() => {
@@ -50,7 +78,6 @@ const UpcomingEventAdminView = () => {
 
 
 
-
   useEffect(() => {
     axios.get('http://localhost:5000/category/view-category')
       .then((response) => {
@@ -60,10 +87,10 @@ const UpcomingEventAdminView = () => {
         console.log('Error:', error);
       });
   }, []);
-console.log(users);
+  console.log(users);
   return (
     <>
-     <ToastContainer />
+      <ToastContainer />
       <AdminNav />
       <ToastContainer />
       <div className="row justify-content-center">
@@ -77,16 +104,95 @@ console.log(users);
                 <p className="card-rate">Location: {user.location}</p>
                 <p className="card-rate">Price PerSeat: {user.priceSeat}</p>
                 <p className="card-rate">Category:{user.categoryname}</p>
-                <p className="card-description">Description:{user.description}</p>
+                {/* <p className="card-description">Description:{user.description}</p> */}
                 <div className="card-actions">
-                  <Link to={`/EditEventdetails/${user._id}`}className="edit-button">Edit</Link>
-                  <span className="button-space"></span>
-                  
-                  <button className="delete-button"
-                  onClick={()=>{
-                    removeEvent(user._id);
-                  }}
-                  >Cancel</button>
+                  {/*              
+                  {user.artist_id!== undefined ?
+              
+                   <button className="edit-button"
+                   onClick={()=>{
+                     approveEvent(user._id);
+                   }}
+                   >Approve</button>
+                  :<button className="edit-button"
+                   onClick={()=>{
+                     approveEvent(user._id);
+                   }}
+
+                 
+                
+                  }
+                  */}
+                  {/*                  
+                  {user.artist_id!== undefined ?
+              
+                   <button className="edit-button"
+                   onClick={()=>{
+                     approveEvent(user._id);
+                   }}
+                   >Approve</button>
+                  :<button className="edit-button"
+                   onClick={()=>{
+                     approveEvent(user._id);
+                   }}
+
+                 
+                
+                  } */}
+                  <div className="card-actions">
+                    {user.artist_id !== null && user.status == "0" ? (
+                      <>
+                        <button
+                          className="delete-button"
+                          onClick={() => {
+                            approveEvent(user._id);
+                          }}
+                        >
+                          Approve
+                        </button>
+                        <button
+                          className="delete-button"
+                          onClick={() => {
+                            rejectEvent(user._id);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    )  : user.artist_id !== null && user.status == "1" ?  <button
+                    className="edit-button" disabled
+                   
+                  >
+                    Approved
+                  </button>  :(
+                        <>
+                          <button className="edit-button">
+                            <Link to={`/EditEventdetails/${user._id}`}>Edit</Link>
+                          </button> &nbsp;
+                          <button
+                            className="delete-button"
+                            onClick={() => {
+                              rejectEvent(user._id);
+                            }}
+                          >
+
+                            Cancel
+                          </button>
+                        </>
+                      )}
+
+                    <span className="button-space"></span>
+
+
+                  </div>
+
+
+
+
+
+
+
+
                 </div>
               </div>
             </div>

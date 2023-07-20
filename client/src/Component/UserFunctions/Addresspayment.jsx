@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 
 function AddressPaymentCheckoutForm() {
+  const id=localStorage.getItem('login_id');
   const navigate = useNavigate()
   const [category, setCategory] = useState([]);
-  const[inputs, setinputs]=useState([]);
+  const[inputs, setinputs]=useState({
+    login_id:id,
+  });
   console.log("value==>",inputs);
   const setRegister=(event)=>{
     
@@ -15,13 +18,17 @@ function AddressPaymentCheckoutForm() {
     setinputs({...inputs,[name]:value});
     console.log(inputs);
   }
-  const login_id=localStorage.getItem('login_id')
   const registersubmit =(event)=>{
     
     event.preventDefault();
-    axios.post('http://localhost:5000/pay/billingaddress',inputs).then((response)=>{
-      navigate('/orderconform')
+    axios
+    .post(`http://localhost:5000/pay/save-order/${id}`,inputs)
+    .then((response) => {
+      console.log(response.data);
     })
+    .catch((error) => {
+      console.log('Error:', error);
+    });
    
 
   }
@@ -29,7 +36,7 @@ function AddressPaymentCheckoutForm() {
     <div className="Addressrow">
     <div className="Addresscol-75">
       <div className="Addresscontainer">
-        <form action="">
+        <form action=""onSubmit={registersubmit}>
           <div className="Addressrow">
             <div className="Addresscol-50">
               <h3>Billing Address</h3>
@@ -117,14 +124,20 @@ function AddressPaymentCheckoutForm() {
                 </div>
                 <div className="Addresscol-50">
                   <label htmlFor="cvv">CVV</label>
-                  <input type="text" id="cvv" name="cvv" placeholder={352} onChange={setRegister} />
+                  <input type="text"  name="cvv" placeholder={352} onChange={setRegister} />
+                </div>
+                <div className="Addresscol-50">
+                  <label htmlFor="amount">Amount</label>
+                  <input type="text"  name="amount" placeholder={352} />
                 </div>
               </div>
             </div>
           </div>
          
        
-          <a href="orderconform" class="Addressbtn" style={{textAlign:'center'}} onClick={registersubmit}>Continue to checkout</a>
+          <Link to="/thanks" className="Addressbtn" style={{ textAlign: 'center' }} >
+      Continue to checkout
+    </Link>
 
 
 

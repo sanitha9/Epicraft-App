@@ -71,6 +71,7 @@ import ReviewView from '../ArtistFunctions/ReviewView'
 import ReplyComment from '../UserFunctions/ReplyComment'
 import ViewReviewAdmin from '../Admin/ViewReviewAdmin'
 import EditArtItem from '../ArtistFunctions/EditArtItem'
+import ActivatedGroupView from '../UserFunctions/ActivatedGroupView'
 
 
 
@@ -125,7 +126,7 @@ const MainRouter = () => {
             <Route path="addaddress" element={<AddressPaymentCheckoutForm/>}/>
             <Route path="upload" element={<Upload/>}/>
             <Route path="UserChangePwd" element={<UserChangePwd/>}/>
-            <Route path="orderconform" element={<OrderConfirmation/>}/>
+            <Route path="thanks" element={<OrderConfirmation/>}/>
             <Route path="reserve" element={<Reserveshow/>}/>
             <Route path="reservepay" element={<ReservePayment/>}/>
             <Route path="chatuserwithartist" element={<ChatUserWithArtist/>}/>
@@ -144,6 +145,7 @@ const MainRouter = () => {
              <Route path="ReplyComment" element={<ReplyComment/>}/>
              <Route path="viewreviewadmin" element={<ViewReviewAdmin/>}/>
              <Route path="editartitems/:id" element={<EditArtItem/>}/>
+             <Route path="activatedgroupviewbyuser" element={<ActivatedGroupView/>}/>
             
         </Routes>
     </div>

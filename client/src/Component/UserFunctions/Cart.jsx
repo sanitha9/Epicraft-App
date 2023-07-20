@@ -30,13 +30,44 @@ const Cart = () => {
     setProducts((prevItems) => prevItems.filter((item) => item._id !== productId));
   };
 
+  const handleUpdateQuantity = (itemId, newQuantity) => {
+    fetch(`http://localhost:5000/cart/update-cart/${itemId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ quantity: newQuantity }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          setProducts((prevItems) =>
+            prevItems.map((item) => {
+              if (item._id === itemId) {
+                return {
+                  ...item,
+                quantity: newQuantity,
+                };
+              }
+              return item;
+            })
+          );
+        }
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  };
+
   const handleDecrement = (itemId) => {
     setProducts((prevItems) =>
       prevItems.map((item) => {
         if (item._id === itemId) {
+          const newQuantity = item.quantity > 1 ? item.quantity - 1 : 1;
+          handleUpdateQuantity(itemId, newQuantity);
           return {
             ...item,
-            quantity: item.quantity > 1 ? item.quantity - 1 : 1,
+            quantity: newQuantity,
           };
         }
         return item;
@@ -48,9 +79,11 @@ const Cart = () => {
     setProducts((prevItems) =>
       prevItems.map((item) => {
         if (item._id === itemId) {
+          const newQuantity = parseInt(item.quantity, 10) + 1;
+          handleUpdateQuantity(itemId, newQuantity);
           return {
             ...item,
-            quantity: parseInt(item.quantity, 10) + 1,
+            quantity: newQuantity,
           };
         }
         return item;

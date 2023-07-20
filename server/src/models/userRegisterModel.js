@@ -9,6 +9,8 @@ const userRegisterSchema = new schema({
     gender:{type:String},
     mobile:{type:String},
     email:{type:String},
+    group:{type:mongoose.Types.ObjectId,ref:"group_tb"},
+
 })
 
 const userRegisterModel = mongoose.model('user_register_tb',userRegisterSchema)

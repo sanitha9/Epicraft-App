@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import UserNav from '../NavBar/UserNav';
 
 const OrderConfirmation = () => {
-  const orderId = 'order1233';
-  const paymentMethod = 'Credit Card';
-  const totalAmount = '$50.00';
-  const transactionId = 'ABC123XYZ';
+  const id=localStorage.getItem('login_id')
+  
+  const [order,setOrder] = useState([]);
+  useEffect(() => {
+    fetch(`http://localhost:5000/pay/view-order/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          setOrder(data.data);
+        }
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, []);
 
   return (
     <>
@@ -31,23 +42,24 @@ const OrderConfirmation = () => {
           color: 'black',
           textShadow: '2px 2px 4px rgba(0, 0, 0, 0.4)'
         }}>
-          Thank you for your order!
+        {order.name} Thank you for your order!
         </p>
         <p style={{ textAlign: 'center',fontSize:'40px' }}>
           Your order was successfully completed.
         </p>
         <div className='paymentorder' style={{fontSize:"30px",textAlign: 'center'}}>
         <p >
-          Payment Method: {paymentMethod}
+          {/* Payment Method: {paymentMethod} */}
+         Order Date {order.date}
         </p>
         <p >
-          Total Amount: {totalAmount}
+          Total Amount:{order.price}
         </p>
         <p >
-          Transaction ID: {transactionId}
+  
         </p>
         <p >
-          Order ID: {orderId}
+          Order ID: {order.order_id}
         </p>
         </div>
       </div>
