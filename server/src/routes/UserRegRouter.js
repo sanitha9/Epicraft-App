@@ -34,11 +34,25 @@ UserRegRouter.get('/approve/:id', async (req, res) => {
 UserRegRouter.get('/joingroup/:id/:groupid', async (req, res) => {
   try {
     const id = req.params.id;
-    const groupid = req.params.groupid;
+    
+    const oldUser = await userRegisterModel.findOne({ user_id: req.body.user_id })
+    console.log(oldUser);
+    if (oldUser.group != null ) {
+     // const flag =1;
+      return res.status(406).json({
+        sucess: false,
+        error: true,
+        message: "Already joined in this group"
+        
+      })
+    }
 
+   // const id = req.params.id;
+    
+   const groupid = req.params.groupid;
     const approve = await userRegisterModel.updateOne({ _id: id }, { $set: { group:  groupid} });
 
-    if (approve && approve.modifiedCount === 1) {
+    if (approve && approve.modifiedCount === 1 ) {
       return res.status(200).json({
         success: true,
         message: 'joined group',
@@ -60,6 +74,54 @@ UserRegRouter.get('/joingroup/:id/:groupid', async (req, res) => {
   }
 });
 
+// UserRegRouter.get('/joingroup/:id/:groupid', async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     const groupid = req.params.groupid;
+
+//     const existingUser = await userRegisterModel.findOne({ _id: id });
+    
+//     if (existingUser.group !== null) {
+//       return res.status(406).json({
+//         success: false,
+//         error: true,
+//         message: "Already joined a group",
+//       });
+//     }
+
+//     // Check if the user is already part of the requested group
+//     if (existingUser.group === groupid) {
+//       return res.status(406).json({
+//         success: false,
+//         error: true,
+//         message: "Already joined in this group",
+//       });
+//     }
+
+//     const updatedUser = await userRegisterModel.updateOne(
+//       { _id: id, group: null }, // Make sure the user hasn't joined any group yet
+//       { $set: { group: groupid } }
+//     );
+
+//     if (updatedUser.nModified === 1) {
+//       return res.status(200).json({
+//         success: true,
+//         message: 'Joined group',
+//       });
+//     } else {
+//       return res.status(400).json({
+//         success: false,
+//         message: 'User not found or already joined',
+//       });
+//     }
+//   } catch (error) {
+//     return res.status(400).json({
+//       success: false,
+//       message: 'Something went wrong',
+//       details: error.message,
+//     });
+//   }
+// });
 
 UserRegRouter.get('/reject/:id', async (req, res) => {
   try {

@@ -31,6 +31,8 @@ loginRouter.post('/login',async(req,res)=>{
                 const user = await userRegisterModel.findOne({login_id:
                     oldUser._id})
                     if(user){
+                        if(oldUser.status==1){
+
                         return res.status(200).json({
                             success:true,
                             error:false,
@@ -41,13 +43,22 @@ loginRouter.post('/login',async(req,res)=>{
                             details:oldUser
 
                         })
+                    }else{
+                        return res.status(406).json({
+                            success:false,
+                            error:true,
+                            message:"waiting for admin approval!"
+            
+                        })
                     }
+                }
             }
 
             if(oldUser.role ==2){
                 const  artist= await artistRegisterModel.findOne({login_id:
                     oldUser._id})
                     if(artist){
+                        if(oldUser.status==1){
                         return res.status(200).json({
                             success:true,
                             error:false,
@@ -58,7 +69,15 @@ loginRouter.post('/login',async(req,res)=>{
                             details:oldUser
 
                         })
+                    }else{
+                        return res.status(406).json({
+                            success:false,
+                            error:true,
+                            message:"waiting for admin approval!"
+            
+                        })
                     }
+                }
             }
 
 

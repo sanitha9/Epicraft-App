@@ -3,15 +3,12 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const Product = () => {
-  const [searchValue, setSearchValue] = useState('');
+ 
   const [artItems, setArtItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6); // Set the number of items to display per page
 
-  // Function to handle search input change
-  const handleSearchChange = (e) => {
-    setSearchValue(e.target.value);
-  };
+ 
 
   useEffect(() => {
     axios
@@ -29,7 +26,7 @@ const Product = () => {
     const cartData = {
       login_id: login_id,
       product_id: item._id,
-      artname:item.artname,
+      artname: item.artname,
       quantity: 1, // You can set the quantity according to your requirement
       product_image: item.image,
       price: item.price,
@@ -56,32 +53,51 @@ const Product = () => {
 
   const totalPages = Math.ceil(artItems.length / itemsPerPage);
 
+
+const Search = () => {
+  return (
+    <div className="search-container">
+    <span><i className="fas fa-search"></i> Search here...</span>
+    <input
+      type="text"
+      placeholder="Search..."
+    />
+  </div>
+  );
+};
+
+
+
+
   return (
     <>
       <div className="page">
         <div className="container">
-          <div className="row">
-            {/* Search and filter components */}
-          </div>
+          {/* Render the Search component just above the product cards */}
+          <Search />
 
           <div className="row">
-            {artItems.map((item) => (
+            {currentItems.map((item) => (
               <div className="col-md-3" key={item._id}>
                 <div className="card card-cascade card-ecommerce wider shadow mb-5">
                   <div className="view view-cascade overlay text-center">
-                    <img className="" src={`/upload/${item.image}`} alt="" />
+                    <img
+                      className=""
+                      src={`/upload/${item.image}`}
+                      alt=""
+                      width={'300px'}
+                    />
                     <a>
                       <div className="mask rgba-white-slight" />
                     </a>
                   </div>
                   <div className="card-body card-body-cascade text-center">
                     <h4 className="card-title">
-                
-                    <strong>
-                <Link to={`/ProductViewDes/${item._id}`}>{item.artname}</Link>
-                   </strong>
-
-
+                      <strong>
+                        <Link to={`/ProductViewDes/${item._id}`}>
+                          {item.artname}
+                        </Link>
+                      </strong>
                     </h4>
                     <p className="card-text">{item.description}</p>
                     <p className="price">{item.price}</p>
@@ -91,23 +107,23 @@ const Product = () => {
                       <Link
                         to={`/cart/${item._id}`}
                         className="btn btn-primary btn-block btn-sm"
-                        style={{ width: '100px' }}
+                        style={{ width: '100px',marginLeft:'100px' }}
                         onClick={() => addToCart(item)}
-                      
                       >
-                        <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+                        <i className="fa fa-shopping-cart" aria-hidden="true" />
                       </Link>
                     </div>
-                    <div className="col-6" style={{ padding: '20px', marginLeft: '10px' }}>
-                      <Link
+                    <div
+                      className="col-6"
+                      style={{ padding: '20px', marginLeft: '10px' }}
+                    >
+                      {/* <Link
                         type="button"
                         className="btn btn-success btn-block btn-sm"
                         style={{ width: '100px', marginRight: '-20px' }}
                       >
-                        <Link
-                        to={'/addaddress'}
-                        >Buy Now</Link>
-                      </Link>
+                        <Link to={'/addaddress'}>Buy Now</Link>
+                      </Link> */}
                     </div>
                   </div>
                 </div>
@@ -116,10 +132,39 @@ const Product = () => {
           </div>
 
           <nav>
-            <ul className="pagination justify-content-center">
-              {/* Pagination components */}
-            </ul>
-          </nav>
+  <ul className="pagination justify-content-center">
+    <li className={`page-item${currentPage === 1 ? ' disabled' : ''}`}>
+      <button
+        className="page-link"
+        onClick={() => handlePageChange(currentPage - 1)}
+      >
+        Previous
+      </button>
+    </li>
+    {Array.from({ length: totalPages }).map((_, index) => (
+      <li
+        key={index}
+        className={`page-item${currentPage === index + 1 ? ' active' : ''}`}
+      >
+        <button
+          className="page-link"
+          onClick={() => handlePageChange(index + 1)}
+        >
+          {index + 1}
+        </button>
+      </li>
+    ))}
+    <li className={`page-item${currentPage === totalPages ? ' disabled' : ''}`}>
+      <button
+        className="page-link"
+        onClick={() => handlePageChange(currentPage + 1)}
+      >
+        Next
+      </button>
+    </li>
+  </ul>
+</nav>
+
         </div>
       </div>
     </>

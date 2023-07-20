@@ -2,7 +2,7 @@ import React from 'react'
 import UserNav from '../Component/NavBar/UserNav'
 import UserHeader from '../Component/UserHome/UserHeader'
 import UserBody from '../Component/UserHome/UserBody'
-import UserCards from '../Component/UserHome/UserCards'
+import PublicUserFooter from '../Component/Footer/PublicUserFooter'
 import Product from '../Component/UserFunctions/Product'
 
 const UserHomePage = () => {
@@ -13,7 +13,7 @@ const UserHomePage = () => {
    {/* <UserBody/>
    <UserCards/> */}
    <Product/>
-   
+   <PublicUserFooter/>
    </>
   )
 }

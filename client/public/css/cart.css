@@ -10,7 +10,7 @@
 .title{
     margin-bottom: 5vh;
 }
-.card{
+.cardcart{
     margin: auto;
     max-width: 950px;
     width: 100%;
@@ -112,7 +112,7 @@ input:focus::-webkit-input-placeholder
       color:transparent;
 }
 .cartbtn{
-    background-color: #000;
+    background-color: #e9a6a6;
     border-color: #000;
     color: white;
     width: 100%;

@@ -2,8 +2,8 @@ import React from 'react'
 
 const PublicUserFooter = () => {
   return (
-    <div className="footer">
-    <div className="p-3 mb-2 bg-warning text-dark" data-wow-delay="0.1s">
+    <div className="footer1">
+    {/* <div className="p-3 mb-2 bg-warning text-dark" data-wow-delay="0.1s"> */}
       <div className="container py-5">
         <div className="row g-5">
           <div className="col-lg-3 col-md-6">
@@ -71,7 +71,7 @@ const PublicUserFooter = () => {
         </div>
       </div>
     </div>
-  </div>
+  // </div>
   
   )
 }

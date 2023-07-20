@@ -2,8 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserNav from '../NavBar/UserNav';
 import Pagination from 'react-bootstrap/Pagination';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import { Navigate, useNavigate } from 'react-router-dom';
+
 
 const JoinGroup = () => {
+  const navigate= useNavigate()
   const [category, setCategory] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
@@ -29,21 +35,53 @@ const JoinGroup = () => {
     setCurrentPage(pageNumber);
   };
   const user_id = localStorage.getItem('user_id');
+  // const join = (id) => {
+  //   axios
+  //     .get(`http://localhost:5000/register/joingroup/${user_id}/${id}`)
+  //     .then((response) => {
+  //       console.log('response:', response);
+  //       console.log(user_id);
+  //       console.log(id);
+  //     })
+  //     .catch((error) => {
+  //       console.log('Error:', error);
+  //     });
+  // };
+  
+
   const join = (id) => {
     axios
       .get(`http://localhost:5000/register/joingroup/${user_id}/${id}`)
       .then((response) => {
         console.log('response:', response);
+    
+  
+        // Display a success toast message
+        toast.success('User is joined to this group!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+           
+        });
       })
       .catch((error) => {
         console.log('Error:', error);
+  
+        // Display an error toast message
+        toast.error('A user can only be a member of one group.', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000, // Milliseconds to keep the toast open (2 seconds in this example)
+         
+        });
+       
       });
+    //  navigate('/activatedgroupviewbyuser');
   };
-
+  
   return (
     <>
       <UserNav />
       <div className="artbody">
+        <ToastContainer />
         <div className="container py-5">
           <div className="row text-center text-white mb-5">
             <div className="col-lg-7 mx-auto">

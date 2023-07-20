@@ -22,7 +22,16 @@ groupRouter.post('/upload', upload.single("file"), (req, res) => {
 
 groupRouter.post('/group',async(req,res)=>{
     try{
+      const oldUser = await groupModel.findOne({ login_id: req.body.login_id })
+    if (oldUser) {
+      return res.status(406).json({
+        sucess: false,
+        error: true,
+        message: "Sorry...!!!!An artist can create only one group....."
+      })
+    }
 
+    //  const id = req.params.id;
         const data = {
           login_id:req.body.login_id,
           groupname:req.body.groupname,
@@ -40,7 +49,7 @@ groupRouter.post('/group',async(req,res)=>{
             return res.status(200).json({
               success: true,
               error: false,
-              message: "Data stored",
+              message: "Group created....",
               details: savedData
             })
           }

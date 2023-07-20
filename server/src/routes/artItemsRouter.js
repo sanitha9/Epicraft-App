@@ -24,6 +24,7 @@ artItemsRouter.post('/artitems',async(req,res)=>{
     try{
         const data = {
         login_id: req.body.login_id,
+        artist_id: req.body.artist_id,
         artname:req.body.artname,
         description:req.body.description,
         image:req.body.image,

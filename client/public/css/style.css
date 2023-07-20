@@ -313,12 +313,12 @@
 
 
 /*** Footer ***/
-.footer {
-    background: linear-gradient(rgba(0, 0, 0, .9), rgba(0, 0, 0, .9)), url(../img/carousel-bg-1.jpg) center center no-repeat;
+.footer1 {
+    background: linear-gradient(rgba(235, 168, 168, 0.9), rgba(0, 0, 0, .9)), url(../img/footerw.jpg) center center no-repeat;
     background-size: cover;
 }
 
-.footer .btn.btn-social {
+.footer1 .btn.btn-social {
     margin-right: 5px;
     width: 35px;
     height: 35px;
@@ -331,11 +331,11 @@
     transition: .3s;
 }
 
-.footer .btn.btn-social:hover {
+.footer1 .btn.btn-social:hover {
     color: var(--primary);
 }
 
-.footer .btn.btn-link {
+.footer1 .btn.btn-link {
     display: block;
     margin-bottom: 5px;
     padding: 0;
@@ -347,7 +347,7 @@
     transition: .3s;
 }
 
-.footer .btn.btn-link::before {
+.footer1 .btn.btn-link::before {
     position: relative;
     content: "\f105";
     font-family: "Font Awesome 5 Free";
@@ -355,28 +355,28 @@
     margin-right: 10px;
 }
 
-.footer .btn.btn-link:hover {
+.footer1 .btn.btn-link:hover {
     letter-spacing: 1px;
     box-shadow: none;
 }
 
-.footer .copyright {
+.footer1 .copyright {
     padding: 25px 0;
     font-size: 15px;
     border-top: 1px solid rgba(256, 256, 256, .1);
 }
 
-.footer .copyright a {
+.footer1 .copyright a {
     color: var(--light);
 }
 
-.footer .footer-menu a {
+.footer1 .footer-menu a {
     margin-right: 15px;
     padding-right: 15px;
     border-right: 1px solid rgba(255, 255, 255, .3);
 }
 
-.footer .footer-menu a:last-child {
+.footer1 .footer-menu a:last-child {
     margin-right: 0;
     padding-right: 0;
     border-right: none;

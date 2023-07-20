@@ -2,11 +2,11 @@ import React from 'react'
 
 const PublicSlider = () => {
   return (
-    <div className="container-fluid p-0 mb-5">
+    <div className="container-fluid p-0 mb-0">
     <div id="header-carousel" className="carousel slide" data-bs-ride="carousel">
       <div className="carousel-inner">
         <div className="carousel-item active">
-          <img className="w-100" src="img/pa3.jpg" alt="Image" />
+          <img className="w-100" src="img/bgb.jpg" alt="Image" />
           <div className="carousel-caption d-flex align-items-center">
             <div className="container">
               <div className="row align-items-center justify-content-center justify-content-lg-start">
@@ -26,14 +26,14 @@ const PublicSlider = () => {
                   </a>
                 </div>
                 <div className="col-lg-5 d-none d-lg-flex animated zoomIn">
-                  <img className="img-fluid" src="img/pa2.jpg" alt="" />
+                  {/* <img className="img-fluid" src="img/pa2.jpg" alt="" /> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div className="carousel-item">
-          <img className="w-100" src="img/pa4.jpg" alt="Image" />
+          <img className="w-100" src="img/colorso.jpg" alt="Image" />
           <div className="carousel-caption d-flex align-items-center">
             <div className="container">
               <div className="row align-items-center justify-content-center justify-content-lg-start">
@@ -53,7 +53,7 @@ const PublicSlider = () => {
                   </a>
                 </div>
                 <div className="col-lg-5 d-none d-lg-flex animated zoomIn">
-                  <img className="img" src="img/pa5.jpg" alt="" />
+                  {/* <img className="img" src="img/pa5.jpg" alt="" /> */}
                 </div>
               </div>
             </div>

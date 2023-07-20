@@ -3,12 +3,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Upload = () => {
-  const login_id = localStorage.getItem('login_id')
+  const id=localStorage.getItem('artist_id');
   const [file, setFile] = useState('');
   const navigate = useNavigate()
   const [category, setCategory] = useState([]);
   const[inputs, setinputs]=useState({
-    login_id:login_id,
+    artist_id:id,
 });
   console.log("value==>",file.name);
   console.log("value==>",file);
@@ -26,7 +26,8 @@ const Upload = () => {
       const filename = file.name
       data.append('file', file);
       data.append('name', filename);
-      axios.post('http://localhost:5000/artitems/upload', data)
+      axios.post(`http://localhost:5000/artitems/upload/${id}`,data)
+     
         .then((response) => {
           console.log(response);
         })

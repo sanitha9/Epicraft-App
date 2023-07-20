@@ -1,15 +1,16 @@
-
-import { Button } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 const CreateGroup = () => {
-
-
   const navigate = useNavigate()
+  const login_id=localStorage.getItem('login_id')
   // const [category, setCategory] = useState([]);
   const [file, setFile] = useState('');
-  const[inputs, setinputs]=useState([]);
+  const[inputs, setinputs]=useState({
+    login_id:login_id,
+});
   console.log("value==>",inputs);
 
   
@@ -27,6 +28,7 @@ const CreateGroup = () => {
       data.append('file', file);
       data.append('name', filename);
       axios.post('http://localhost:5000/group/upload', data)
+     
         .then((response) => {
           console.log(response);
         })
@@ -34,10 +36,26 @@ const CreateGroup = () => {
           console.error(error);
         });
     }
-    axios.post('http://localhost:5000/group/group',inputs).then((response)=>{
-      navigate('/admin')
+    axios.post(`http://localhost:5000/group/group`,inputs).then((response)=>{
+     
+       // console.log(response);
+        
+     navigate('/artHome')
     })
-   
+    .catch((error) => {
+      console.error(error);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+    });
+    
 
   }
 
@@ -66,6 +84,7 @@ const CreateGroup = () => {
             borderRadius: '4px',
           }}
         >
+            <ToastContainer/>
           <h2 style={{ marginLeft: "80px" }}>Create Group</h2>
           <form>
             <label htmlFor="groupname">Group Name:</label>

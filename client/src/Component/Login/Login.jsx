@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Login = () => {
   const navigate= useNavigate()
   const[input,setInput]=useState({});
@@ -39,13 +40,25 @@ const registersubmit = (event) => {
     } 
 
     
-}).catch((error)=>{
-console.log(error);
-})
-}
+}).catch((error) => {
+  console.error(error);
+  toast.error(error.response.data.message, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    });
+});
+};
+
   return (
     <>
       <div className='sani'>
+      <ToastContainer/>
         <div className="background2">
           <div className="shape2" />
           <div className="shape2" />

@@ -107,7 +107,7 @@ const Cart = () => {
 
   return (
     <div className="cartbody">
-      <div className="card">
+      <div className="cardcart">
         <div className="row">
           <div className="col-md-8 cart">
             <div className="title">

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
+import { Link } from 'react-router-dom';
 function AddressPaymentCheckoutForm() {
   const id=localStorage.getItem('login_id');
   const navigate = useNavigate()
+
   const [category, setCategory] = useState([]);
   const[inputs, setinputs]=useState({
     login_id:id,
@@ -18,25 +19,25 @@ function AddressPaymentCheckoutForm() {
     setinputs({...inputs,[name]:value});
     console.log(inputs);
   }
-  const registersubmit =(event)=>{
-    
+  const registersubmit = (event) => {
     event.preventDefault();
     axios
-    .post(`http://localhost:5000/pay/save-order/${id}`,inputs)
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log('Error:', error);
-    });
-   
+      .post(`http://localhost:5000/pay/save-order/${id}`, inputs)
+      .then((response) => {
+        console.log(response.data);
+        // Navigate to the "thanks" page after the order is successfully saved
+        navigate('/thanks');
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  };
 
-  }
   return (
     <div className="Addressrow">
     <div className="Addresscol-75">
       <div className="Addresscontainer">
-        <form action=""onSubmit={registersubmit}>
+        <form action="">
           <div className="Addressrow">
             <div className="Addresscol-50">
               <h3>Billing Address</h3>
@@ -78,7 +79,7 @@ function AddressPaymentCheckoutForm() {
                 </div>
                 <div className="Addresscol-50">
                   <label htmlFor="zip">Zip</label>
-                  <input type="text" id="zip" name="zipcode" placeholder={10001} onChange={setRegister} />
+                  <input type="text" id="zip" name="zipcode" onChange={setRegister} />
                 </div>
               </div>
             </div>
@@ -135,10 +136,15 @@ function AddressPaymentCheckoutForm() {
           </div>
          
        
-          <Link to="/thanks" className="Addressbtn" style={{ textAlign: 'center' }} >
-      Continue to checkout
-    </Link>
-
+          <Link
+        to="/thanks"
+        className="Addressbtn"
+        style={{ textAlign: 'center' }}
+        onClick={registersubmit}
+      >
+        Continue to checkout
+      </Link>
+   
 
 
         </form>
