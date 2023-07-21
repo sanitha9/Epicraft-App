@@ -127,7 +127,7 @@ const MainRouter = () => {
             <Route path="upload" element={<Upload/>}/>
             <Route path="UserChangePwd" element={<UserChangePwd/>}/>
             <Route path="thanks" element={<OrderConfirmation/>}/>
-            <Route path="reserve" element={<Reserveshow/>}/>
+            <Route path="reserve/:id" element={<Reserveshow/>}/>
             <Route path="reservepay" element={<ReservePayment/>}/>
             <Route path="chatuserwithartist" element={<ChatUserWithArtist/>}/>
             <Route path="chatartistwithuser" element={<ChatArtistWithUser/>}/>

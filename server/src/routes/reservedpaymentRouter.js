@@ -5,11 +5,13 @@ reservedpaymentRouter.post('/reservepayment',async(req,res)=>{
     try{
 
         const data = {
+            login_id:req.body.login_id,
             nameoncard:req.body.nameoncard,
             creditcardnumber:req.body.creditcardnumber,
             ExpMonth:req.body.ExpMonth,
             ExpYear:req.body.ExpYear,
-            cvv:req.body.cvv
+            cvv:req.body.cvv,
+            price:req.body.price
    
           }
           const savedData = await reservedpaymentModel(data).save();

@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 
 
 const ReservePayment = () => {
-
+  const { id } = useParams();
+  const login_id = localStorage.getItem('login_id');
  const navigate = useNavigate()
   const [category, setCategory] = useState([]);
-  const[inputs, setinputs]=useState([]);
+  const[inputs, setinputs]=useState({
+
+
+    login_id: login_id,
+    price: id,
+    
+});
   console.log("value==>",inputs);
   const setRegister=(event)=>{
     const name=event.target.name;
@@ -74,6 +81,10 @@ const ReservePayment = () => {
             <div className="Addresscol-50">
               <label htmlFor="cvv">CVV</label>
               <input type="text" id="cvv" name="cvv" placeholder={352} onChange={setRegister} />
+            </div>
+            <div className="Addresscol-50">
+              <label htmlFor="cvv">price</label>
+              <input type="text" id="cvv" name="price" placeholder={inputs.price} onChange={setRegister} />
             </div>
           </div>
         </div>

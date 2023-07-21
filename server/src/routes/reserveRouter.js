@@ -5,7 +5,7 @@ reserveRouter.post('/reserve',async(req,res)=>{
     try{
 
         const data = {
-           
+            login_id:req.body.login_id,
             checkin:req.body.checkin,
             checkout:req.body.checkout,
             adults:req.body.adults,

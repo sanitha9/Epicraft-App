@@ -2,6 +2,7 @@ import React, { useEffect, useState,useRef  } from 'react';
 import axios from 'axios';
 import {CDropdown, CDropdownToggle, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 const UpcomingEvents = () => {
 
@@ -241,12 +242,12 @@ const UpcomingEvents = () => {
                                   Price Per Seat: {userSlice.priceSeat}
                                 </h5>
                                 <p className="card-text">
-                                  <a href='reserve'>
-                                    <Button style={{ width: "16rem", marginTop: "2px" }}>
-                                      Reserve
-                                    </Button>
-                                  </a>
-                                </p>
+                                <Link to={`/reserve/${userSlice.priceSeat}`}>
+                                  <Button style={{ width: "16rem", marginTop: "2px" }}>
+                                    Reserve
+                                  </Button>
+                                </Link>
+                                  </p>
                               </div>
                             </div>
                           </div>

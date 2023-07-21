@@ -7,7 +7,8 @@ const reservedpaymentSchema = new schema({
     creditcardnumber:{type:String},
     ExpMonth:{type:Number},
     ExpYear:{type:Number},
-    cvv:{type:String}
+    cvv:{type:String},
+    price:{type:String}
     
     
 })
