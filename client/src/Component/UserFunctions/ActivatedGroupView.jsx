@@ -1,8 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import GroupNav from '../NavBar/GroupNav';
-
+import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ActivatedGroupView = () => {
+  const { id } = useParams();
+
+  const [Groupdetils, setGroupdetils] = useState([]);
+  const [artistdetils, setartistdetils] = useState([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    
+    axios
+      .get(`http://localhost:5000/group/groupdeatils/${id}`)
+      .then((response) => {
+        setGroupdetils(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, []);
+  useEffect(() => {
+    const artistLognId = Groupdetils.login_id;
+console.log(artistLognId);
+    axios
+      .get(`http://localhost:5000/artitems/view-artitems/${artistLognId}`)
+      .then((response) => {
+        setartistdetils(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, [Groupdetils]);
+ 
+
+
+
+  // const handleChatIconClick = () => {
+  //   // Perform any additional actions if needed
+  //   // Navigate to the next page using navigate('/next-page')
+  //   navigate(`/chat/${Groupdetils.login_id}`);
+  
+  // };
+
+
   return (
     <>
     
@@ -12,7 +55,7 @@ const ActivatedGroupView = () => {
 
     <div
       className="container-fluid page-header mb-5 p-0"
-      style={{ backgroundImage: "url(img/mr1.jpg)" }}
+      style={{ backgroundImage: "url(client/public/img/mr1.jpg)" }}
     >
       <div className="container-fluid page-header-inner py-5">
         <div className="container text-center">
@@ -32,47 +75,42 @@ const ActivatedGroupView = () => {
                     <li class="breadcrumb-item text-white active" aria-current="page">About</li>
                 </ol>
             </nav> */}
+       <Link to={`/chat/${Groupdetils.login_id}`}>
+        <i
+          className="fas fa-comment-alt text-white fa-3x ml-3"
+          style={{ cursor: 'pointer' }}
+        ></i>
+      </Link>
+       {/* <i
+        className="fas fa-comment-alt text-white fa-3x ml-3"
+        style={{ cursor: 'pointer' }}
+        onClick={handleChatIconClick}
+      ></i> */}
         </div>
       </div>
     </div>
 
     <h1 style={{ textAlign: 'center' }}>Explore the Art works</h1>
     <div className="container">
-      <div className="row">
-        <div className="col-md-4 mb-4">
-          <div className="card">
-            <img src="img/2.jpg" className="card-img-top" alt="Card 1" />
-            <div className="card-body">
-              <h5 className="card-title">tjsryjyr</h5>
-              <h5 className="card-title">tjuyruy</h5>
-              <p className="card-text">dtuturtu</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-4 mb-4">
-          <div className="card">
-            <img src="img/2.jpg" className="card-img-top" alt="Card 2" />
-            <div className="card-body">
-              <h5 className="card-title">tjsryjyr</h5>
-              <h5 className="card-title">tjuyruy</h5>
-              <p className="card-text">dtuturtu</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-4 mb-4">
-          <div className="card">
-            <img src="img/2.jpg" className="card-img-top" alt="Card 3" />
-            <div className="card-body">
-              <h5 className="card-title">tjsryjyr</h5>
-              <h5 className="card-title">tjuyruy</h5>
-              <p className="card-text">dtuturtu</p>
-            </div>
+  <div className="row">
+    {artistdetils.map((art) => (
+      <div className="col-md-4 mb-4" key={art.id}>
+        <div className="card">
+          <img src={`/upload/${art.image}`} className="card-img-top" alt="Card 1" />
+          <div className="card-body">
+            <h5 className="card-title">name: {art.artname}</h5>
+            <h5 className="card-title">RS: {art.price}</h5>
+            <p className="card-text">{art.description}</p>
           </div>
         </div>
       </div>
-    </div>
+    ))}
+  </div>
+</div>
+
+   
+    
+   
     </>
   );
 };

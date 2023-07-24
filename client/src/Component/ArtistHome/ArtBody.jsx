@@ -12,6 +12,7 @@ import Pagination from 'react-bootstrap/Pagination';
 
 const ArtBody = () => {
   
+  // const id = localStorage.getItem(login_id);
   const [category, setCategory] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 const [itemsPerPage] = useState(5); // Number of items to display per page

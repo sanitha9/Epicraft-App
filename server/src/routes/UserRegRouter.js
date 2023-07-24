@@ -35,25 +35,22 @@ UserRegRouter.get('/joingroup/:id/:groupid', async (req, res) => {
   try {
     const id = req.params.id;
     
-    const oldUser = await userRegisterModel.findOne({ user_id: req.body.user_id })
+    const oldUser = await userRegisterModel.findOne({ _id: id })
     console.log(oldUser);
     if (oldUser.group != null ) {
      // const flag =1;
       return res.status(406).json({
         sucess: false,
         error: true,
-        message: "Already joined in this group"
+        message: "Already joined in a group"
         
       })
     }
-
-   // const id = req.params.id;
-    
    const groupid = req.params.groupid;
-    const approve = await userRegisterModel.updateOne({ _id: id }, { $set: { group:  groupid} });
+    const approve = await userRegisterModel.updateOne({ _id: id }, { $set: { group:  groupid,groupstatus:'0'} });
 
     if (approve && approve.modifiedCount === 1 ) {
-      return res.status(200).json({
+      return res.status(200).json({ 
         success: true,
         message: 'joined group',
       });
@@ -73,6 +70,169 @@ UserRegRouter.get('/joingroup/:id/:groupid', async (req, res) => {
     });
   }
 });
+
+
+
+
+
+
+
+
+
+
+UserRegRouter.get('/exitgroup/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    const oldUser = await userRegisterModel.findOne({ _id: id })
+    console.log(oldUser);
+   
+    
+
+   // const id = req.params.id;
+    
+  
+    const approve = await userRegisterModel.updateMany({ _id: id }, { $set: { group:  null} });
+
+    if (approve && approve.modifiedCount === 1 ) {
+      return res.status(200).json({ 
+        success: true,
+        message: 'exit group',
+      });
+    } else if (approve && approve.modifiedCount === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'User not found or already joined',
+      });
+    } else {
+      throw new Error('Error updating user');
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: 'Something went wrong',
+      details: error.message,
+    });
+  }
+});
+
+
+
+UserRegRouter.get('/userdeatils/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    const Userdeails = await userRegisterModel.findOne({ _id: id })
+    if (Userdeails) {
+      return res.status(200).json({
+        success: true,
+        error: false,
+        data: Userdeails, // Corrected 'medicine' to 'Userdeails'
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: 'No data found',
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: true,
+      message: 'Something went wrong',
+      details: error,
+    });
+  }
+});
+
+
+UserRegRouter.get('/groupuserdeatils/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    const Userdeails = await userRegisterModel.find({ group: id })
+    if (Userdeails) {
+      return res.status(200).json({
+        success: true,
+        error: false,
+        data: Userdeails, // Corrected 'medicine' to 'Userdeails'
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: 'No data found',
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: true,
+      message: 'Something went wrong',
+      details: error,
+    });
+  }
+});
+UserRegRouter.get('/approveuseringroup/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+console.log(id);
+    const approve = await userRegisterModel.updateMany({_id: id }, { $set: { groupstatus: '1' } });
+console.log(approve);
+    if (approve && approve.modifiedCount === 1) {
+      return res.status(200).json({
+        success: true,
+        message: 'group approved',
+      });
+    } else if (approve && approve.modifiedCount === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'group not found or already approved',
+      });
+    } else {
+      throw new Error('Error updating user');
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: 'Something went wrong',
+      details: error.message,
+    });
+  }
+});
+
+
+UserRegRouter.get('/rejectuseringroup/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const reject = await userRegisterModel.deleteOne({ _id: id });
+
+    if (reject && reject.deletedCount === 1) {
+      return res.status(200).json({
+        success: true,
+        message: 'user rejected',
+      });
+    } else if (reject && reject.deletedCount === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'user not found or already rejected',
+      });
+    } else {
+      throw new Error('Error deleting group');
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: 'Something went wrong',
+      details: error.message,
+    });
+  }
+});
+
+
+
 
 // UserRegRouter.get('/joingroup/:id/:groupid', async (req, res) => {
 //   try {

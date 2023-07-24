@@ -93,7 +93,7 @@ const ArtNav = () => {
           <a href="Group" className="dropdown-item">
             Create Group
           </a>
-           <a href="groupAdd" className="dropdown-item">
+           <a href="GroupmembersManage" className="dropdown-item">
             managegroup
           </a> 
         </div>

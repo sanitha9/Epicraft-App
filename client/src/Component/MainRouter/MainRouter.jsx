@@ -54,7 +54,7 @@ import OrderConfirmation from '../UserFunctions/OrderConformation'
 import Reserveshow from '../UserFunctions/Reserveshow'
 import ReservePayment from '../UserFunctions/Reservepayment'
 import CustomizeRequestViewPage from '../../Pages/Artist/CustomizeRequestViewPage'
-import ChatUserWithArtist from '../UserFunctions/ChatUserWithArtist'
+
 import ChatArtistWithUser from '../ArtistFunctions/ChatArtistWithUser'
 import UpcomingEventAdminView from '../Admin/UpcomingEventAdminView'
 import AdminFirstPage from '../Admin/AdminFirstPage'
@@ -72,6 +72,8 @@ import ReplyComment from '../UserFunctions/ReplyComment'
 import ViewReviewAdmin from '../Admin/ViewReviewAdmin'
 import EditArtItem from '../ArtistFunctions/EditArtItem'
 import ActivatedGroupView from '../UserFunctions/ActivatedGroupView'
+import ChatUserArtist from '../UserFunctions/ChatUserArtist'
+import Test from '../UserFunctions/Test'
 
 
 
@@ -112,7 +114,7 @@ const MainRouter = () => {
             <Route path="managegroup" element={<GroupManage/>}/>
             <Route path="review" element={<ReviewMang/>}/>
             <Route path="adnot" element={<AdminNoti/>}/>
-            <Route path="groupAdd" element={<GroupAccept/>}/>
+            <Route path="GroupmembersManage" element={<GroupAccept/>}/>
 
             <Route path="groupcration" element={<GroupCration/>}/>
             <Route path="artCustomizeRequestView" element={<CustomizeRequestViewPage/>}/>
@@ -129,7 +131,7 @@ const MainRouter = () => {
             <Route path="thanks" element={<OrderConfirmation/>}/>
             <Route path="reserve/:id" element={<Reserveshow/>}/>
             <Route path="reservepay" element={<ReservePayment/>}/>
-            <Route path="chatuserwithartist" element={<ChatUserWithArtist/>}/>
+            <Route path="chat/:id" element={<ChatUserArtist/>}/>
             <Route path="chatartistwithuser" element={<ChatArtistWithUser/>}/>
              <Route path="adminfirstpage" element={<AdminFirstPage/>}/>
              <Route path="upcomingeventmanageadmin" element={<UpcomingEventAdminView/>}/>
@@ -145,7 +147,8 @@ const MainRouter = () => {
              <Route path="ReplyComment" element={<ReplyComment/>}/>
              <Route path="viewreviewadmin" element={<ViewReviewAdmin/>}/>
              <Route path="editartitems/:id" element={<EditArtItem/>}/>
-             <Route path="activatedgroupviewbyuser" element={<ActivatedGroupView/>}/>
+             <Route path="activatedgroupviewbyuser/:id" element={<ActivatedGroupView/>}/>
+             <Route path="test" element={<Test/>}/>
             
         </Routes>
     </div>

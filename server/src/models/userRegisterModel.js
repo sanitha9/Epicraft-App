@@ -10,6 +10,7 @@ const userRegisterSchema = new schema({
     mobile:{type:String},
     email:{type:String},
     group:{type:mongoose.Types.ObjectId,ref:"group_tb"},
+    groupstatus:{type:String}
 
 })
 

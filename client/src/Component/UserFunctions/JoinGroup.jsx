@@ -5,12 +5,17 @@ import Pagination from 'react-bootstrap/Pagination';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 
 const JoinGroup = () => {
-  const navigate= useNavigate()
+
+
+  const user_id = localStorage.getItem('user_id');
+  console.log(user_id);
+  const navigate = useNavigate()
   const [category, setCategory] = useState([]);
+  const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
 
@@ -25,6 +30,44 @@ const JoinGroup = () => {
       });
   }, []);
 
+
+
+
+
+  const deleteUserFromGroup = (id) => {
+    axios
+      .get(`http://localhost:5000/register/exitgroup/${user_id}`)
+      .then((response) => {
+
+        toast.success('User removed from the group successfully!', {
+          position: toast.POSITION.BOTTOM_CENTER, // Set the toast position to bottom center
+        });
+
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+        toast.error('Error removing user from the group!', {
+          position: toast.POSITION.BOTTOM_CENTER, // Set the toast position to bottom center
+        });
+      });
+  };
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/register/userdeatils/${user_id}`)
+      .then((response) => {
+        setUsers(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, []);
+
+
+
   // Get current items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -34,7 +77,7 @@ const JoinGroup = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const user_id = localStorage.getItem('user_id');
+
   // const join = (id) => {
   //   axios
   //     .get(`http://localhost:5000/register/joingroup/${user_id}/${id}`)
@@ -47,36 +90,39 @@ const JoinGroup = () => {
   //       console.log('Error:', error);
   //     });
   // };
-  
+
 
   const join = (id) => {
     axios
       .get(`http://localhost:5000/register/joingroup/${user_id}/${id}`)
       .then((response) => {
         console.log('response:', response);
-    
-  
+
+
         // Display a success toast message
-        toast.success('User is joined to this group!', {
+        toast.success('Waiting for approval by the artist to join this group.!', {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000,
-           
+
         });
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
       })
       .catch((error) => {
         console.log('Error:', error);
-  
+
         // Display an error toast message
-        toast.error('A user can only be a member of one group.', {
+        toast.error(error.response.data.message, {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000, // Milliseconds to keep the toast open (2 seconds in this example)
-         
+
         });
-       
+
       });
     //  navigate('/activatedgroupviewbyuser');
   };
-  
+
   return (
     <>
       <UserNav />
@@ -95,7 +141,15 @@ const JoinGroup = () => {
                   <li className="list-group-item">
                     <div className="media align-items-lg-center flex-column flex-lg-row p-3">
                       <div className="media-body order-2 order-lg-1">
-                        <h5 className="mt-0 font-weight-bold mb-2">{user.groupname}</h5>
+                        {/* <h5 className="mt-0 font-weight-bold mb-2">{user.groupname}</h5> */}
+                        <div>
+                          {/* <Link to={`/activatedgroupviewbyuser/${users.group}`}>  */}
+                          <h5 className="mt-0 font-weight-bold mb-2">{user.groupname}</h5>
+                          {/* </Link> */}
+ 
+                        </div>
+                        
+
                         <p className="font-italic text-muted mb-0 small">
                           {user.description}
                         </p>
@@ -106,10 +160,58 @@ const JoinGroup = () => {
                             width={100}
                             className="artimg ml-lg-5 order-1 order-lg-2"
                           />
-                          <button className="btn btn-danger btn-lg" style={{ width: 100 }} onClick={()=>{join(user._id)}}>
-                            Join
-                          </button>
+                          {user._id === users.group && users.groupstatus == 0 ? (
+                            <>
+                              <button type="button" className="btn btn-success btn-lg">
+                                Waiting
+                              </button>
+
+                              {/* <button className="btn btn-danger btn-lg" style={{ marginLeft: "200px", marginTop: "-10px" }} onClick={() => {
+                                deleteUserFromGroup(user._id);
+                              }}>
+                                Exit
+                              </button> */}
+
+                            </>
+                          ) : user._id === users.group && users.groupstatus == 1 ?
+                            <>
+                              <button type="button" className="btn btn-success btn-lg">
+                               Approved
+                              </button>
+                              <Link to={`/activatedgroupviewbyuser/${users.group}`}>
+          <button type="button" className="btn btn-success btn-lg">
+            View the group
+          </button>
+        </Link>
+
+                              <button className="btn btn-danger btn-lg" style={{ marginLeft: "200px", marginTop: "-10px" }} onClick={() => {
+                                deleteUserFromGroup(user._id);
+                              }}>
+                                Exit
+                              </button>
+                              
+                            </> :
+                            (
+                              <button
+                                type="button"
+                                className="btn btn-danger btn-lg"
+                                style={{ width: 100 }}
+                                onClick={() => {
+                                  join(user._id);
+                                }}
+                              >
+                                Join
+                              </button>
+                            )}
+
+
+                  
                         </div>
+                        
+                        <div>
+
+                        </div>
+
                       </div>
                     </div>
                   </li>

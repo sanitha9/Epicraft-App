@@ -20,6 +20,66 @@ groupRouter.post('/upload', upload.single("file"), (req, res) => {
 })
 
 
+groupRouter.get('/groupdeatils/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    const groupdetails = await groupModel.findOne({ _id: id })
+    if (groupdetails) {
+      return res.status(200).json({
+        success: true,
+        error: false,
+        data: groupdetails, // Corrected 'medicine' to 'Userdeails'
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: 'No data found',
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: true,
+      message: 'Something went wrong',
+      details: error,
+    });
+  }
+});
+groupRouter.get('/artistgrup/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    const groupdetails = await groupModel.findOne({ login_id: id })
+    if (groupdetails) {
+      return res.status(200).json({
+        success: true,
+        error: false,
+        data: groupdetails, // Corrected 'medicine' to 'Userdeails'
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: 'No data found',
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: true,
+      message: 'Something went wrong',
+      details: error,
+    });
+  }
+});
+
+
+
+
+
+
 groupRouter.post('/group',async(req,res)=>{
     try{
       const oldUser = await groupModel.findOne({ login_id: req.body.login_id })
@@ -169,6 +229,40 @@ groupRouter.post('/group',async(req,res)=>{
             });
           }
         });
+
+
+
+
+
+
+        // groupRouter.delete('/exitfrmgroup/:user_id', async (req, res) => {
+        //   try {
+        //     const userid = req.params.user_id;
+        //     const deleteduser = await groupModel.findByIdAndDelete(userid);
+        //     if (deleteduser) {
+        //       return res.status(200).json({
+        //         success: true,
+        //         error: false,
+        //         message: 'user exit successfully',
+        //         data: deleteduser,
+        //       });
+        //     } else {
+        //       return res.status(404).json({
+        //         success: false,
+        //         error: true,
+        //         message: 'user not found',
+        //       });
+        //     }
+        //   } catch (error) {
+        //     return res.status(500).json({
+        //       success: false,
+        //       error: true,
+        //       message: 'Something went wrong',
+        //       details: error,
+        //     });
+        //   }
+        // });
+
       module.exports=groupRouter
 
     

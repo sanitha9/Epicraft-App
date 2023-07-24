@@ -1,4 +1,4 @@
-.chatboxcontainer{max-width:550px; margin:auto;}
+.chatboxcontainer{max-width:550px; margin:auto;max-height:30px;}
 img{ max-width:100%;}
 .inbox_people {
   background: #f8f8f8 none repeat scroll 0 0;
@@ -130,6 +130,6 @@ img{ max-width:100%;}
 }
 .messaging { padding: 0 0 50px 0;}
 .msg_history {
-  height: 516px;
+  height:500px;
   overflow-y: auto;
 }

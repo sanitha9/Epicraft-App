@@ -73,7 +73,7 @@ return (
                   currentUsers.map((user, index) => (
                     <tr key={user._id}>
                       <th scope="row">{(currentPage - 1) * usersPerPage + index + 1}</th>
-                      <td>{user.groupname}{user._id}</td>
+                      <td>{user.groupname}</td>
                       <td>{user.privacy}</td>
                       <td>{user.description}</td>
                 <td className="text-center">

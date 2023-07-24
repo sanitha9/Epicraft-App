@@ -24,7 +24,7 @@ artItemsRouter.post('/artitems',async(req,res)=>{
     try{
         const data = {
         login_id: req.body.login_id,
-        artist_id: req.body.artist_id,
+        // artist_id: req.body.artist_id,
         artname:req.body.artname,
         description:req.body.description,
         image:req.body.image,
@@ -53,9 +53,10 @@ artItemsRouter.post('/artitems',async(req,res)=>{
       })
 
 
-      artItemsRouter.get('/view-artitems',async(req,res)=>{
+      artItemsRouter.get('/view-artitems/:artistLognId',async(req,res)=>{
         try {
-            const art = await artItemsModel.find()
+          const id = req.params.artistLognId;
+            const art = await artItemsModel.find({login_id:id});
             if(art[0]!=undefined){
                 return res.status(200).json({
                     success:true,
@@ -78,6 +79,35 @@ artItemsRouter.post('/artitems',async(req,res)=>{
             })
         }
         })
+
+
+        artItemsRouter.get('/view-artitems',async(req,res)=>{
+          try {
+              const art = await artItemsModel.find()
+              if(art[0]!=undefined){
+                  return res.status(200).json({
+                      success:true,
+                      error:false,
+                      data:art
+                  })
+              }else{
+                  return res.status(400).json({
+                      success:false,
+                      error:true,
+                      message:"No data found"
+                  })
+              }
+          } catch (error) {
+              return res.status(400).json({
+                  success:false,
+                  error:true,
+                  message:"Something went wrong",
+                  details:error
+              })
+          }
+          })
+
+
         artItemsRouter.delete('/delete-artitems/:id', async (req, res) => {
           try {
             const id = req.params.id;

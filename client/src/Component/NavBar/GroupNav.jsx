@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const GroupNav = () => {
   const navigate = useNavigate();
@@ -67,11 +67,11 @@ const GroupNav = () => {
             {/* <a href="join" className="nav-item nav-link">
               Join
             </a> */}
-            <a href="chatuserwithartistinuser" className="nav-item nav-link">
-              Chat
-            </a>
+            <Link to="/chat" className="nav-item nav-link">
+      Chat
+    </Link>
             
-            <a href="chatuserwithartistinuser" className="nav-item nav-link">
+            <a href="" className="nav-item nav-link">
                Artist Profile
             </a>
             <a href="cart" className="nav-item nav-link">

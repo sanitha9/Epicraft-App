@@ -3,12 +3,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Upload = () => {
-  const id=localStorage.getItem('artist_id');
+  const id=localStorage.getItem('login_id');
+  
   const [file, setFile] = useState('');
   const navigate = useNavigate()
   const [category, setCategory] = useState([]);
   const[inputs, setinputs]=useState({
-    artist_id:id,
+    login_id:id,
 });
   console.log("value==>",file.name);
   console.log("value==>",file);
