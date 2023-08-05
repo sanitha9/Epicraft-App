@@ -70,9 +70,9 @@ billingaddressRouter.get('/view-order/:id', async (req, res) => {
     });
   }
 });
-billingaddressRouter.get('/view-myorder/:id', async (req, res) => {
+billingaddressRouter.get('/admin-myorder/', async (req, res) => {
   try {
-    const id=req.params.id;
+   
     const users = await billingaddressModel.aggregate([
       {
         '$lookup': {
@@ -85,19 +85,19 @@ billingaddressRouter.get('/view-myorder/:id', async (req, res) => {
       {
         "$unwind": "$result"
       },
-      {
-        $match:{'login_id':new mongoose.Types.ObjectId(id)},
-      },
+    
       {
         "$group": {
           '_id': "$_id",
-          'name': { "$first": "$date" },
+          'name': { "$first": "$name" },
+          'date': { "$first": "$date" },
           'order_id': { "$first": "$order_id" },
           'quantity': { "$first": "$quantity" },
+          'status': { "$first": "$status" },
           'artname': { "$first": "$result.artname" },
           'price': { "$first": "$result.price" },
           'image': { "$first": "$result.image" },
-          'login_id': { "$first": "$login._id" },
+          'login_id': { "$first": "$login_id" },
         }
       }
     ])
@@ -126,6 +126,165 @@ billingaddressRouter.get('/view-myorder/:id', async (req, res) => {
     })
   }
 })
+billingaddressRouter.get('/view-myorder/:id', async (req, res) => {
+  try {
+    const id=req.params.id;
+    const users = await billingaddressModel.aggregate([
+      {
+        '$lookup': {
+          'from': 'artitems_tbs', 
+          'localField': 'product_id', 
+          'foreignField': '_id', 
+          'as': 'result'
+        }
+      },
+      {
+        "$unwind": "$result"
+      },
+      {
+        $match:{'login_id':new mongoose.Types.ObjectId(id)},
+      },
+      {
+        "$group": {
+          '_id': "$_id",
+          'name': { "$first": "$name" },
+          'date': { "$first": "$date" },
+          'order_id': { "$first": "$order_id" },
+          'quantity': { "$first": "$quantity" },
+          'artname': { "$first": "$result.artname" },
+          'price': { "$first": "$result.price" },
+          'image': { "$first": "$result.image" },
+          'login_id': { "$first": "$login_id" },
+        }
+      }
+    ])
+
+
+
+    if (users[0] != undefined) {
+      return res.status(200).json({
+        success: true,
+        error: false,
+        data: users
+      })
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "No data found"
+      })
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: true,
+      message: "Something went wrong",
+      details: error
+    })
+  }
+})
+
+billingaddressRouter.get('/track-order/:id', async (req, res) => {
+  try {
+    const id=req.params.id;
+    const users = await billingaddressModel.aggregate([
+      {
+        '$lookup': {
+          'from': 'artitems_tbs', 
+          'localField': 'product_id', 
+          'foreignField': '_id', 
+          'as': 'result'
+        }
+      },
+      {
+        "$unwind": "$result"
+      },
+      {
+        $match:{'order_id':new mongoose.Types.ObjectId(id)},
+      },
+      {
+        "$group": {
+          '_id': "$_id",
+          'name': { "$first": "$date" },
+          'order_id': { "$first": "$order_id" },
+          'quantity': { "$first": "$quantity" },
+          'artname': { "$first": "$result.artname" },
+          'price': { "$first": "$result.price" },
+          'status': { "$first": "$status" },
+          'image': { "$first": "$result.image" },
+          'login_id': { "$first": "$login_id" },
+        }
+      }
+    ])
+
+
+
+    if (users[0] != undefined) {
+      return res.status(200).json({
+        success: true,
+        error: false,
+        data: users
+      })
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "No data found"
+      })
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: true,
+      message: "Something went wrong",
+      details: error
+    })
+  }
+})
+billingaddressRouter.get('/view-details/:trackingNumber', async (req, res) => {
+  try {
+    const trackingNumber = req.params.trackingNumber;
+
+    const order = await billingaddressModel.aggregate([
+      {
+        $match: { order_id: trackingNumber }, 
+      },
+      {
+        '$lookup': {
+          'from': 'artitems_tbs', 
+          'localField': 'product_id', 
+          'foreignField': '_id', 
+          'as': 'result'
+        }
+      },
+      {
+        $unwind: '$result',
+      },
+      {
+        $project: {
+          _id: 1,
+          date: 1,
+          order_id: 1,
+          medicinequantity: 1,
+          totalAmount: 1,
+          address: 1,
+          status: 'processing',
+          artname: '$result.artname',
+          price: '$result.price',
+        },
+      },
+    ]);
+
+    if (order.length > 0) {
+      res.status(200).json({ success: true, data: order[0] }); 
+    } else {
+      res.status(404).json({ success: false, message: 'Order not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Error fetching order details' });
+    console.error(err);
+  }
+});
 billingaddressRouter.post('/save-order/:id', async (req, res) => {
   try {
     const id = req.params.id;
@@ -168,7 +327,7 @@ billingaddressRouter.post('/save-order/:id', async (req, res) => {
         time: req.body.time,
         date: formattedDate,
         totalAmount:totalAmount,
-        status: 0,
+        status:'processing',
       });
 
       datas.push(await orderData.save());

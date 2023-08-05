@@ -202,7 +202,13 @@ const ArtistReg = () => {
               <span className="errormsg" style={{ color: 'red' }}>
                 {formErrors.phone}
               </span>
-              <input type="tel" name="phone" onChange={setRegister}  className="custom-form-control"/>
+              <input type="tel" name="phone" onChange={setRegister} onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key) || event.target.value.length >= 10) {
+                    event.preventDefault();
+                  }
+                }}
+                required
+    className="custom-form-control"/>
             </div>
             <div className="custom-form-wrapper">
               <label htmlFor="custom-email">Email</label>

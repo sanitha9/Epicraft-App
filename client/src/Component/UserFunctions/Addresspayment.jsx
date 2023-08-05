@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Link } from 'react-router-dom';
 function AddressPaymentCheckoutForm() {
+  const { price } = useParams();
+  console.log(price);
   const id=localStorage.getItem('login_id');
   const navigate = useNavigate()
 
   const [category, setCategory] = useState([]);
   const[inputs, setinputs]=useState({
     login_id:id,
+    price:price,
   });
+
   console.log("value==>",inputs);
   const setRegister=(event)=>{
     
@@ -128,9 +132,10 @@ function AddressPaymentCheckoutForm() {
                   <input type="text"  name="cvv" placeholder={352} onChange={setRegister} />
                 </div>
                 <div className="Addresscol-50">
-                  <label htmlFor="amount">Amount</label>
-                  <input type="text"  name="amount" placeholder={352} />
+                   <label htmlFor="amount">Amount</label>
+                 <input type="text" name="amount" value={inputs.price} readOnly />
                 </div>
+  );
               </div>
             </div>
           </div>

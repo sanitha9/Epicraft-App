@@ -35,7 +35,27 @@ console.log(artistLognId);
       });
   }, [Groupdetils]);
  
+  const addToCart = (item) => {
+    const login_id = localStorage.getItem('login_id');
+    const cartData = {
+      login_id: login_id,
+      product_id: item._id,
+      artname: item.artname,
+      quantity: 1, // You can set the quantity according to your requirement
+      product_image: item.image,
+      price: item.price,
+    };
 
+    axios
+      .post('http://localhost:5000/cart/add-to-cart', cartData)
+      .then((response) => {
+        console.log('Item added to cart:', response.data);
+        // Perform any additional actions after adding to the cart
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  };
 
 
   // const handleChatIconClick = () => {
@@ -101,7 +121,17 @@ console.log(artistLognId);
             <h5 className="card-title">name: {art.artname}</h5>
             <h5 className="card-title">RS: {art.price}</h5>
             <p className="card-text">{art.description}</p>
+           
           </div>
+          <Link
+              to={`/cart/${art._id}`}
+              className="btn btn-primary btn-block btn-sm"
+              style={{ width: '100px', marginLeft: '100px' }}
+              onClick={() => addToCart(art)}
+            >
+              <i className="fa fa-shopping-cart" aria-hidden="true" />
+            </Link>
+
         </div>
       </div>
     ))}

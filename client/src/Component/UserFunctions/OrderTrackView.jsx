@@ -3,80 +3,66 @@ import React, { useState } from 'react';
 const OrderTrackView = () => {
   const [orderData, setOrderData] = useState(null);
 
-  const trackOrder = (event) => {
-    event.preventDefault();
-
-    // Get the input value
-    const orderId = document.getElementById('order-id').value;
-
-    // Make an API call to fetch the order details based on the order ID
-    // Replace this with your actual API call implementation
-
-    // Mock data for demonstration purposes
-    const mockOrderData = {
-      id: orderId,
-      status: 'in-progress',
-      estimatedDelivery: 'July 5, 2023',
-      address: '1234 Main St, City, State, ZIP'
-    };
-
-    setOrderData(mockOrderData);
+  const trackOrder = async (trackingNumber) => {
+    try {
+      const response = await fetch(`http://localhost:5000/pay/view-details/${trackingNumber}`);
+      const data = await response.json();
+      if (data.success) {
+        setOrderData(data.data);
+      } else {
+        setOrderData(null);
+      }
+    } catch (error) {
+      console.error('Error fetching order details:', error);
+      setOrderData(null);
+    }
   };
 
-  // Function to determine the CSS class based on the order status
   const getStatusClass = (status) => {
-    switch (status) {
-      case 'in-progress':
-        return 'status-in-progress';
-      case 'delivered':
-        return 'status-delivered';
-      case 'failed':
-        return 'status-failed';
-      default:
-        return '';
-    }
+    // Implement logic to return the appropriate class based on the status (e.g., 'processing', 'shipped', 'delivered')
+    // Example: if (status === 'processing') return 'processing-class';
   };
 
-  // Function to determine the status text based on the order status
   const getStatusText = (status) => {
-    switch (status) {
-      case 'in-progress':
-        return 'In Progress';
-      case 'delivered':
-        return 'Delivered';
-      case 'failed':
-        return 'Failed';
-      default:
-        return '';
-    }
+    // Implement logic to return the appropriate text based on the status (e.g., 'Processing', 'Shipped', 'Delivered')
+    // Example: if (status === 'processing') return 'Processing';
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const trackingNumber = document.getElementById('order-id').value;
+    trackOrder(trackingNumber);
   };
 
   return (
     <div className="orderbody">
-      <h1 className="orderh1 ">User Order Tracking</h1>
-<div className='ordertrack'>
-      <form className="order-form" onSubmit={trackOrder}>
-        <input type="text" id="order-id" placeholder="Enter Order ID" required />
-        <input type="submit" value="Track Order" />
-      </form>
+      <h1 className="orderh1">User Order Tracking</h1>
+      <div className="ordertrack">
+        <form className="order-form" onSubmit={handleSubmit}>
+          <input type="text" id="order-id" placeholder="Enter Order ID" required />
+          <input type="submit" value="Track Order" />
+        </form>
       </div>
 
       {orderData && (
         <div className="order-container">
           <div className="order-status">
-            <div className={`status-circle ${getStatusClass(orderData.status)}`}></div>
+            <div className={`status-circle ${getStatusClass(orderData.status)}`} />
             <div className="status-text">{getStatusText(orderData.status)}</div>
           </div>
           <div className="order-details">
-            <p>Order ID: {orderData.id}</p>
-            <p>Estimated Delivery: {orderData.estimatedDelivery}</p>
+            <p>Order ID: {orderData.order_id}</p>
+            <p>Product Name: {orderData.artname}</p>
+            <p>Price: {orderData.price}</p>
+            <p>Estimated Delivery: {orderData.date}</p>
             <p>Shipping Address:</p>
             <p>{orderData.address}</p>
+            <p>Delivery Status:{orderData.status}</p>
           </div>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default OrderTrackView;

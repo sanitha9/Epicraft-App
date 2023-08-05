@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
 const ChatUserArtist = () => {
+  const [chat, setChat] = useState([]);
   const { id } = useParams();
   const login_id = localStorage.getItem('login_id');
   const[inputs, setinputs]=useState({
@@ -20,7 +21,7 @@ const ChatUserArtist = () => {
   const registersubmit = (event) => {
     event.preventDefault();
   
-    axios.post('http://localhost:5000/chat/chat', inputs)
+    axios.post(`http://localhost:5000/chat/chat`, inputs)
       .then((response) => {
         toast.success('Your added a message successfully!'); // Display success toast
         // navigate('/admin');
@@ -30,6 +31,19 @@ const ChatUserArtist = () => {
         console.error(error);
       });
   };
+
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/chat/view-chat/${login_id}')
+      .then((response) => {
+        setChat(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, []);
+
+
   return (
     <>
       
@@ -63,11 +77,8 @@ const ChatUserArtist = () => {
               
                 <div className="type_msg">
                   <div className="input_msg_write">
-                    <input
-                      type="text"
-                      className="write_msg"
-                      placeholder="Type a message"
-                    />
+                    <p>nnmnmnmn</p>
+                    
                     {/* <button className="msg_send_btn" type="button">
                       <i className="fa fa-paper-plane-o" aria-hidden="false" />
                     </button> */}

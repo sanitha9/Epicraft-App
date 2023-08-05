@@ -42,6 +42,7 @@ const Reserveshow = () => {
     event.preventDefault();
     axios.post('http://localhost:5000/reserve/reserve', inputs).then((response) => {
       navigate('/reservepay');
+     
     });
   };
 
@@ -120,9 +121,19 @@ const Reserveshow = () => {
                     <span className="reserveform-label">Amount</span>
                     <input className="reserveform-control" type="text" name="amount" value={inputs.amount} readOnly />
                   </div>
-                  <Link to="/reservepay" className="reservesubmit-btn" style={{ textAlign: 'center' }} onClick={registersubmit}>
-                    Reserve
-                  </Link>
+                  {/* <Link to={`/reserve/${userSlice.priceSeat}`}> */}
+                  <Link
+  to={`/reservepay/${inputs.amount}`}
+  className="reservesubmit-btn"
+  style={{ textAlign: 'center' }}
+   onClick={registersubmit}
+>
+  Reserve and Pay
+</Link>
+
+                  {/* <Link to={`/reservepay/${inputs.amount}`}>" className="reservesubmit-btn" style={{ textAlign: 'center' }} onClick={registersubmit}/>
+                  Reserve
+                  </Link> */}
                 </form>
               </div>
             </div>

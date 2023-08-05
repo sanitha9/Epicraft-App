@@ -210,7 +210,7 @@ const Cart = () => {
             </div>
 
             <button className="cartbtn btn-checkout">
-            <Link to={"/addaddress"}>CHECKOUT</Link>
+            <Link to={`/addaddress/${calculateTotal()}`}>CHECKOUT</Link>
               
             </button>
           </div>

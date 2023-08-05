@@ -1,7 +1,34 @@
-import React from 'react'
-import UserNav from '../NavBar/UserNav'
+import React, { useEffect, useState } from 'react';
+import UserNav from '../NavBar/UserNav';
+import axios from 'axios';
 
 const Search = () => {
+  const [artItems, setArtItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedArtist, setSelectedArtist] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/register/view-artist')
+      .then((response) => {
+        setArtItems(response.data.data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  }, []);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleArtistClick = (artist) => {
+    setSelectedArtist(artist);
+  };
+
+  const filteredArtItems = artItems.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <>
     <UserNav/>
@@ -21,98 +48,54 @@ const Search = () => {
           <div className="row no-gutters">
             <div className="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
               <div className="users-container">
-                <div className="chat-search-box">
-                  <div className="input-group">
-                    <input className="form-control" placeholder="Search" />
-                    <div className="input-group-btn">
-                      <button type="button" className="btn btn-info" style={{marginTop:'12px',height:'50%'}}>
-                        <i className="fa fa-search" />
-                      </button>
-                     
-                    </div>
+              <div className="chat-search-box">
+                <div className="input-group">
+                  <input
+                    className="form-control"
+                    placeholder="Search"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                  />
+                  <div className="input-group-btn">
+                    <button
+                      type="button"
+                      className="btn btn-info"
+                      style={{ marginTop: '12px', height: '50%' }}
+                    >
+                      <i className="fa fa-search" />
+                    </button>
                   </div>
                 </div>
+              </div>
                 <h4 className='text-center'>Artists</h4>
                 <ul className="users">
-                  <li className="person" data-chat="person1">
-                    <div className="user">
-                      <img
-                        src="https://www.bootdey.com/img/Content/avatar/avatar3.png"
-                        alt="Retail Admin"
-                      />
-                      <span className="status busy" />
-                    </div>
-                    <p className="name-time">
-                      <span className="name">Steve Bangalter</span>
-                      <span className="time">15/02/2019</span>
-                    </p>
-                  </li>
-                  <li className="person" data-chat="person1">
-                    <div className="user">
-                      <img
-                        src="https://www.bootdey.com/img/Content/avatar/avatar1.png"
-                        alt="Retail Admin"
-                      />
-                      <span className="status offline" />
-                    </div>
-                    <p className="name-time">
-                      <span className="name">Steve Bangalter</span>
-                      <span className="time">15/02/2019</span>
-                    </p>
-                  </li>
-                  <li className="person active-user" data-chat="person2">
-                    <div className="user">
-                      <img
-                        src="https://www.bootdey.com/img/Content/avatar/avatar2.png"
-                        alt="Retail Admin"
-                      />
-                      <span className="status away" />
-                    </div>
-                    <p className="name-time">
-                      <span className="name">Peter Gregor</span>
-                      <span className="time">12/02/2019</span>
-                    </p>
-                  </li>
-                  <li className="person" data-chat="person3">
-                    <div className="user">
-                      <img
-                        src="https://www.bootdey.com/img/Content/avatar/avatar3.png"
-                        alt="Retail Admin"
-                      />
-                      <span className="status busy" />
-                    </div>
-                    <p className="name-time">
-                      <span className="name">Jessica Larson</span>
-                      <span className="time">11/02/2019</span>
-                    </p>
-                  </li>
-                  <li className="person" data-chat="person4">
-                    <div className="user">
-                      <img
-                        src="https://www.bootdey.com/img/Content/avatar/avatar4.png"
-                        alt="Retail Admin"
-                      />
-                      <span className="status offline" />
-                    </div>
-                    <p className="name-time">
-                      <span className="name">Lisa Guerrero</span>
-                      <span className="time">08/02/2019</span>
-                    </p>
-                  </li>
-                  <li className="person" data-chat="person5">
-                    <div className="user">
-                      <img
-                        src="https://www.bootdey.com/img/Content/avatar/avatar5.png"
-                        alt="Retail Admin"
-                      />
-                      <span className="status away" />
-                    </div>
-                    <p className="name-time">
-                      <span className="name">Michael Jordan</span>
-                      <span className="time">05/02/2019</span>
-                    </p>
-                  </li>
-                </ul>
+                {filteredArtItems.length > 0 ? (
+                  filteredArtItems.map((item) => (
+                    <li
+                      className={`person ${
+                        selectedArtist && selectedArtist._id === item._id ? 'active' : ''
+                      }`}
+                      data-chat="person1"
+                      key={item._id}
+                      onClick={() => handleArtistClick(item)}
+                    >
+                      <div className="user">
+                        <img
+                          src="https://www.bootdey.com/img/Content/avatar/avatar3.png"
+                          alt="Retail Admin"
+                        />
+                        <span className="status busy" />
+                      </div>
+                      <p className="name-time">
+                        <span className="name">{item.name}</span>
+                        <span className="time">15/02/2019</span>
+                      </p>
+                    </li>
+                  ))
+                ) : (
+                  <li>No artists found</li>
+                )}
+              </ul>
               </div>
             </div>
             <div className="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
@@ -123,57 +106,6 @@ const Search = () => {
               </div>
               <div className="chat-container">
                 <ul className="chat-box chatContainerScroll">
-                  <li className="chat-left">
-                    <div className="chat-avatar">
-                      <img
-                        src="https://www.bootdey.com/img/Content/avatar/avatar3.png"
-                        alt="Retail Admin"
-                      />
-                      <div className="chat-name">Russell</div>
-                    </div>
-                    <div className="chat-text">
-                      Hello, I'm Russell.
-                      <br />
-                      How can I help you today?
-                    </div>
-                    <div className="chat-hour">
-                      08:55 <span className="fa fa-check-circle" />
-                    </div>
-                  </li>
-                  <li className="chat-right">
-                    <div className="chat-hour">
-                      08:56 <span className="fa fa-check-circle" />
-                    </div>
-                    <div className="chat-text">
-                      Hi, Russell
-                      <br /> I need more information about Developer Plan.
-                    </div>
-                    <div className="chat-avatar">
-                      <img
-                        src="https://www.bootdey.com/img/Content/avatar/avatar3.png"
-                        alt="Retail Admin"
-                      />
-                      <div className="chat-name">Sam</div>
-                    </div>
-                  </li>
-                  <li className="chat-left">
-                    <div className="chat-avatar">
-                      <img
-                        src="https://www.bootdey.com/img/Content/avatar/avatar3.png"
-                        alt="Retail Admin"
-                      />
-                      <div className="chat-name">Russell</div>
-                    </div>
-                    <div className="chat-text">
-                      Are we meeting today?
-                      <br />
-                      Project has been already finished and I have results to
-                      show you.
-                    </div>
-                    <div className="chat-hour">
-                      08:57 <span className="fa fa-check-circle" />
-                    </div>
-                  </li>
                   <li className="chat-right">
                     <div className="chat-hour">
                       08:59 <span className="fa fa-check-circle" />
@@ -205,39 +137,6 @@ const Search = () => {
                     </div>
                     <div className="chat-hour">
                       08:57 <span className="fa fa-check-circle" />
-                    </div>
-                  </li>
-                  <li className="chat-right">
-                    <div className="chat-hour">
-                      08:59 <span className="fa fa-check-circle" />
-                    </div>
-                    <div className="chat-text">
-                      Have you faced any problems at the last phase of the
-                      project?
-                    </div>
-                    <div className="chat-avatar">
-                      <img
-                        src="https://www.bootdey.com/img/Content/avatar/avatar4.png"
-                        alt="Retail Admin"
-                      />
-                      <div className="chat-name">Jin</div>
-                    </div>
-                  </li>
-                  <li className="chat-left">
-                    <div className="chat-avatar">
-                      <img
-                        src="https://www.bootdey.com/img/Content/avatar/avatar3.png"
-                        alt="Retail Admin"
-                      />
-                      <div className="chat-name">Russell</div>
-                    </div>
-                    <div className="chat-text">
-                      Actually everything was fine.
-                      <br />
-                      I'm very excited to show this to our team.
-                    </div>
-                    <div className="chat-hour">
-                      07:00 <span className="fa fa-check-circle" />
                     </div>
                   </li>
                 </ul>

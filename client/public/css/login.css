@@ -126,3 +126,6 @@ input{
 .social2 i{
   margin-right: 4px;
 }
+.error-red {
+    color: red;
+  }

@@ -2,6 +2,9 @@ const express = require('express')
 const userRegisterModel = require('../models/userRegisterModel')
 const loginModel = require('../models/loginModel')
 const artistRegisterModel = require('../models/artistRegisterModel')
+const { default: mongoose } = require('mongoose')
+
+const objectid = mongoose.Types.ObjectId
 const UserRegRouter = express.Router()
 UserRegRouter.get('/approve/:id', async (req, res) => {
   try {
@@ -389,8 +392,9 @@ UserRegRouter.get('/view-single-user/:id', async (req, res) => {
     });
   }
 });
-UserRegRouter.get('/view-artist', async (req, res) => {
+UserRegRouter.get('/view-artist/:id', async (req, res) => {
   try {
+    const login_id= req.params.id; 
     const artist = await artistRegisterModel.aggregate([
       {
         '$lookup': {
@@ -404,6 +408,12 @@ UserRegRouter.get('/view-artist', async (req, res) => {
       {
         "$unwind": "$login"
       },
+      {
+
+        '$match': { 'login._id': new objectid (login_id),
+       
+      }
+    },
       {
         "$group": {
           '_id': "$_id",
@@ -553,6 +563,45 @@ UserRegRouter.post('/artistReg', async (req, res) => {
     })
   }
 })
+
+
+
+UserRegRouter.get('/view-chatusers/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const medicine = await userRegisterModel.findOne({ login_id: id });
+    if (medicine) {
+      return res.status(200).json({
+        success: true,
+        error: false,
+        data: medicine,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: 'No data found',
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: true,
+      message: 'Something went wrong',
+      details: error,
+    });
+  }
+});
+
+
+
+
+
+
+
+
+
+
 
 
 module.exports = UserRegRouter

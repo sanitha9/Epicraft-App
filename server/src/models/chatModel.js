@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
 const chatSchema = new schema({
-    login_id:{type:mongoose.Types.ObjectId,ref:"login_tb"},
+    // login_id:{type:mongoose.Types.ObjectId,ref:"login_tb"},
+    login_id:{type:mongoose.Types.ObjectId,ref:"user_register_tb"},
     artistloginid:{type:String},
     message:{type:String},
     sender:{type:String},

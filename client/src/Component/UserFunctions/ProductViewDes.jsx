@@ -73,10 +73,25 @@ const ProductViewDes = props => {
             <aside className="col-lg-6">
               <div className="border rounded-4 mb-3 d-flex justify-content-center"style={{ width: "500px", height: "500px" }}
                 >
+                  <a
+  data-fslightbox="mygalley"
+  className="rounded-4"
+  target="_blank"
+  data-type="image"
+  href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp"
+>
+  <img
+    style={{ width: '100%', height: '100%' }}
+    className="rounded-4 fit"
+    src={`/upload/${description.image}`}
+    alt="Product"
+  />
+</a>
+
                 
-                <a data-fslightbox="mygalley" className="rounded-4" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp">
+                {/* <a data-fslightbox="mygalley" className="rounded-4" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp">
                   <img style={{ Width: '100%', height:'100%'}} className="rounded-4 fit" src={`/upload/${description.image}`} alt="Product" />
-                </a>
+                </a> */}
               </div>
             </aside>
             <main className="col-lg-6">
@@ -252,14 +267,14 @@ const ProductViewDes = props => {
             <div className="form-group">
               <button className="btn btn-primary btn-sm" type="button" style={{marginTop:"50px"}} onClick={registersubmit}> Submit Comment </button>
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <button className="btn btn-primary btn-sm" type="button" style={{marginTop:"-50px",marginLeft:"900px"}}
                
              
              
                onClick={handleClick}
                >View Reply</button>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>

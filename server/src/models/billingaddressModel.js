@@ -20,7 +20,8 @@ const billingSchema = new schema({
     creditcardnumb:{type:Number},
     Expmonth:{type:String},
     ExpYear:{type:Number},
-    cvv:{type:Number}
+    cvv:{type:Number},
+    status:{type:String}
 })
 
 const billingaddressModel = mongoose.model('billingaddress_tb', billingSchema)

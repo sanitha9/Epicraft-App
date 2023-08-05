@@ -99,10 +99,10 @@ const ArtNav = () => {
         </div>
       </div>
       
-      <a href="ReviewView" className="nav-item nav-link">
+      {/* <a href="ReviewView" className="nav-item nav-link">
         Reviews
-      </a>
-      <a href="chatartistwithuser" className="nav-item nav-link">
+      </a> */}
+      <a href="testmsg" className="nav-item nav-link">
         Chat
       </a>
       <a onClick={logout} className="nav-item nav-link">

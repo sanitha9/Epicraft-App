@@ -74,6 +74,9 @@ import EditArtItem from '../ArtistFunctions/EditArtItem'
 import ActivatedGroupView from '../UserFunctions/ActivatedGroupView'
 import ChatUserArtist from '../UserFunctions/ChatUserArtist'
 import Test from '../UserFunctions/Test'
+import ChatInArtist from '../ArtistFunctions/ChatInArtist'
+import Testmsg from '../ArtistFunctions/Testmsg'
+import Profile from '../UserFunctions/Profile'
 
 
 
@@ -125,12 +128,12 @@ const MainRouter = () => {
            
             <Route path="cart/:id" element={<Cart/>}/>
             <Route path="payment" element={<Payment/>}/>
-            <Route path="addaddress" element={<AddressPaymentCheckoutForm/>}/>
+            <Route path="addaddress/:id" element={<AddressPaymentCheckoutForm/>}/>
             <Route path="upload" element={<Upload/>}/>
             <Route path="UserChangePwd" element={<UserChangePwd/>}/>
             <Route path="thanks" element={<OrderConfirmation/>}/>
             <Route path="reserve/:id" element={<Reserveshow/>}/>
-            <Route path="reservepay" element={<ReservePayment/>}/>
+            <Route path="reservepay/:id" element={<ReservePayment/>}/>
             <Route path="chat/:id" element={<ChatUserArtist/>}/>
             <Route path="chatartistwithuser" element={<ChatArtistWithUser/>}/>
              <Route path="adminfirstpage" element={<AdminFirstPage/>}/>
@@ -148,7 +151,9 @@ const MainRouter = () => {
              <Route path="viewreviewadmin" element={<ViewReviewAdmin/>}/>
              <Route path="editartitems/:id" element={<EditArtItem/>}/>
              <Route path="activatedgroupviewbyuser/:id" element={<ActivatedGroupView/>}/>
-             <Route path="test" element={<Test/>}/>
+             <Route path="chatmange" element={<ChatInArtist/>}/>
+             <Route path="testmsg" element={<Testmsg/>}/>
+             <Route path="profile" element={<Profile/>}/>
             
         </Routes>
     </div>

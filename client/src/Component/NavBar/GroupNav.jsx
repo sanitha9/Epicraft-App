@@ -21,9 +21,9 @@ const GroupNav = () => {
       <nav className="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="index.html" className="navbar-brand d-flex align-items-center px-4 px-lg-5">
           <h2 className="m-0 text-primary">
-            <i className="logo">
+            {/* <i className="logo">
               <img src="img/l4.jpg" style={{ width: '4.7rem', height: 'auto' }} alt="Logo" />
-            </i>
+            </i> */}
             EPICRAFT
           </h2>
         </a>
@@ -71,25 +71,15 @@ const GroupNav = () => {
       Chat
     </Link>
             
-            <a href="" className="nav-item nav-link">
-               Artist Profile
-            </a>
+    <li className="nav-item">
+              <Link className="nav-link" to="/profile">
+                Artist Profile
+              </Link>
+            </li>
             <a href="cart" className="nav-item nav-link">
               <i className="fa fa-shopping-cart" aria-hidden="true" style={{ color: 'black' }} />
             </a>
-            {/* <div className="nav-item dropdown">
-              <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">
-               Vi Profile
-              </a>
-              <div className="dropdown-menu fade-up m-0">
-                <a href="UserChangePwd" className="dropdown-item">
-                  Change Password
-                </a>
-                <a onClick={logout} className="dropdown-item">
-                  Logout
-                </a>
-              </div>
-            </div> */}
+          
           </div>
         </div>
       </nav>
