@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
+import UserNav from '../NavBar/UserNav';
+import PublicUserFooter from '../Footer/PublicUserFooter';
 
 const Myorders = () => {
   const id = localStorage.getItem('login_id');
@@ -42,6 +44,7 @@ const Myorders = () => {
 
   return (
     <>
+    <UserNav/>
       <div className="orderlistbody">
         <h1 className="orderlisth1">My Order View List</h1>
         <ul className="order-list">
@@ -71,6 +74,7 @@ const Myorders = () => {
           </Pagination>
         </div>
       </div>
+      <PublicUserFooter/>
     </>
   );
 };

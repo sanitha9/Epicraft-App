@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import axios from 'axios';
 
 const OrderManage = () => {
   const [Orders, setOrders] = useState([]);
@@ -16,6 +17,24 @@ const OrderManage = () => {
         console.log('Error:', error);
       });
   }, []);
+  const handleStatusUpdate = (orderId) => {
+    axios
+      .post(`http://localhost:5000/pay/update-order-status/${orderId}`)
+      .then((response) => {
+        console.log(response.data);
+
+        const updatedOrders = Orders.map((order) =>
+          order.order_id === orderId ? { ...order, status: 'Shipped' } : order
+        );
+        setOrders(updatedOrders);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
+  };
+
+  
+
 
   return (
     <>
@@ -48,9 +67,17 @@ const OrderManage = () => {
               <td>{order.date}</td>
               <td>{order.status}</td>
               <td>
-      <button style={{ backgroundColor: 'green', color: 'white', padding: '5px 10px', cursor: 'pointer' }}>Edit</button>
-      <button style={{ padding: '5px 10px', cursor: 'pointer' }}>Delete</button>
-    </td>
+                      {order.status !== 'Shipped' ? (
+                        <button
+                          className="btn btn-success"
+                          onClick={() => handleStatusUpdate(order.order_id)}
+                        >
+                          {order.status === 'Updated' ? 'Updated' : 'Update Status'}
+                        </button>
+                      ) : (
+                        'Updated'
+                      )}
+                    </td>
 
             </tr>
           ))}

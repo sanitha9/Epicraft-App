@@ -38,7 +38,7 @@ chatRouter.post('/chat', async (req, res) => {
   }
 })
 
-chatRouter.get('/view-chat', async (req, res) => {
+chatRouter.get('/view-chat/:id', async (req, res) => {
   try {
     const login_id = req.params.id
     const chat = await chatModel.find();
@@ -92,22 +92,58 @@ chatRouter.get('/viewgroupusers/:id', async (req, res) => {
   }
 });
 
+// chatRouter.put('/reply/:chat_id', async (req, res) => {
+//   try {
+//     const itemId = req.params.chat_id;
+//     const updatedQuantity = req.body.reply;
+
+//     const updatedCartItem = await chatModel.findByIdAndUpdate(
+//       itemId,
+//       { reply:updatedQuantity },
+//       { new: true }
+//     );
+
+//     if (updatedCartItem) {
+//       return res.status(200).json({
+//         success: true,
+//         error: false,
+//         message: 'Reply added successfully',
+//       });
+//     } else {
+//       return res.status(404).json({
+//         success: false,
+//         error: true,
+//         message: 'Reply not added',
+//       });
+//     }
+//   } catch (error) {
+//     return res.status(400).json({
+//       success: false,
+//       error: true,
+//       message: 'Something went wrong',
+//       details: error,
+//     });
+//   }
+// });
+
+
 chatRouter.put('/reply/:chat_id', async (req, res) => {
   try {
     const itemId = req.params.chat_id;
-    const updatedQuantity = req.body.reply;
+    const updatedReply = req.body.reply;
 
-    const updatedCartItem = await chatModel.findByIdAndUpdate(
+    const updatedChatItem = await chatModel.findByIdAndUpdate(
       itemId,
-      { reply:updatedQuantity },
+      { reply: updatedReply },
       { new: true }
     );
 
-    if (updatedCartItem) {
+    if (updatedChatItem) {
       return res.status(200).json({
         success: true,
         error: false,
         message: 'Reply added successfully',
+        data: updatedChatItem, // Optionally, you can return the updated item as well
       });
     } else {
       return res.status(404).json({
@@ -125,7 +161,6 @@ chatRouter.put('/reply/:chat_id', async (req, res) => {
     });
   }
 });
-
 
 // chatRouter.post('/users-chat', async (req, res) => {
 //   try {
@@ -160,61 +195,73 @@ chatRouter.put('/reply/:chat_id', async (req, res) => {
 //   }
 // })
 
-chatRouter.get('/viewusers-chat', async (req, res) => {
+
+
+chatRouter.get('/viewusers-chat/:id', async function (req, res) {
   try {
-    
     const id=req.params.id
-    console.log(id);
-      const description = await chatModel.aggregate([
+     console.log(id);
+
+      const allUser = await chatModel.aggregate([
+          {
+            '$lookup': {
+              'from': 'user_register_tbs', 
+              'localField': 'login_id', 
+              'foreignField': 'login_id', 
+              'as': 'result'
+            }
+          },
+         
+          {
+              '$unwind':"$result"
+          },
+        
           
-        {
-          '$lookup': {
-            'from': 'user_register_tbs', 
-            'localField': 'login_id', 
-            'foreignField': 'login_id', 
-            'as': 'result'
-          }
-        },
       
+            {
 
+              '$match': { "artistloginid": new Object (id)
+             
+            } 
+          },
 
-              { "$unwind": "$result" },
-           
-               {
-                   "$group": {
-                       '_id': "$_id",
-                       'artistloginid': { "$first": "$artistloginid" },                        
-                     
-                      'message': { "$first": "$message" },
-                       'name': { "$first": "$result.name"},
-                      'login_id': { "$first": "$login_id" },
-                   }
-               }
-            ])
-    
-
-      if (description[0] !== undefined) {
-          return res.status(200).json({
-              success: true,
-              error: false,
-              data: description[0]
-          })
-      } else {
-          return res.status(400).json({
-              success: false,
-              error: true,
-              message: "No data found"
+         
+          {
+            "$group": {
+              '_id': "$_id",
+              'artistloginid': { "$first": "$artistloginid" },                        
+            
+             'message': { "$first": "$message" },
+              'name': { "$first": "$result.name"},
+             'login_id': { "$first": "$login_id" },
+          }
+          }
+        ])
+      if(!allUser){
+         return res.status(400).json({
+              success:false,
+              error:true,
+              message:"No data exist"
           })
       }
+      return res.status(200).json({
+          success:true,
+          error:false,
+          data:allUser
+      })
+      
+
+    
+    
   } catch (error) {
       return res.status(400).json({
-          success: false,
+          success:false,
           error: true,
-          message: "Something went wrong",
-          details: error
+          message:"Something went wrong"
       })
   }
 })
+
 
 module.exports = chatRouter
 

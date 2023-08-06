@@ -32,9 +32,9 @@ const GroupNav = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarCollapse">
           <div className="navbar-nav ms-auto p-4 p-lg-0">
-            <a href="userhome" className="nav-item nav-link active">
+            <Link to="userhome" className="nav-item nav-link active">
               Home
-            </a>
+            </Link>
             {/* <a href="upcomingevents" className="nav-item nav-link">
               Exhibitions
             </a> */}
@@ -67,18 +67,18 @@ const GroupNav = () => {
             {/* <a href="join" className="nav-item nav-link">
               Join
             </a> */}
-            <Link to="/chat" className="nav-item nav-link">
+            {/* <Link to="/chat" className="nav-item nav-link">
       Chat
-    </Link>
+    </Link> */}
             
     <li className="nav-item">
               <Link className="nav-link" to="/profile">
                 Artist Profile
               </Link>
             </li>
-            <a href="cart" className="nav-item nav-link">
+            {/* <a href="cart" className="nav-item nav-link">
               <i className="fa fa-shopping-cart" aria-hidden="true" style={{ color: 'black' }} />
-            </a>
+            </a> */}
           
           </div>
         </div>

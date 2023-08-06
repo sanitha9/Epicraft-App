@@ -3,6 +3,7 @@ const schema = mongoose.Schema
 
 const reservedpaymentSchema = new schema({
     login_id:{type:mongoose.Types.ObjectId,ref:"login_tb"},
+    exhibn_id:{type:mongoose.Types.ObjectId,ref:"addevent_tbs"},
     nameoncard:{type:String},
     creditcardnumber:{type:String},
     ExpMonth:{type:Number},

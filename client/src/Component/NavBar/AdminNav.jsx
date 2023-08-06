@@ -94,7 +94,7 @@ const AdminNav = () => {
       {/* <a href="review" className="nav-item nav-link">
         Reviews
       </a> */}
-      <a href="contact.html" className="nav-item nav-link">
+      <a href="/" className="nav-item nav-link">
         LogOut
       </a>
     </div>

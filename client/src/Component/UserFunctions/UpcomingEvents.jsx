@@ -242,7 +242,7 @@ const UpcomingEvents = () => {
                                   Price Per Seat: {userSlice.priceSeat}
                                 </h5>
                                 <p className="card-text">
-                                <Link to={`/reserve/${userSlice.priceSeat}`}>
+                                <Link to={`/reserve/${userSlice.priceSeat}/${userSlice._id}`}>
                                   <Button style={{ width: "16rem", marginTop: "2px" }}>
                                     Reserve
                                   </Button>

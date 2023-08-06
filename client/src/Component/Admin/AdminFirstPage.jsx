@@ -1,6 +1,7 @@
 import React from 'react'
 import AdminNav from '../NavBar/AdminNav'
 import AdminFooter from '../Footer/AdminFooter'
+import PublicUserFooter from '../Footer/PublicUserFooter'
 
 const AdminFirstPage = () => {
   return (
@@ -10,7 +11,7 @@ const AdminFirstPage = () => {
   <div className="container">
     {/* <h2 className="text-dark fw-normal">Get answers</h2> */}
     <form className="mt-4">
-      <div className="input-group input-group-lg shadow-sm">
+      {/* <div className="input-group input-group-lg shadow-sm">
         <span className="input-group-text border-0">
           <i className="fas fa-search fa-xs text-secondary mb-1" />
         </span>
@@ -27,7 +28,7 @@ const AdminFirstPage = () => {
             Search
           </button>
         </span>
-      </div>
+      </div> */}
     </form>
     <div className="row mt-6">
       <div className="col-12 mb-4">
@@ -171,7 +172,7 @@ const AdminFirstPage = () => {
           </button>
         </span>
       </div>
-   <div className="col-md-3 mb-4">
+   {/* <div className="col-md-3 mb-4">
       <a
     href="adnot"
     className="card align-items-center text-decoration-none border-0 hover-lift-light py-4"
@@ -185,7 +186,7 @@ const AdminFirstPage = () => {
     </span>
     <span className="text-dark mt-3">Notifications</span>
   </a>
-      </div>
+      </div> */}
 
       <div className="col-md-3 mb-4">
       <a
@@ -230,7 +231,7 @@ const AdminFirstPage = () => {
 
     
     
-    <AdminFooter/>
+    <PublicUserFooter/>
     </>
   )
 }

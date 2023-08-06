@@ -3,6 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import ArtNav from '../NavBar/ArtNav';
 const CreateGroup = () => {
   const navigate = useNavigate()
   const login_id=localStorage.getItem('login_id')
@@ -36,24 +37,52 @@ const CreateGroup = () => {
           console.error(error);
         });
     }
-    axios.post(`http://localhost:5000/group/group`,inputs).then((response)=>{
-     
-       // console.log(response);
+    axios
+    .post(`http://localhost:5000/group/group`, inputs)
+    .then((response) => {
+      // If the response indicates that a group has already been created
+      if (response.data.groupAlreadyCreated) {
+        // Show the warning toast message
+        toast.warning('You have already created a group.', {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      } else {
+        // If the group is created successfully, show the success toast message
+        toast.success('Group created successfully!', {
+          position: 'top-center',
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+
+        // Navigate to the home page
         
-     navigate('/artHome')
+      }
+       
     })
     .catch((error) => {
       console.error(error);
       toast.error(error.response.data.message, {
-        position: "top-center",
+        position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "colored",
-        });
+        theme: 'colored',
+      });
     });
     
 
@@ -61,6 +90,7 @@ const CreateGroup = () => {
 
   return (
     <>
+    <ArtNav/>
       <div
         style={{
           backgroundImage: `url(img/artevent.jpg)`,

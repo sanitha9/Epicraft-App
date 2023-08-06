@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import PublicUserFooter from '../Footer/PublicUserFooter';
+import AdminNav from '../NavBar/AdminNav';
 const Manageuser = () => {
   const [users,setUsers] = useState([]);
   const [currentPage,setCurrentPage]=useState(1);
@@ -52,6 +54,8 @@ const Manageuser = () => {
   };
 
   return (
+    <>
+    
     <div className="container">
       <h3 className="text-center mt-4">Manage User</h3>
       <div className="card mt-4">
@@ -148,6 +152,8 @@ const Manageuser = () => {
         {/* </div> */}
       </div>
     </div>
+    <PublicUserFooter/>
+</>
   );
 };
 

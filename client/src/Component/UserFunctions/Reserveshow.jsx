@@ -4,11 +4,13 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const Reserveshow = () => {
   const { id } = useParams();
+  const { cid } = useParams();
   const login_id = localStorage.getItem('login_id');
   const navigate = useNavigate();
   const [category, setCategory] = useState([]);
   const [inputs, setInputs] = useState({
     login_id: login_id,
+    exhibn_id:cid,
     price: id,
     adults: 1, // default value for adults
     children: 0, // default value for children
@@ -40,12 +42,21 @@ const Reserveshow = () => {
 
   const registersubmit = (event) => {
     event.preventDefault();
-    axios.post('http://localhost:5000/reserve/reserve', inputs).then((response) => {
-      navigate('/reservepay');
-     
-    });
+    axios.post('http://localhost:5000/reserve/reserve', inputs)
+      .then((response) => response.data)
+      .then((data) => {
+        if (data.success) {
+          setCategory(data.data);
+          navigate(`/reservepay/${inputs.exhibn_id}/${id}`); // Use navigate with the correct URL
+        }
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
   };
+  
 
+  console.log(inputs);
   return (
     <>
       <meta charSet="utf-8" />
@@ -122,14 +133,10 @@ const Reserveshow = () => {
                     <input className="reserveform-control" type="text" name="amount" value={inputs.amount} readOnly />
                   </div>
                   {/* <Link to={`/reserve/${userSlice.priceSeat}`}> */}
-                  <Link
-  to={`/reservepay/${inputs.amount}`}
-  className="reservesubmit-btn"
-  style={{ textAlign: 'center' }}
-   onClick={registersubmit}
->
+                  <Link to={`/reservepay/${inputs.exhibn_id}/${id}`} className="reservesubmit-btn" style={{ textAlign: 'center' }} onClick={registersubmit}>
   Reserve and Pay
 </Link>
+
 
                   {/* <Link to={`/reservepay/${inputs.amount}`}>" className="reservesubmit-btn" style={{ textAlign: 'center' }} onClick={registersubmit}/>
                   Reserve

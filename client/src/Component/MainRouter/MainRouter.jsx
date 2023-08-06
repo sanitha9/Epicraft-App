@@ -80,14 +80,6 @@ import Profile from '../UserFunctions/Profile'
 
 
 
-
-
-
-
-
-
-
-
 const MainRouter = () => {
   return (
     <div>
@@ -132,8 +124,8 @@ const MainRouter = () => {
             <Route path="upload" element={<Upload/>}/>
             <Route path="UserChangePwd" element={<UserChangePwd/>}/>
             <Route path="thanks" element={<OrderConfirmation/>}/>
-            <Route path="reserve/:id" element={<Reserveshow/>}/>
-            <Route path="reservepay/:id" element={<ReservePayment/>}/>
+            <Route path="reserve/:id/:cid" element={<Reserveshow/>}/>
+            <Route path="reservepay/:exid/:id" element={<ReservePayment/>}/>
             <Route path="chat/:id" element={<ChatUserArtist/>}/>
             <Route path="chatartistwithuser" element={<ChatArtistWithUser/>}/>
              <Route path="adminfirstpage" element={<AdminFirstPage/>}/>

@@ -3,6 +3,7 @@ const schema = mongoose.Schema
 
 const reserveSchema = new schema({
     login_id:{type:mongoose.Types.ObjectId,ref:"login_tb"},
+    exhibn_id:{type:mongoose.Types.ObjectId,ref:"addevent_tbs"},
     checkin:{type:String},
     checkout:{type:String},
     adults:{type:Number},
@@ -10,6 +11,7 @@ const reserveSchema = new schema({
     email:{type:String},
     phone:{type:String},
     amount:{type:String},
+    bookingid:{type:String},
     
 })
 

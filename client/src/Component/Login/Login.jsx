@@ -55,6 +55,12 @@ const Login = () => {
           localStorage.setItem('role', data.data.role);
           navigate('/artHome');
         }
+        else if (data.data.role === '0') {
+         
+          localStorage.setItem('login_id', data.data.login_id);
+          localStorage.setItem('role', data.data.role);
+          navigate('/admin');
+        }
       })
       .catch((error) => {
         console.error(error);

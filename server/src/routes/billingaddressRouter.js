@@ -268,7 +268,7 @@ billingaddressRouter.get('/view-details/:trackingNumber', async (req, res) => {
           medicinequantity: 1,
           totalAmount: 1,
           address: 1,
-          status: 'processing',
+          status: 1,
           artname: '$result.artname',
           price: '$result.price',
         },
@@ -286,6 +286,7 @@ billingaddressRouter.get('/view-details/:trackingNumber', async (req, res) => {
   }
 });
 billingaddressRouter.post('/save-order/:id', async (req, res) => {
+  
   try {
     const id = req.params.id;
     console.log(id);
@@ -355,5 +356,47 @@ const generateRandomNumberString = (length) => {
   }
   return result;
 };
+
+billingaddressRouter.post('/update-order-status/:id', async (req, res) => {
+
+
+  
+  try {
+    const id = req.params.id;
+
+    const updatedData = { 
+      status: 'Shipped',
+    };
+
+    const updatedApplication = await billingaddressModel.updateOne({ order_id: id }, { $set: updatedData });
+
+    if (updatedApplication.nModified > 0) {
+      return res.status(200).json({
+        success: true,
+        error: false,
+        message: "Status updated successfully",
+        details: updatedApplication,
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        error: true,
+        message: "Status not found",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: true,
+      message: "Something went wrong",
+      details: error,
+    });
+  }
+});
+
+
+
+
+
       module.exports=billingaddressRouter
     

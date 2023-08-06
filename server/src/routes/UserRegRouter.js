@@ -392,6 +392,66 @@ UserRegRouter.get('/view-single-user/:id', async (req, res) => {
     });
   }
 });
+UserRegRouter.get('/view-artist', async (req, res) => {
+  try {
+    //const login_id= req.params.id; 
+    const artist = await artistRegisterModel.aggregate([
+      {
+        '$lookup': {
+          'from': 'login_tbs',
+          'localField': 'login_id',
+          'foreignField': '_id',
+          'as': 'login'
+        }
+      },
+
+      {
+        "$unwind": "$login"
+      },
+    //   {
+
+    //     '$match': { 'login._id': new objectid (login_id),
+       
+    //   }
+    // },
+      {
+        "$group": {
+          '_id': "$_id",
+          'name': { "$first": "$name" },
+          'email': { "$first": "$email" },
+          'mobile': { "$first": "$mobile" },
+          'category': { "$first": "$category" },
+          'status': { "$first": "$login.status" },
+          'login_id': { "$first": "$login._id" },
+        }
+      }
+    ])
+
+
+
+
+    if (artist[0] != undefined) {
+      return res.status(200).json({
+        success: true,
+        error: false,
+        data: artist
+      })
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "No data found"
+      })
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: true,
+      message: "Something went wrong",
+      details: error
+    })
+  }
+})
 UserRegRouter.get('/view-artist/:id', async (req, res) => {
   try {
     const login_id= req.params.id; 
@@ -419,6 +479,8 @@ UserRegRouter.get('/view-artist/:id', async (req, res) => {
           '_id': "$_id",
           'name': { "$first": "$name" },
           'email': { "$first": "$email" },
+          'address': { "$first": "$address" },
+          'gender': { "$first": "$gender" },
           'mobile': { "$first": "$mobile" },
           'category': { "$first": "$category" },
           'status': { "$first": "$login.status" },

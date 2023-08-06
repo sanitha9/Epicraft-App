@@ -84,7 +84,7 @@ return (
                   }}>
                     <span className="glyphicon glyphicon-ok" /> Approve
                   </button>
-                  <button className="btn btn-danger btn-sm" style={{ marginLeft: '180px',marginTop: '-55px' }} onClick={()=>{
+                  <button className="btn btn-danger btn-sm" onClick={()=>{
                     reject(user._id);
                   }}>
                     <span className="glyphicon glyphicon-remove" /> Delete

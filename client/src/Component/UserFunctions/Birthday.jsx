@@ -215,7 +215,7 @@ const Birthday = () => {
       <hr></hr>
       <h3 style={{ textAlign: "center" }}>Your status of Previous Request</h3>
 
-      <table className="table table-striped table-bordered table-list table-sm" style={{ width: "50%", height: "300px", marginTop: "5px", marginLeft: "500px", borderWidth: "5px", borderStyle: "solid" ,borderColor:"blue"}}>
+      <table className="table table-striped table-bordered table-list table-sm" style={{ width: "50%", height: "300px", marginTop: "5px", marginLeft: "350px", borderWidth: "5px", borderStyle: "solid" ,borderColor:"blue"}}>
   <thead>
     <tr>
       <th>wishes send to</th>

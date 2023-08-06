@@ -8,6 +8,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 const ReservePayment = () => {
   
   const { id } = useParams();
+  const { exid} = useParams();
+
   const login_id = localStorage.getItem('login_id');
  const navigate = useNavigate()
   const [category, setCategory] = useState([]);
@@ -16,6 +18,7 @@ const ReservePayment = () => {
 
     login_id: login_id,
     price: id,
+    exhibn_id:exid,
     
 });
   console.log("value==>",inputs);
@@ -27,13 +30,12 @@ const ReservePayment = () => {
   }
   const registersubmit =(event)=>{
     event.preventDefault();
-    axios.post('http://localhost:5000/reserve/reservepayment',inputs).then((response)=>{
+    axios.post('http://localhost:5000/reservepay/reservepayments',inputs).then((response)=>{
       navigate('/userhome')
     })
    
 
   }
-
 
 
   return (

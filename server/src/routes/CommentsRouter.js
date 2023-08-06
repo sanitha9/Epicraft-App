@@ -99,6 +99,71 @@ CommentsRouter.post('/comment',async(req,res)=>{
     //         })
     //     }
     // })
+
+
+    CommentsRouter.get('/viewuser-comment', async (req, res) => {
+      try {
+        const users = await CommentsModel.aggregate([
+          {
+            '$lookup': {
+              'from': 'user_register_tbs', 
+              'localField': 'login_id', 
+              'foreignField': 'login_id', 
+              'as': 'user'
+            }
+          },
+          {
+              '$lookup': {
+                'from': 'artitems_tbs', 
+                'localField': 'productid', 
+                'foreignField': '_id', 
+                'as': 'item'
+              }
+            },{
+              "$unwind":"$user"
+          },{
+            "$unwind":"$item"
+        },
+        {
+          "$group":{
+              '_id':"$_id",
+              'name':{"$first":"$user.name"},
+              'artname':{"$first":"$item.artname"},
+              'productid':{"$first":"$item._id"},
+              'date':{"$first":"$date"},
+              'comment':{"$first":"$comment"}
+
+          }
+      }
+        ])
+    
+    
+    
+        if (users[0] != undefined) {
+          return res.status(200).json({
+            success: true,
+            error: false,
+            data: users
+          })
+        } else {
+          return res.status(400).json({
+            success: false,
+            error: true,
+            message: "No data found"
+          })
+        }
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          error: true,
+          message: "Something went wrong",
+          details: error
+        })
+      }
+    })
+
+
+
     CommentsRouter.get('/view-comments/:id',async(req,res)=>{
         try {
             const sid=req.params.id

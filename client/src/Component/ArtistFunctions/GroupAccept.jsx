@@ -3,6 +3,7 @@ import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-reac
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 import axios from 'axios';
+import ArtNav from '../NavBar/ArtNav';
 
 const GroupAccept = () => {
   const login_id = localStorage.getItem('login_id');
@@ -69,6 +70,7 @@ const GroupAccept = () => {
 
   return (
     <>
+    <ArtNav/>
       <label style={{ fontSize: "30px", marginLeft: "500px" }} className='d-flex align-items-center'>Group Members</label>
       <hr></hr>
       <MDBTable align='middle'>
