@@ -46,27 +46,27 @@ const ArtNav = () => {
                 Exhibitions
               </Link>
               <div className="dropdown-menu fade-up m-0">
-                <Link to="/artUpcoming" className="dropdown-item">
+                {/* <Link to="/artUpcoming" className="dropdown-item">
                   UpcomingEvents
-                </Link>
+                </Link> */}
                 <Link to="/createevent" className="dropdown-item">
                   Create an Events
                 </Link>
               </div>
             </div>
-            <div className="nav-item dropdown">
+            {/* <div className="nav-item dropdown">
               <Link to="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 Discover
               </Link>
               <div className="dropdown-menu fade-up m-0">
                 <Link to="/artistnotif" className="dropdown-item">
                   View your Notifications
-                </Link>
+                </Link> */}
                 {/* <Link to="/artCustomizeRequestView" className="dropdown-item">
                   Customized Request
                 </Link> */}
-              </div>
-            </div>
+              {/* </div>
+            </div> */}
             <div className="nav-item dropdown">
               <Link to="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 Community

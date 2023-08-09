@@ -41,7 +41,7 @@ chatRouter.post('/chat', async (req, res) => {
 chatRouter.get('/view-chat/:id', async (req, res) => {
   try {
     const login_id = req.params.id
-    const chat = await chatModel.find();
+    const chat = await chatModel.find({ login_id: login_id });
     if (chat.length > 0) {
       return res.status(200).json({
         success: true,

@@ -16,6 +16,7 @@ const addcartRouter = require('./src/routes/addcartRouter')
 const CommentsRouter = require('./src/routes/CommentsRouter')
 const reserveRouter = require('./src/routes/reserveRouter')
 const reservedpaymentRouter = require('./src/routes/reservedpaymentRouter')
+const customizepaymentRouter = require('./src/routes/customizepaymentRouter')
 
 
 
@@ -48,6 +49,7 @@ app.use('/cart',addcartRouter)
 app.use('/reserve',reserveRouter)
 app.use('/reservepay',reservedpaymentRouter)
 app.use('/chat',chatRouter)
+app.use('/customizepay',customizepaymentRouter)
 
 // app.use('/notification',notificationRouter)
 app.use('/customize',customizerequestRouter)

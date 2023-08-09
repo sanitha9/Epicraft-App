@@ -113,6 +113,27 @@ const ArtistReg = () => {
   const setRegister = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+    if (name === 'dob') {
+      const currentDate = new Date();
+      const selectedDate = new Date(value);
+      const minDate = new Date();
+      minDate.setFullYear(currentDate.getFullYear() - 18);
+
+      if (selectedDate > minDate) {
+        setFormErrors({
+          ...formErrors,
+          dob: 'Must be 18 years or older.'
+        });
+      } else {
+        setFormErrors({
+          ...formErrors,
+          dob: ''
+        });
+      }
+    }
+
+
+
     setInput({ ...input, [name]: value });
     console.log(input);
   };
@@ -142,7 +163,7 @@ const ArtistReg = () => {
               <span className="errormsg" style={{ color: 'red' }}>
                 {formErrors.dob}
               </span>
-              <input type="date" name="dob" onChange={setRegister} className="custom-form-control" />
+              <input type="date" name="dob" onChange={setRegister} max={(new Date(new Date().setFullYear(new Date().getFullYear() - 18))).toISOString().split('T')[0]} className="custom-form-control" />
             </div>
             <div className="custom-form-wrapper">
               <label htmlFor="custom-fname">Address</label>

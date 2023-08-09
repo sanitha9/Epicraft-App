@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import UserNav from '../NavBar/UserNav';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 
-const ReservePayment = () => {
+const ReservePayArtist= () => {
   
   const { id } = useParams();
-  const { exid} = useParams();
+  const { expid} = useParams();
 
   const login_id = localStorage.getItem('login_id');
  const navigate = useNavigate()
@@ -20,7 +20,7 @@ const ReservePayment = () => {
 
     login_id: login_id,
     price: id,
-    exhibn_id:exid,
+    exhibn_id:expid,
     nameoncard:'',
     creditcardnumber: '',
     ExpMonth: '',
@@ -110,7 +110,7 @@ const [formErrors, setFormErrors] = useState({});
   };
   return (
     <>
-    <UserNav/>
+  
     <div className="container"style={{width:"642px"}} >
       <div className="box">
         <div className="Addresscol-50">
@@ -203,4 +203,4 @@ const [formErrors, setFormErrors] = useState({});
   );
 };
 
-export default ReservePayment;
+export default ReservePayArtist;

@@ -82,9 +82,9 @@ const UserNav = () => {
             {/* <Link to="/chatuserwithartistinuser" className="nav-item nav-link">
               Chat
             </Link> */}
-            <Link to="/cart" className="nav-item nav-link">
+            {/* <Link to="/cart" className="nav-item nav-link">
               <i className="fa fa-shopping-cart" aria-hidden="true" style={{ color: 'black' }} />
-            </Link>
+            </Link> */}
             <div className="nav-item dropdown">
               <Link
                 to="#"

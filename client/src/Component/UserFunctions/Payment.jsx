@@ -1,77 +1,94 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
+import UserNav from '../NavBar/UserNav';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Payment = () => {
+
+
+  const login_id = localStorage.getItem('login_id');
+  const navigate = useNavigate()
+  const [category, setCategory] = useState([]);
+  const[inputs, setinputs]=useState({
+    login_id: login_id,
+    // price: id,
+    // exhibn_id:exid,
+    cardno:'',
+    cvv: '',
+    name: '',
+    month: '',
+    
+});
+const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+
+  console.log("value==>",inputs);
+  const setRegister=(event)=>{
+    const name=event.target.name;
+    const value=event.target.value;
+    setinputs({...inputs,[name]:value});
+    console.log(inputs);
+  }
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      axios.post('http://localhost:5000/customizepay/payment',inputs).then((response)=>{
+        navigate('/conformCustomize')
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message, {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
+        });
+    }
+  }, [formErrors, isSubmit, inputs, navigate]);
+
+  const validate = (values) => {
+    const errors = {};
+    
+
+    if (!values.cardno) {
+      errors.cardno = 'cardno is required!';
+    }
+    if (!values.name) {
+      errors.name = 'Please enter the name!';
+    }
+    
+    if (!values.month) {
+      errors.month = 'month/year is required!';
+    }
+   
+    
+    if (!values.cvv) {
+      errors.cvv = 'Enter cvv number!';
+    }
+   
+    
+
+    return errors;
+  };
+  const registersubmit = (event) => {
+    event.preventDefault();
+    setFormErrors(validate(inputs));
+    setIsSubmit(true);
+  };
   return (
     <div className="container">
       <div className="row">
+       
+           
         <div className="col-lg-4 mb-lg-0 mb-3">
-          <div className="card p-3">
-            <div className="img-box">
-              <img src="https://www.freepnglogos.com/uploads/visa-logo-download-png-21.png" alt="" />
-            </div>
-            <div className="number">
-              <label className="fw-bold" htmlFor="">
-                ** ** ** 1060
-              </label>
-            </div>
-            <div className="d-flex align-items-center justify-content-between">
-              <small>
-                <span className="fw-bold">Expiry date:</span>
-                <span>10/16</span>
-              </small>
-              <small>
-                <span className="fw-bold">Name:</span>
-                <span>Kumar</span>
-              </small>
-            </div>
-          </div>
+     
         </div>
-        <div className="col-lg-4 mb-lg-0 mb-3">
-          <div className="card p-3">
-            <div className="img-box">
-              <img
-                src="https://www.freepnglogos.com/uploads/mastercard-png/file-mastercard-logo-svg-wikimedia-commons-4.png"
-                alt=""
-              />
-            </div>
-            <div className="number">
-              <label className="fw-bold">** ** ** 1060</label>
-            </div>
-            <div className="d-flex align-items-center justify-content-between">
-              <small>
-                <span className="fw-bold">Expiry date:</span>
-                <span>10/16</span>
-              </small>
-              <small>
-                <span className="fw-bold">Name:</span>
-                <span>Kumar</span>
-              </small>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-4 mb-lg-0 mb-3">
-          <div className="card p-3">
-            <div className="img-box">
-              <img
-                src="https://www.freepnglogos.com/uploads/discover-png-logo/credit-cards-discover-png-logo-4.png"
-                alt=""
-              />
-            </div>
-            <div className="number">
-              <label className="fw-bold">** ** ** 1060</label>
-            </div>
-            <div className="d-flex align-items-center justify-content-between">
-              <small>
-                <span className="fw-bold">Expiry date:</span>
-                <span>10/16</span>
-              </small>
-              <small>
-                <span className="fw-bold">Name:</span>
-                <span>Kumar</span>
-              </small>
-            </div>
-          </div>
-        </div>
+       
         <div className="col-12 mt-4">
           <div className="card p-3">
             <p className="mb-0 fw-bold h4">Payment Methods</p>
@@ -94,24 +111,8 @@ const Payment = () => {
                 </a>
               </p>
               <div className="collapse p-3 pt-0" id="paypalCollapse">
-                <div className="row">
-                  <div className="col-8">
-                    <p className="h4 mb-0">Summary</p>
-                    <p className="mb-0">
-                      <span className="fw-bold">Product:</span>
-                      <span className="c-green">: Name of product</span>
-                    </p>
-                    <p className="mb-0">
-                      <span className="fw-bold">Price:</span>
-                      <span className="c-green">:$452.90</span>
-                    </p>
-                    <p className="mb-0">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque nihil neque quisquam aut
-                      repellendus, dicta vero? Animi dicta cupiditate, facilis provident quibusdam ab quis, iste harum
-                      ipsum hic, nemo qui!
-                    </p>
-                  </div>
-                </div>
+                
+             
               </div>
             </div>
             <div className="card-body border p-0">
@@ -134,37 +135,28 @@ const Payment = () => {
               </p>
               <div className="collapse show p-3 pt-0" id="creditCardCollapse">
                 <div className="row">
-                  <div className="col-lg-5 mb-lg-0 mb-3">
-                    <p className="h4 mb-0">Summary</p>
-                    <p className="mb-0">
-                      <span className="fw-bold">Product:</span>
-                      <span className="c-green">: Name of product</span>
-                    </p>
-                    <p className="mb-0">
-                      <span className="fw-bold">Price:</span>
-                      <span className="c-green">:$452.90</span>
-                    </p>
-                    <p className="mb-0">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque nihil neque quisquam aut
-                      repellendus, dicta vero? Animi dicta cupiditate, facilis provident quibusdam ab quis, iste harum
-                      ipsum hic, nemo qui!
-                    </p>
-                  </div>
+                
                   <div className="col-lg-7">
                     <form action="" className="form">
                       <div className="row">
                         <div className="col-12">
                           <div className="form__div">
-                            <input type="text" className="form-control" placeholder=" " />
+                            <input type="text" className="form-control" placeholder=" " name="cardno" onChange={setRegister}/>
+                            <span className="errormsg" style={{ color: 'red' }}>
+                {formErrors.cardno}
+              </span>
                             <label htmlFor="" className="form__label">
                               Card Number
-                            </label>
+                            </label> 
                           </div>
                         </div>
 
                         <div className="col-6">
                           <div className="form__div">
-                            <input type="text" className="form-control" placeholder=" " />
+                            <input type="text" className="form-control" placeholder=" " name="month" onChange={setRegister} />
+                            <span className="errormsg" style={{ color: 'red' }}>
+                {formErrors.month}
+              </span>
                             <label htmlFor="" className="form__label">
                               MM / yy
                             </label>
@@ -173,7 +165,16 @@ const Payment = () => {
 
                         <div className="col-6">
                           <div className="form__div">
-                            <input type="password" className="form-control" placeholder=" " />
+                            <input type="number" className="form-control" placeholder=" " name="cvv" onChange={setRegister}
+                             onKeyPress={(event) => {
+                              if (!/[0-9]/.test(event.key) || event.target.value.length >= 3) {
+                                event.preventDefault();
+                              }
+                            }}
+                            required/>
+                            <span className="errormsg" style={{ color: 'red' }}>
+                {formErrors.cvv}
+              </span>
                             <label htmlFor="" className="form__label">
                               CVV code
                             </label>
@@ -181,12 +182,30 @@ const Payment = () => {
                         </div>
                         <div className="col-12">
                           <div className="form__div">
-                            <input type="text" className="form-control" placeholder=" " />
+                            <input type="text" className="form-control" placeholder=" " name="name" onChange={setRegister} />
+                            <span className="errormsg" style={{ color: 'red' }}>
+                {formErrors.name}
+              </span>
                             <label htmlFor="" className="form__label">
                               Name on the card
                             </label>
                           </div>
                         </div>
+                        <div className="col-6">
+  <div className="form__div">
+    <input
+      type="text"
+      className="form-control"
+      placeholder=" "
+      name="price"
+      defaultValue="1500" // Replace "100" with your desired fixed price
+      readOnly // Add the readOnly attribute to make the input field readonly
+    />
+    <label htmlFor="" className="form__label">
+      Customized Price
+    </label>
+  </div>
+</div>
                         {/* <div className="col-12">
                           <button type="submit" className="btn btn-primary w-100">
                             Submit
@@ -202,8 +221,8 @@ const Payment = () => {
         </div>
         <div className="col-12">
         <div className="col-12 text-center"> {/* Add text-center class */}
-          <div className="btn btn-primary payment">Make Payment</div>
-         </div>
+          <div className="btn btn-primary payment" onClick={registersubmit}>Make Payment</div>
+         </div> 
         </div>
       </div>
     </div>

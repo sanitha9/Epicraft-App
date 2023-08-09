@@ -77,6 +77,11 @@ import Test from '../UserFunctions/Test'
 import ChatInArtist from '../ArtistFunctions/ChatInArtist'
 import Testmsg from '../ArtistFunctions/Testmsg'
 import Profile from '../UserFunctions/Profile'
+import ExhibitionReserved from '../Admin/ExhibitionReserved'
+import Thanks from '../UserFunctions/Thanks'
+import CustomizeConform from '../UserFunctions/CustomizeConform'
+import ReserveArtist from '../ArtistFunctions/ReserveArtist'
+import ReservePayArtist from '../ArtistFunctions/ReservePayArtist'
 
 
 
@@ -125,7 +130,9 @@ const MainRouter = () => {
             <Route path="UserChangePwd" element={<UserChangePwd/>}/>
             <Route path="thanks" element={<OrderConfirmation/>}/>
             <Route path="reserve/:id/:cid" element={<Reserveshow/>}/>
-            <Route path="reservepay/:exid/:id" element={<ReservePayment/>}/>
+           <Route path="reservepay/:exid/:id" element={<ReservePayment/>}/>
+            {/* <Route path="reserveartist/:id/:coid" element={<ReserveArtist/>}/>
+            <Route path="reservepayartist/:expid/:id" element={<ReservePayArtist/>}/> */}
             <Route path="chat/:id" element={<ChatUserArtist/>}/>
             <Route path="chatartistwithuser" element={<ChatArtistWithUser/>}/>
              <Route path="adminfirstpage" element={<AdminFirstPage/>}/>
@@ -146,7 +153,11 @@ const MainRouter = () => {
              <Route path="chatmange" element={<ChatInArtist/>}/>
              <Route path="testmsg" element={<Testmsg/>}/>
              <Route path="profile" element={<Profile/>}/>
-            
+             <Route path="thankyou" element={<Thanks/>}/>
+             <Route path="viewreservedusers" element={<ExhibitionReserved/>}/>
+             <Route path="conformCustomize" element={<CustomizeConform/>}/>
+             
+          
         </Routes>
     </div>
   )

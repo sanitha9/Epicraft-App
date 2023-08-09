@@ -1,22 +1,21 @@
 const express = require('express');
-const reservedpaymentModel = require('../models/reservedpaymentModel');
+const customizepaymentModel = require('../models/customizepaymentModel');
 
-const reservedpaymentRouter = express.Router();
+const customizepaymentRouter = express.Router();
 
-reservedpaymentRouter.post('/reservepayment-vishnu', async (req, res) => {
+customizepaymentRouter.post('/payment', async (req, res) => {
   try {
     const data = {
       login_id: req.body.login_id,
-      exhibn_id: req.body.exhibn_id,
-      nameoncard: req.body.nameoncard,
-      creditcardnumber: req.body.creditcardnumber,
-      ExpMonth: req.body.ExpMonth,
+      cardno: req.body.cardno,
+      name: req.body.name,
       ExpYear: req.body.ExpYear,
       cvv: req.body.cvv,
+      month:req.body.month,
       price: req.body.price,
     };
 
-    const savedData = await reservedpaymentModel.create(data);
+    const savedData = await customizepaymentModel.create(data);
 
     if (savedData) {
       return res.status(200).json({
@@ -43,4 +42,4 @@ reservedpaymentRouter.post('/reservepayment-vishnu', async (req, res) => {
   }
 });
 
-module.exports = reservedpaymentRouter;
+module.exports = customizepaymentRouter;

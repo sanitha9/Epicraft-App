@@ -1,11 +1,14 @@
-
 import React, { useEffect, useState,useRef  } from 'react';
 import axios from 'axios';
-
 import {CDropdown, CDropdownToggle, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import Button from 'react-bootstrap/Button';
-const UpcomingEventsArtist = () => {
-  
+import { Link } from 'react-router-dom';
+
+const UpcomingEvents = () => {
+
+
+
+
 
   const [category, setCategory] = useState([]);
   const carouselRef = useRef(null);
@@ -26,6 +29,7 @@ const UpcomingEventsArtist = () => {
   }, []);
   const [users, setUsers] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
   const images = [
       'img/eh2.jpg',
       'img/exb1.jpg',
@@ -72,7 +76,9 @@ const UpcomingEventsArtist = () => {
     }, []);
 
 
-
+    const filteredUsers = users.filter((user) =>
+    user.eventName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
@@ -113,26 +119,30 @@ const UpcomingEventsArtist = () => {
           
         }}
       >
-        <div className='row'>
-        <div className="input-group rounded">
-<input
-  type="search"
-  className="form-control rounded"
-  placeholder="Search"
-  aria-label="Search"
-  aria-describedby="search-addon"
-/>
-<span className="input-group-text border-0" id="search-addon">
-  <i className="fas fa-search" />
-</span>
-</div>
-
-
+     <div className='row'>
+          <div className='input-group rounded'>
+            <input
+              type='search'
+              className='form-control rounded'
+              placeholder='Search'
+              aria-label='Search'
+              aria-describedby='search-addon'
+              value={searchTerm} // Set the value of the input field to the search term state
+              onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state on input change
+            />
+            <span className='input-group-text border-0' id='search-addon'>
+              <i className='fas fa-search' />
+            </span>
+          </div>
         </div>
+
+
+        </div>       <div className='row'>
+ 
         
         <div style={{ display: 'flex', // Use flexbox
           justifyContent: 'space-between', }}>
-        <div className="dropdown">
+        {/* <div className="dropdown">
           <CDropdown>
             <CDropdownToggle color="secondary" width={"10rem"}>Dates</CDropdownToggle>
             <CDropdownMenu className="custom-dropdown-menu">
@@ -141,9 +151,9 @@ const UpcomingEventsArtist = () => {
               <CDropdownItem href="#">This Weekend</CDropdownItem>
             </CDropdownMenu>
           </CDropdown>
-        </div>
+        </div> */}
         
-        <div className="dropdown">
+        {/* <div className="dropdown">
           <CDropdown>
           <CDropdownToggle color="secondary" width="10rem">
                   Location
@@ -156,9 +166,9 @@ const UpcomingEventsArtist = () => {
                   ))}
                 </CDropdownMenu>
           </CDropdown>
-        </div>
+        </div> */}
         
-        <div className="dropdown">
+        {/* <div className="dropdown">
           <CDropdown>
           
                 <CDropdownToggle color="secondary" width="10rem">
@@ -172,14 +182,9 @@ const UpcomingEventsArtist = () => {
                   ))}
                 </CDropdownMenu>
               </CDropdown>
-              {/* <CDropdownItem href="#">Crafts</CDropdownItem>
-              <CDropdownItem href="#">Murels</CDropdownItem>
-              <CDropdownItem href="#">WoodenWorks</CDropdownItem>
-              <CDropdownItem href="#">BottleArts</CDropdownItem>
-              <CDropdownItem href="#">Drawings</CDropdownItem>
-              <CDropdownItem href="#">Others</CDropdownItem> */}
+              
          
-        </div>
+        </div> */}
       </div>
  
   </div>
@@ -209,53 +214,57 @@ const UpcomingEventsArtist = () => {
         </a>
       </div>
       <div className="col-12">
-        {users && users.length > 0 ? (
+      {filteredUsers && filteredUsers.length > 0 ? (
+            <div
+              id='carouselExampleIndicators2'
+              className='carousel slide'
+              data-ride='carousel'
+            >
+        {/* {users && users.length > 0 ? (
           <div
             id="carouselExampleIndicators2"
             className="carousel slide"
             data-ride="carousel"
-          >
-            <div className="carousel-inner">
-              {users.map((user, index) => {
-                const activeClass = index === 0 ? 'active' : '';
-                if (index % 3 === 0) {
-                  return (
-                    <div
-                      className={`carousel-item ${activeClass}`}
-                      key={user._id}
-                    >
-                      <div className="row">
-                        {users.slice(index, index + 3).map((userSlice) => (
-                          <div className="col-md-4 mb-3" key={userSlice._id}>
-                            <div className="card" style={{ height: "600px" }}>
-                              <img
-                                src={`/upload/${userSlice.image}`}
-                                style={{ width: "280px", height: "500px" }}
-                              />
-                              <div className="card-body">
-                                <h5 className="card-title">
-                                  NAME:{userSlice.eventName}<br />
-                                  Date: {userSlice.date}<br />
-                                  Price Per Seat: {userSlice.priceSeat}
-                                </h5>
-                                <p className="card-text">
-                                  <a href='reserve'>
-                                    <Button style={{ width: "16rem", marginTop: "2px" }}>
-                                      Reserve
-                                    </Button>
-                                  </a>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                }
-                return null;
-              })}
-            </div>
+          > */}
+          <div className="carousel-inner">
+  {filteredUsers.map((user, index) => {
+    const activeClass = index === 0 ? 'active' : '';
+    if (index % 3 === 0) {
+      return (
+        <div className={`carousel-item ${activeClass}`} key={user._id}>
+          <div className="row">
+            {filteredUsers.slice(index, index + 3).map((userSlice) => (
+              <div className="col-md-4 mb-3" key={userSlice._id}>
+                <div className="card" style={{ height: "600px" }}>
+                  <img
+                    src={`/upload/${userSlice.image}`}
+                    style={{ width: "280px", height: "500px" }}
+                  />
+                  <div className="card-body">
+                  <h5 className="card-title" style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "10px",fontStyle: "italic" }}>
+    NAME: {userSlice.eventName}<br />
+    Date: {userSlice.date}<br />
+    Price Per Seat: {userSlice.priceSeat}<br/>
+    Location: {userSlice.location}
+  </h5>
+                    <p className="card-text">
+                      <Link to={`/reserveartist/${userSlice.priceSeat}/${userSlice._id}`}>
+                        <Button style={{ width: "16rem", marginTop: "2px" ,marginLeft:'-12px'}}>
+                          Reserve
+                        </Button>
+                      </Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    return null;
+  })}
+</div>
             <a
               className="carousel-control-prev"
               href="#carouselExampleIndicators2"
@@ -290,5 +299,4 @@ const UpcomingEventsArtist = () => {
   );
 };
 
-
-export default UpcomingEventsArtist;
+export default UpcomingEvents;

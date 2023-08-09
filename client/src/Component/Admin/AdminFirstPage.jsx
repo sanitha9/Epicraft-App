@@ -148,8 +148,8 @@ const AdminFirstPage = () => {
   </a>
       </div>
        <div className="col-md-3 mb-4">
-      <a
-    href="artistcreateevent"
+      {/* <a
+    href="viewreservedusers"
     className="card align-items-center text-decoration-none border-0 hover-lift-light py-4"
   >
     <span className="icon-circle icon-circle-lg bg-pastel-primary text-primary">
@@ -159,8 +159,8 @@ const AdminFirstPage = () => {
         style={{ color: "black", fontSize: "24px", fontWeight: "bold" }}
       ></i>
     </span>
-    <span className="text-dark mt-3">Events By Artist</span>
-  </a>
+    <span className="text-dark mt-3">Reserved users</span>
+  </a> */}
       </div>
       <div className="col-12 mb-4">
       <span className="input-group-text border-0 py-1 pe-2">

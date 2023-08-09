@@ -129,18 +129,18 @@ const ProductViewDes = props => {
 
                   <dt className="col-3">Color</dt>
                   <dd className="col-9">Brown</dd>
-
+{/* 
                   <dt className="col-3">Material</dt>
                   <dd className="col-9">Cotton, Jeans</dd>
 
                   <dt className="col-3">Brand</dt>
-                  <dd className="col-9">Reebook</dd>
+                  <dd className="col-9">Reebook</dd> */}
                 </div>
 
                 <hr />
 
                 <div className="row mb-4">
-                  <div className="col-md-4 col-6 mb-3">
+                  {/* <div className="col-md-4 col-6 mb-3">
                     <label className="mb-2 d-block">Quantity</label>
                     <div className="input-group mb-3" style={{ width: '170px' }}>
                       <button className="btn btn-white border border-secondary px-3" type="button" id="button-addon1" data-mdb-ripple-color="dark">
@@ -151,10 +151,10 @@ const ProductViewDes = props => {
                         <i className="fas fa-plus"></i>
                       </button>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
-                <a href="#" className="btn btn-warning shadow-0"> Buy now </a>
-                <a href="#" className="btn btn-primary shadow-0"> <i className="me-1 fa fa-shopping-basket"></i> Add to cart </a>
+                {/* <a href="#" className="btn btn-warning shadow-0"> Buy now </a> */}
+                {/* <a href="#" className="btn btn-primary shadow-0"> <i className="me-1 fa fa-shopping-basket"></i> Add to cart </a> */}
               </div>
             </main>
           </div>

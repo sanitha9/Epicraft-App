@@ -3,15 +3,15 @@ import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const Reserveshow = () => {
+const ReserveArtist = () => {
   const { id } = useParams();
-  const { cid } = useParams();
+  const { coid } = useParams();
   const login_id = localStorage.getItem('login_id');
   const navigate = useNavigate();
   const [category, setCategory] = useState([]);
   const [inputs, setInputs] = useState({
     login_id: login_id,
-    exhibn_id:cid,
+    exhibn_id:coid,
     price: id,
     adults: 1, // default value for adults
     children: 0, // default value for children
@@ -237,7 +237,7 @@ const Reserveshow = () => {
                     <input className="reserveform-control" type="text" name="amount" value={inputs.amount} readOnly />
                   </div>
                   {/* <Link to={`/reserve/${userSlice.priceSeat}`}> */}
-                  <Link to={`/reservepay/${inputs.exhibn_id}/${id}`} className="reservesubmit-btn" style={{ textAlign: 'center' }} onClick={registersubmit}>
+                  <Link to={`/reservepayartist/${inputs.exhibn_id}/${id}`} className="reservesubmit-btn" style={{ textAlign: 'center' }} onClick={registersubmit}>
   Reserve and Pay
 </Link>
 
@@ -255,4 +255,4 @@ const Reserveshow = () => {
   );
 };
 
-export default Reserveshow;
+export default ReserveArtist;

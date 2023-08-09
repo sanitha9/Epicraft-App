@@ -3,6 +3,8 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
+import UserNav from '../NavBar/UserNav';
+import PublicUserFooter from '../Footer/PublicUserFooter';
 
 const ChatUserArtist = () => {
   const [chat, setChat] = useState([]);
@@ -43,6 +45,7 @@ const ChatUserArtist = () => {
 
   return (
     <>
+    <UserNav/>
       <div className="chatboxcontainer" style={{ marginTop: '100px', maxWidth: '800px', margin: '0 auto' }}>
         <h3 className="text-center">Messaging</h3>
         <div className="messaging">
@@ -88,6 +91,7 @@ const ChatUserArtist = () => {
         </div>
       </div>
       <ToastContainer style={{ fontSize: '16px' }} />
+      {/* <PublicUserFooter/> */}
     </>
   );
 };

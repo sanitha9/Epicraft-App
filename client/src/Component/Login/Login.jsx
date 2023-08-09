@@ -88,7 +88,7 @@ const Login = () => {
           <input type="password" placeholder="Password" name="password" onChange={setRegister} />
           {errors.password && <span className="error error-red">{errors.password}</span>}
 
-          <a href="#">Forgot Password?</a>
+          {/* <a href="#">Forgot Password?</a> */}
           <button className="loginbutton" onClick={registersubmit}>
             Log In
           </button>

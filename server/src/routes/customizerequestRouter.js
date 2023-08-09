@@ -244,9 +244,7 @@ customizerequestRouter.post('/request',async(req,res)=>{
                 {'$match':{
                   'user_id':new Object(user_id)
                 }},
-                {'$match':{
-                  'status':'2'
-                }},
+                 
                   {
                       "$group": {
                           '_id': "$_id",
